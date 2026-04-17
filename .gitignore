@@ -45,3 +45,6 @@ next-env.d.ts
 
 # playwright-cli session artefacts
 .playwright-cli/
+
+# brainstorming visual companion
+.superpowers/
