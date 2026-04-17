@@ -23,7 +23,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 ## Current status
 
 > [!info] Hero section in progress — 2026-04-17
-> Tasks 0–7 complete. Next concrete action: **Task 8** — wire `<Hero />` into `page.tsx` + eyeball static composition.
+> Tasks 0–9 complete. Next concrete action: **Task 10** — capture nextupco.com live hero via playwright-cli + transcode to `public/assets/hero/`.
 
 > [!success] Layout shell complete — 2026-04-17
 > Nav + Footer + Container wired, tokenised, WCAG-AA, keyboard-accessible, font-preloaded.
@@ -47,8 +47,8 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-17-hero-secti
 - [x] **Task 5** — Build `HeroLaptop` (TDD) (commit `c05b93f`)
 - [x] **Task 6** — Build `HeroScreen` (TDD) (commit `861f2ba`)
 - [x] **Task 7** — Build `Hero` Server Component + stub `HeroClient` (TDD, 26/26 tests) (commit `575a51b`)
-- [ ] **Task 8** — Wire `<Hero />` into `page.tsx` + visual check static state
-- [ ] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD)
+- [x] **Task 8** — Wire `<Hero />` into `page.tsx` + visual check static state (commit `5e51eef`)
+- [x] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD, 5/5 tests, 44/44 total) (commit `cefe9ea`)
 - [ ] **Task 10** — Capture nextupco.com live hero via playwright-cli + transcode
 - [ ] **Task 11** — Browser verification via playwright-cli
 - [ ] **Task 12** — `audit` + `polish` passes

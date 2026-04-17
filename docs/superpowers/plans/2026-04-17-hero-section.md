@@ -977,7 +977,7 @@ git push origin main
 **Files:**
 - Modify: `/Users/dangeorge/The Vault/Dans Website/src/app/page.tsx`
 
-- [ ] **Step 1: Replace `src/app/page.tsx`**
+- [x] **Step 1: Replace `src/app/page.tsx`**
 
 ```tsx
 import { Hero } from "@/components/sections/Hero/Hero";
@@ -987,7 +987,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 2: Typecheck + tests + lint + build**
+- [x] **Step 2: Typecheck + tests + lint + build**
 
 ```bash
 npx tsc --noEmit && npm test && npm run lint && npm run build
@@ -995,7 +995,7 @@ npx tsc --noEmit && npm test && npm run lint && npm run build
 
 Expected: all green. No TS errors, all vitest suites green, no lint errors, build succeeds.
 
-- [ ] **Step 3: Start dev server and eyeball static composition**
+- [x] **Step 3: Start dev server and eyeball static composition**
 
 Run: `npm run dev`
 
@@ -1009,7 +1009,7 @@ Open `http://localhost:3000`. Confirm:
 - Scroll hint "Scroll to reveal" + chevron at the bottom, centred
 - Scrolling the page does NOT yet move the seam — HeroClient lands in Task 9
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit** (commit `5e51eef`)
 
 ```bash
 git add src/app/page.tsx
@@ -1132,13 +1132,13 @@ describe("<HeroClient />", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- HeroClient`
 
 Expected: FAIL — at least one of the new assertions should fail because the existing stub returns `null` but doesn't handle lifecycle. The `ctx.revert on unmount` case will fail.
 
-- [ ] **Step 3: Replace `HeroClient.tsx` with the full implementation**
+- [x] **Step 3: Replace `HeroClient.tsx` with the full implementation**
 
 ```tsx
 "use client";
@@ -1277,13 +1277,13 @@ export function HeroClient() {
 }
 ```
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- HeroClient`
 
 Expected: `5 passed`.
 
-- [ ] **Step 5: Full test suite + typecheck + lint + build**
+- [x] **Step 5: Full test suite + typecheck + lint + build**
 
 ```bash
 npm test && npx tsc --noEmit && npm run lint && npm run build
@@ -1291,7 +1291,7 @@ npm test && npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all green.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit** (commit `cefe9ea`)
 
 ```bash
 git add src/components/sections/Hero/HeroClient.tsx src/components/sections/Hero/HeroClient.test.tsx
