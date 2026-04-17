@@ -286,7 +286,7 @@ git commit -m "feat(style): add design tokens, @font-face declarations, Tailwind
 
 ---
 
-## Task 4: Build `Container` Component (TDD)
+## Task 4: Build `Container` Component (TDD) ✅ done (commit a2baa20)
 
 **Files:**
 - Create: `/Users/dangeorge/The Vault/Dans Website/src/components/layout/Container.tsx`
@@ -365,7 +365,7 @@ git commit -m "feat(layout): add Container component with 1400px max-width + res
 
 ---
 
-## Task 5: Build `Footer` Component (TDD)
+## Task 5: Build `Footer` Component (TDD) ✅ done (commit deba0e4)
 
 **Files:**
 - Create: `/Users/dangeorge/The Vault/Dans Website/src/components/layout/Footer.tsx`
@@ -445,7 +445,7 @@ git commit -m "feat(layout): add Footer with dynamic year copyright"
 
 ---
 
-## Task 6: Build `Nav` Component (TDD, Client)
+## Task 6: Build `Nav` Component (TDD, Client) ✅ done (commit edd6471)
 
 **Files:**
 - Create: `/Users/dangeorge/The Vault/Dans Website/src/components/layout/Nav.tsx`

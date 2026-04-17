@@ -24,7 +24,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 > [!todo] Active phase
 > **`subagent-driven-development`** executing the layout-shell plan.
-> Next concrete action: dispatch implementer subagent for **Task 4 — Container component (TDD)** (invoke `layout` + `taste-skill` during build).
+> Next concrete action: dispatch implementer subagent for **Task 7 — wire Nav + Footer + Container into root `layout.tsx`**.
 
 ## Workflow chain
 
@@ -38,9 +38,9 @@ Mirror of the plan's checkboxes. Source of truth is still [[2026-04-17-layout-sh
 - [x] **Task 1** — Install gsap / lenis / motion / three (commit `0dfc71d`)
 - [x] **Task 2** — Copy fonts to `public/fonts/` (commit `68e68ae`)
 - [x] **Task 3** — Rewrite `globals.css` (tokens + `@font-face` + Tailwind theme) (commit `357c837`)
-- [ ] **Task 4** — Build `Container` component (TDD)
-- [ ] **Task 5** — Build `Footer` component (TDD)
-- [ ] **Task 6** — Build `Nav` component (TDD, client, scroll + mobile overlay)
+- [x] **Task 4** — Build `Container` component (TDD) (commit `a2baa20`)
+- [x] **Task 5** — Build `Footer` component (TDD) (commit `deba0e4`)
+- [x] **Task 6** — Build `Nav` component (TDD, client, scroll + mobile overlay) (commit `edd6471`)
 - [ ] **Task 7** — Wire layout.tsx + page.tsx
 - [ ] **Task 8** — Manual browser verification + `verification-before-completion`
 - [ ] **Task 9** — `audit` + `polish` passes
