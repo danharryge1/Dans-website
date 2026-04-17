@@ -152,7 +152,7 @@ git commit -m "chore: install gsap, lenis, motion, three for upcoming scroll wor
 
 ---
 
-## Task 2: Copy Font Files to `public/fonts/`
+## Task 2: Copy Font Files to `public/fonts/` ✅ done (commit 68e68ae)
 
 **Files:**
 - Create: `/Users/dangeorge/The Vault/Dans Website/public/fonts/Comico-Regular.woff2`
