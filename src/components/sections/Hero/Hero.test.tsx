@@ -1,5 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+// Hero.test.tsx tests structural composition only — not client-side animation.
+// Mock HeroClient so real GSAP/Lenis/ScrollTrigger never run in this suite.
+vi.mock("./HeroClient", () => ({ HeroClient: () => null }));
+
 import { Hero } from "./Hero";
 
 describe("<Hero />", () => {

@@ -1,5 +1,156 @@
 "use client";
 
+import { useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+
 export function HeroClient() {
+  useEffect(() => {
+    // Register inside useEffect so it only runs in a browser context.
+    // Safe to call multiple times — GSAP deduplicates registrations.
+    gsap.registerPlugin(ScrollTrigger);
+    const section = document.getElementById("hero");
+    if (!section) return;
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const desktop = window.matchMedia("(min-width: 768px)").matches;
+
+    // Reduced motion: skip autoplay, snap reveal in 600ms, stop here.
+    // No Lenis, no ScrollTrigger, no float tween.
+    if (reduced) {
+      // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
+      gsap.to(section, {
+        duration: 0.6,
+        delay: 0.2,
+        "--hero-progress": 1,
+        "--seam-x": "100%",
+        ease: "power2.out",
+      } as gsap.TweenVars);
+      return;
+    }
+
+    // Float animation: infinite y oscillation on laptop mockup element.
+    // Created outside gsap.context because it's not ScrollTrigger-driven;
+    // must be killed manually in cleanup.
+    const laptop = section.querySelector<HTMLElement>("[data-hero-laptop]");
+    const floatTween =
+      laptop &&
+      gsap.to(laptop, {
+        y: -8,
+        duration: 4,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: -1,
+      });
+
+    // Lenis + GSAP ticker coordination (desktop only).
+    // Mobile uses native scroll — Lenis causes jank on touch devices.
+    let lenis: Lenis | null = null;
+    let rafHandler: ((time: number) => void) | null = null;
+    if (desktop) {
+      lenis = new Lenis();
+      lenis.on("scroll", ScrollTrigger.update);
+      rafHandler = (time: number) => {
+        lenis?.raf(time * 1000);
+      };
+      gsap.ticker.add(rafHandler);
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    const sparkles = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-hero-sparkle]"),
+    );
+    const sideLabels = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-hero-side-label]"),
+    );
+
+    const ctx = gsap.context(() => {
+      if (desktop) {
+        // Desktop: scrubbed ScrollTrigger timeline — all tweens share one master trigger.
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        });
+
+        // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
+        tl.to(
+          section,
+          {
+            "--hero-progress": 1,
+            "--seam-x": "100%",
+            ease: "none",
+          } as gsap.TweenVars,
+          0,
+        );
+
+        // Sparkle stagger keyed off --sparkle-delay set by HeroSparkles.
+        sparkles.forEach((sparkle, i) => {
+          const delay = Number(
+            getComputedStyle(sparkle).getPropertyValue("--sparkle-delay") ||
+              i * 0.04,
+          );
+          tl.to(
+            sparkle,
+            { opacity: 1, duration: 0.4, ease: "power2.out" },
+            0.4 + delay,
+          );
+        });
+
+        // Side labels fade out as scroll approaches the end (progress ≥ 0.9).
+        tl.to(sideLabels, { opacity: 0, ease: "none" }, 0.9);
+      } else {
+        // Mobile: one-shot IntersectionObserver reveal — no scroll coupling.
+        const io = new IntersectionObserver(
+          (entries) => {
+            if (entries.some((e) => e.isIntersecting)) {
+              const tl = gsap.timeline();
+
+              // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
+              tl.to(
+                section,
+                {
+                  "--hero-progress": 1,
+                  "--seam-x": "100%",
+                  duration: 1.8,
+                  ease: "power3.out",
+                } as gsap.TweenVars,
+                0,
+              );
+
+              sparkles.forEach((sparkle, i) => {
+                tl.to(
+                  sparkle,
+                  { opacity: 1, duration: 0.4, ease: "power2.out" },
+                  0.9 + i * 0.04,
+                );
+              });
+
+              tl.to(sideLabels, { opacity: 0, duration: 0.3 }, 1.5);
+
+              // Disconnect after first fire — one-shot only.
+              io.disconnect();
+            }
+          },
+          { threshold: 0.3 },
+        );
+        io.observe(section);
+      }
+    }, section);
+
+    return () => {
+      ctx.revert();
+      if (floatTween) floatTween.kill();
+      if (rafHandler) gsap.ticker.remove(rafHandler);
+      if (lenis) lenis.destroy();
+    };
+  }, []);
+
   return null;
 }
