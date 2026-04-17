@@ -956,32 +956,19 @@ git commit -m "fix(layout): address verification-before-completion findings"
 
 ---
 
-## Task 9: `audit` + `polish` Passes
+## Task 9: `audit` + `polish` Passes ✅ done (commit `7b350c2`)
 
 **Files:** whatever those skills suggest modifying.
 
-- [ ] **Step 1: Invoke `audit` skill** on the layout shell. It reviews design discipline, a11y, rhythm, consistency. Record findings.
+- [x] **Step 1: Invoke `audit` skill** on the layout shell. It reviews design discipline, a11y, rhythm, consistency. Record findings. → 14/20 Good; P1 findings on a11y (no focus rings, no Esc handler, no focus trap, hamburger < 44px) and theming (hard-coded rgba in Nav.tsx, #A5B9AD borderline on bg).
 
-- [ ] **Step 2: Apply any P0/P1 fixes surfaced by audit.** Run `npm test && npx tsc --noEmit` after each fix.
+- [x] **Step 2: Apply any P0/P1 fixes surfaced by audit.** Run `npm test && npx tsc --noEmit` after each fix. → Fixed all P1 items in a single coherent pass (see step 3).
 
-- [ ] **Step 3: Invoke `polish` skill** to refine micro-interactions (hover, focus rings, transition curves). Apply small refinements.
+- [x] **Step 3: Invoke `polish` skill** to refine micro-interactions (hover, focus rings, transition curves). Apply small refinements. → a11y: Esc closes overlay, focus traps to first link on open, returns to trigger on close, 44×44 hit target, `:focus-visible` rings via CSS. Tokens: new `--nav-scrolled-bg` via `color-mix(in oklch)`, `--text-secondary` bumped `#A5B9AD → #B3C9BB`. Reduced-motion honoured. Font preload added to `<head>`.
 
-- [ ] **Step 4: Final check**
+- [x] **Step 4: Final check** → tsc 0, lint 0/0, 13/13 tests, next build green.
 
-Run:
-
-```bash
-npm test && npx tsc --noEmit && npm run lint
-```
-
-Expected: all green.
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add -A
-git commit -m "polish(layout): audit + polish pass refinements"
-```
+- [x] **Step 5: Commit** → `7b350c2` pushed to origin main. Evidence: `docs/verification/2026-04-17-layout-shell/06-08-*.png`.
 
 ---
 

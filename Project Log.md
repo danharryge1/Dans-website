@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: auditing-layout-shell
+status: layout-shell-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -22,9 +22,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
-> [!todo] Active phase
-> **`subagent-driven-development`** executing the layout-shell plan.
-> Next concrete action: **Task 9 — `audit` + `polish` passes**.
+> [!success] Layout shell complete — 2026-04-17
+> Nav + Footer + Container wired, tokenised, WCAG-AA, keyboard-accessible, font-preloaded.
+> Next concrete action: **Hero section** (start new spec via `brainstorming`).
 
 > [!note] Tooling added 2026-04-17
 > `playwright-cli` (Microsoft) installed globally + mirrored to `~/.claude/skills/playwright-cli/`. Source cloned into `Anti gravity Skills/Advanced_and_Agents/playwright-cli/`. Used for Task 8 breakpoint verification — drives a real Chrome at 1920/768/375, programmatic scroll, snapshot-based click refs. Screenshots committed at `docs/verification/2026-04-17-layout-shell/`.
@@ -46,7 +46,7 @@ Mirror of the plan's checkboxes. Source of truth is still [[2026-04-17-layout-sh
 - [x] **Task 6** — Build `Nav` component (TDD, client, scroll + mobile overlay) (commit `edd6471`)
 - [x] **Task 7** — Wire layout.tsx + page.tsx (commit `d342e7b`)
 - [x] **Task 8** — Browser verification via playwright-cli + `verification-before-completion` (5 screenshots, 13/13 tests, tsc/lint/build clean)
-- [ ] **Task 9** — `audit` + `polish` passes
+- [x] **Task 9** — `audit` + `polish` passes (commit `7b350c2`) — a11y (Esc/focus-trap/focus-return/44×44), `--nav-scrolled-bg` tokenised, `--text-secondary` bumped to WCAG AA, reduced-motion, font preload, 3 post-polish screenshots
 
 ## Locked-in decisions (layout shell)
 
