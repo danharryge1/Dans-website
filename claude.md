@@ -1,5 +1,23 @@
 # Project: Dans website
 
+## On session start — READ THESE FIRST
+This build is staged across multiple sessions. Before doing anything, read in order:
+1. **`Project Log.md`** (project root) — `status:` frontmatter and "Active phase" callout give you the current phase and the next concrete action. This is the source of truth for resume.
+2. **`.impeccable.md`** (project root) — design context (brand personality, palette, type, anti-refs). Required by all design skills.
+3. **`docs/superpowers/plans/`** — pick the plan matching the current phase; checkboxes show task-level progress with commit SHAs.
+4. **`docs/superpowers/specs/`** — the spec underlying each plan.
+
+**Workflow chain (per-phase):**
+`brainstorming → writing-plans → subagent-driven-development → TDD build (taste-skill · impeccable · typeset · layout · stitch-skill active) → verification-before-completion → audit → polish`.
+
+**Commit cadence:** one commit per task, pushed to `origin main` (`https://github.com/danharryge1/Dans-website.git`) immediately.
+
+**Skill preference:** use the `impeccable` and `taste-skill` packs (shape, polish, typeset, layout, audit, stitch-skill, etc.) — **not** the default `frontend-design` skill. See memory `feedback_design_skills.md`.
+
+**Verification tooling:** `playwright-cli` (Microsoft) is installed globally — drive real Chrome for responsive/scroll/click evidence. Commit screenshots to `docs/verification/<date>-<feature>/`.
+
+**After every completed task:** update (a) the plan checkbox with the commit SHA, (b) `Project Log.md` status and task list, (c) the `dans_website_project.md` memory file if state changed. Compactions are frequent — durable state must stay current.
+
 ## Overview
 This project is to create a super innovative, extraordinary website for my new premium website company. It is for Me Dan.
 
