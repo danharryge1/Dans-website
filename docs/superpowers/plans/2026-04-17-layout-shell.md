@@ -191,7 +191,7 @@ git commit -m "chore: copy Comico + Permanent Marker font files into public/font
 
 ---
 
-## Task 3: Rewrite `globals.css` — Tokens + `@font-face` + Tailwind v4 Theme
+## Task 3: Rewrite `globals.css` — Tokens + `@font-face` + Tailwind v4 Theme ✅ done (commit 357c837)
 
 **Files:**
 - Modify: `/Users/dangeorge/The Vault/Dans Website/src/app/globals.css` (full rewrite)
