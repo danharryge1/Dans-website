@@ -48,7 +48,7 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-17-hero-secti
 - [x] **Task 6** — Build `HeroScreen` (TDD) (commit `861f2ba`)
 - [x] **Task 7** — Build `Hero` Server Component + stub `HeroClient` (TDD, 26/26 tests) (commit `575a51b`)
 - [x] **Task 8** — Wire `<Hero />` into `page.tsx` + visual check static state (commit `5e51eef`)
-- [x] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD, 5/5 tests, 44/44 total) (commit `cefe9ea`)
+- [x] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD, 6/6 tests, 45/45 total) (commits `cefe9ea` + fix `85b583e` — mobile IO leak plug + `CSSVarTweenVars` type helper + strengthened reduced-motion/IO tests)
 - [ ] **Task 10** — Capture nextupco.com live hero via playwright-cli + transcode
 - [ ] **Task 11** — Browser verification via playwright-cli
 - [ ] **Task 12** — `audit` + `polish` passes

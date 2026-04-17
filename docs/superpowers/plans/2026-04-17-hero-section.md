@@ -1299,6 +1299,8 @@ git commit -m "feat(hero): wire HeroClient — GSAP + Lenis + ScrollTrigger / IO
 git push origin main
 ```
 
+- [x] **Step 7: Review fix pass** (commit `85b583e`) — code-quality reviewer flagged a mobile IO leak on unmount-before-intersection (raw `IntersectionObserver` inside `gsap.context` isn't reverted by `ctx.revert()`). Fix hoisted `io` to outer `useEffect` scope and added idempotent `io.disconnect()` to cleanup. Also replaced three broad `as gsap.TweenVars` casts with a narrow `CSSVarTweenVars` alias, tightened the reduced-motion test to assert Lenis + ticker were NOT touched, and added a new mobile IO one-shot test. HeroClient 6/6 · full suite 45/45 · tsc/lint/build clean.
+
 ---
 
 ## Task 10: Capture nextupco.com live hero via playwright-cli + transcode
