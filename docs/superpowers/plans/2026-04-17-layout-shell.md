@@ -908,7 +908,7 @@ git commit -m "feat(layout): wire Nav + Footer + Container into root layout"
 
 ---
 
-## Task 8: Manual Browser Verification
+## Task 8: Manual Browser Verification ✅ done (automated via playwright-cli — screenshots at docs/verification/2026-04-17-layout-shell/)
 
 **Files:** none — visual check only.
 

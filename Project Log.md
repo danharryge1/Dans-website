@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: verifying-layout-shell
+status: auditing-layout-shell
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -24,7 +24,10 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 > [!todo] Active phase
 > **`subagent-driven-development`** executing the layout-shell plan.
-> Next concrete action: **Task 8 — manual browser verification across desktop/tablet/mobile + `verification-before-completion`**.
+> Next concrete action: **Task 9 — `audit` + `polish` passes**.
+
+> [!note] Tooling added 2026-04-17
+> `playwright-cli` (Microsoft) installed globally + mirrored to `~/.claude/skills/playwright-cli/`. Source cloned into `Anti gravity Skills/Advanced_and_Agents/playwright-cli/`. Used for Task 8 breakpoint verification — drives a real Chrome at 1920/768/375, programmatic scroll, snapshot-based click refs. Screenshots committed at `docs/verification/2026-04-17-layout-shell/`.
 
 ## Workflow chain
 
@@ -42,7 +45,7 @@ Mirror of the plan's checkboxes. Source of truth is still [[2026-04-17-layout-sh
 - [x] **Task 5** — Build `Footer` component (TDD) (commit `deba0e4`)
 - [x] **Task 6** — Build `Nav` component (TDD, client, scroll + mobile overlay) (commit `edd6471`)
 - [x] **Task 7** — Wire layout.tsx + page.tsx (commit `d342e7b`)
-- [ ] **Task 8** — Manual browser verification + `verification-before-completion`
+- [x] **Task 8** — Browser verification via playwright-cli + `verification-before-completion` (5 screenshots, 13/13 tests, tsc/lint/build clean)
 - [ ] **Task 9** — `audit` + `polish` passes
 
 ## Locked-in decisions (layout shell)
