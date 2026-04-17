@@ -1509,7 +1509,7 @@ Expected: `lighthouse.report.html` + `lighthouse.report.json` in the folder. Per
 
 Invoke the `verification-before-completion` skill and run its checklist against this task. Record any findings inline in `docs/verification/<DATE>-hero/NOTES.md`.
 
-- [ ] **Step 7: Commit the evidence**
+- [x] **Step 7: Commit the evidence** (commit `91e62be`)
 
 ```bash
 DATE=$(date +%Y-%m-%d)
@@ -1517,6 +1517,11 @@ git add "docs/verification/${DATE}-hero/"
 git commit -m "verify(hero): playwright-cli screenshots + lighthouse pass"
 git push origin main
 ```
+
+**Execution notes for Task 11:**
+- Installed `playwright-cli` v0.1.8 is session-based (`open`/`goto`/`resize`/`screenshot`/`close`) and lacks the plan's `--viewport`/`--scroll-y`/`--reduced-motion`/`--output` one-shot flags — plan-author fiction. Per the plan's own fallback clause, used `scripts/verify-hero.mjs` (short Playwright script resolving `playwright` via the global `@playwright/cli` transitive install + project-local symlinks from Task 10).
+- Lighthouse on dev build: Perf 69 / A11y 100 / BP 100. Perf gap is dev-server Turbopack + unminified; re-measure on `next build && next start` in Task 12.
+- **Runway finding:** seam scrub truncates because the hero is the only section on the page. Scrub range `[top top, bottom top]` on a 100vh section with ~80px of page-below-hero gives ~7% progress max. Standard fix = `pin: true, end: "+=100%"`. Falls to Task 12.
 
 ---
 

@@ -23,7 +23,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 ## Current status
 
 > [!info] Hero section in progress — 2026-04-18
-> Tasks 0–10 complete. Next concrete action: **Task 11** — browser verification via playwright-cli (9 screenshots at 1920/768/375 × 0/40/100 scroll + reduced-motion + Lighthouse, saved to `docs/verification/2026-04-18-hero/`).
+> Tasks 0–11 complete. Next concrete action: **Task 12** — audit + polish passes. Top finding to address: seam scrub runway (pin the hero or add page runway so scrub range = one viewport).
 
 > [!success] Layout shell complete — 2026-04-17
 > Nav + Footer + Container wired, tokenised, WCAG-AA, keyboard-accessible, font-preloaded.
@@ -50,7 +50,7 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-17-hero-secti
 - [x] **Task 8** — Wire `<Hero />` into `page.tsx` + visual check static state (commit `5e51eef`)
 - [x] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD, 6/6 tests, 45/45 total) (commits `cefe9ea` + fix `85b583e` — mobile IO leak plug + `CSSVarTweenVars` type helper + strengthened reduced-motion/IO tests)
 - [x] **Task 10** — Capture nextupco.com live hero + transcode (commits `75292f7` + fix `8c612d7` — 4s loop, CRF 30/38, combined 1.24 MB, settled poster at t=2.5s)
-- [ ] **Task 11** — Browser verification via playwright-cli
+- [x] **Task 11** — Browser verification via playwright-cli (commit `91e62be` — 10 screenshots + Lighthouse + NOTES.md at `docs/verification/2026-04-18-hero/`. Findings for Task 12: seam scrub truncates because hero-only page has ~80px of runway vs 100vh expected — needs `pin: true` + `end: "+=100%"`; Lighthouse dev-build Perf 69 to re-measure on `next build`; A11y/BP both 100)
 - [ ] **Task 12** — `audit` + `polish` passes
 
 ## Task progress — Layout Shell
