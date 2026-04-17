@@ -115,3 +115,31 @@ nav :is(a, button):focus-visible,
     transition: none;
   }
 }
+
+/* ---------- HERO TOKENS (Phase 2) ---------- */
+:root {
+  /* sparkle appearance */
+  --sparkle-core: #F5F5F0;
+  --sparkle-halo: rgba(180, 240, 200, 0.6);
+
+  /* laptop geometry */
+  --laptop-tilt-x: 6deg;
+  --laptop-tilt-z: -1.5deg;
+  --laptop-perspective: 1200px;
+
+  /* scroll-driven animation state (0 → 1 across the hero) */
+  --hero-progress: 0;
+  --seam-x: 12%;
+}
+
+/* ---------- HERO KEYFRAMES ---------- */
+@keyframes hero-sparkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.9); }
+  50%      { opacity: 1;   transform: scale(1.1); }
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-sparkle] { animation: none !important; }
+  [data-hero-laptop]  { transform: none !important; }
+}
