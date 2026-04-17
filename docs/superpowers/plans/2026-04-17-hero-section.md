@@ -811,7 +811,7 @@ git push origin main
 
 To keep this task TDD-clean without a hard dependency on Task 9's client code, we export a stub `HeroClient` in its own file as part of this task — it returns `null` initially. Task 9 replaces the body.
 
-- [ ] **Step 1: Create stub `HeroClient.tsx` (returns null)**
+- [x] **Step 1: Create stub `HeroClient.tsx` (returns null)**
 
 ```tsx
 "use client";
@@ -821,7 +821,7 @@ export function HeroClient() {
 }
 ```
 
-- [ ] **Step 2: Write failing test for `Hero.tsx`**
+- [x] **Step 2: Write failing test for `Hero.tsx`**
 
 `src/components/sections/Hero/Hero.test.tsx`:
 
@@ -872,13 +872,13 @@ describe("<Hero />", () => {
 });
 ```
 
-- [ ] **Step 3: Run to confirm failure**
+- [x] **Step 3: Run to confirm failure**
 
 Run: `npm test -- Hero.test`
 
 Expected: FAIL — `Hero` not found.
 
-- [ ] **Step 4: Implement `Hero.tsx`**
+- [x] **Step 4: Implement `Hero.tsx`**
 
 ```tsx
 import { HeroClient } from "./HeroClient";
@@ -950,7 +950,7 @@ export function Hero() {
 }
 ```
 
-- [ ] **Step 5: Run all Hero tests**
+- [x] **Step 5: Run all Hero tests**
 
 Run: `npm test -- Hero`
 
@@ -962,7 +962,7 @@ Expected: every Hero* suite green. At minimum:
 - `HeroScreen.test` 6 passed
 - `Hero.test` 6 passed
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit** (commit `575a51b`)
 
 ```bash
 git add src/components/sections/Hero/Hero.tsx src/components/sections/Hero/Hero.test.tsx src/components/sections/Hero/HeroClient.tsx

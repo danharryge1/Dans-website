@@ -22,9 +22,11 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
+> [!info] Hero section in progress — 2026-04-17
+> Tasks 0–7 complete. Next concrete action: **Task 8** — wire `<Hero />` into `page.tsx` + eyeball static composition.
+
 > [!success] Layout shell complete — 2026-04-17
 > Nav + Footer + Container wired, tokenised, WCAG-AA, keyboard-accessible, font-preloaded.
-> Next concrete action: **Hero section** (start new spec via `brainstorming`).
 
 > [!note] Tooling added 2026-04-17
 > `playwright-cli` (Microsoft) installed globally + mirrored to `~/.claude/skills/playwright-cli/`. Source cloned into `Anti gravity Skills/Advanced_and_Agents/playwright-cli/`. Used for Task 8 breakpoint verification — drives a real Chrome at 1920/768/375, programmatic scroll, snapshot-based click refs. Screenshots committed at `docs/verification/2026-04-17-layout-shell/`.
@@ -32,6 +34,24 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 ## Workflow chain
 
 `brainstorming → writing-plans → subagent-driven-development → TDD build (taste-skill · impeccable · typeset · layout · stitch-skill) → verification-before-completion → audit → polish`.
+
+## Task progress — Hero Section
+
+Mirror of the plan's checkboxes. Source of truth is still [2026-04-17-hero-section](docs/superpowers/plans/2026-04-17-hero-section.md).
+
+- [x] **Task 0** — Hero design tokens + sparkle keyframes in `globals.css` (commit `cb82a68`)
+- [x] **Task 1** — Transcode NextUp "Draft" asset into `public/assets/hero/nextup-old.webp` (commit `ee95d00`)
+- [x] **Task 2** — Build `PerspectiveGrid` (TDD) (commit `ec8ff09`)
+- [x] **Task 3** — Build `HeroSparkles` (TDD) (commit `8df2fb1`)
+- [x] **Task 4** — Build `HeroScrollHint` (TDD) (commit `7ad5fa3`)
+- [x] **Task 5** — Build `HeroLaptop` (TDD) (commit `c05b93f`)
+- [x] **Task 6** — Build `HeroScreen` (TDD) (commit `861f2ba`)
+- [x] **Task 7** — Build `Hero` Server Component + stub `HeroClient` (TDD, 26/26 tests) (commit `575a51b`)
+- [ ] **Task 8** — Wire `<Hero />` into `page.tsx` + visual check static state
+- [ ] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD)
+- [ ] **Task 10** — Capture nextupco.com live hero via playwright-cli + transcode
+- [ ] **Task 11** — Browser verification via playwright-cli
+- [ ] **Task 12** — `audit` + `polish` passes
 
 ## Task progress — Layout Shell
 
