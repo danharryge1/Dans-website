@@ -8,11 +8,13 @@ const {
   mockContextRevert,
   mockLenisCtor,
   mockTickerAdd,
+  mockTimeline,
 } = vi.hoisted(() => ({
   mockScrollTriggerKill: vi.fn(),
   mockContextRevert: vi.fn(),
   mockLenisCtor: vi.fn(),
   mockTickerAdd: vi.fn(),
+  mockTimeline: vi.fn(),
 }));
 
 vi.mock("gsap", () => {
@@ -27,20 +29,27 @@ vi.mock("gsap", () => {
     remove: vi.fn(),
     lagSmoothing: vi.fn(),
   };
+  // Capture timeline config args so tests can assert on ScrollTrigger options
+  // (pin, end, scrub). `mockTimeline` is the spy; it must still return the
+  // shape HeroClient chains on (`tl.to(...)`).
+  const timeline = vi.fn((vars?: unknown) => {
+    mockTimeline(vars);
+    return { to, kill: vi.fn() };
+  });
   return {
     default: {
       to,
       context,
       registerPlugin,
       ticker,
-      timeline: vi.fn(() => ({ to, kill: vi.fn() })),
+      timeline,
     },
     gsap: {
       to,
       context,
       registerPlugin,
       ticker,
-      timeline: vi.fn(() => ({ to, kill: vi.fn() })),
+      timeline,
     },
   };
 });
@@ -153,6 +162,32 @@ describe("<HeroClient />", () => {
     // Reduced-motion branch must short-circuit before Lenis / ticker wiring.
     expect(mockLenisCtor).not.toHaveBeenCalled();
     expect(mockTickerAdd).not.toHaveBeenCalled();
+  });
+
+  it("on desktop: pins the hero with +=100% runway for the seam scrub", () => {
+    // Desktop branch is the default from beforeEach; render triggers the effect.
+    render(<HeroClient />);
+
+    expect(mockTimeline).toHaveBeenCalled();
+    const call = mockTimeline.mock.calls[0][0] as {
+      scrollTrigger?: {
+        trigger?: unknown;
+        start?: string;
+        end?: string;
+        scrub?: number;
+        pin?: boolean;
+        pinSpacing?: boolean;
+      };
+    };
+    expect(call?.scrollTrigger).toMatchObject({
+      start: "top top",
+      end: "+=100%",
+      pin: true,
+      pinSpacing: true,
+    });
+    // scrub is truthy (0.6) — defensive check so a future regression that
+    // drops scrub entirely gets caught here.
+    expect(call?.scrollTrigger?.scrub).toBeTruthy();
   });
 
   it("on mobile: constructs an IntersectionObserver, observes #hero, disconnects on first intersection", () => {

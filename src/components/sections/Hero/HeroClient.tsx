@@ -78,12 +78,16 @@ export function HeroClient() {
     const ctx = gsap.context(() => {
       if (desktop) {
         // Desktop: scrubbed ScrollTrigger timeline — all tweens share one master trigger.
+        // Pin for one viewport of scroll so the scrub has full runway to sweep the seam
+        // across the width, regardless of total page length.
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "bottom top",
+            end: "+=100%",
             scrub: 0.6,
+            pin: true,
+            pinSpacing: true,
           },
         });
 
