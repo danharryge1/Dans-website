@@ -1414,13 +1414,15 @@ Expected:
 - On first page load, the seam is near the left (12%) so most of the screen shows the old NextUp build
 - As you scroll, the seam sweeps right and the new site reveals
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit** (commit `75292f7`)
 
 ```bash
 git add scripts/capture-nextup-hero.mjs public/assets/hero/nextup-live.mp4 public/assets/hero/nextup-live.webm public/assets/hero/nextup-live-poster.webp
 git commit -m "feat(hero): capture nextupco.com hero loop + transcode mp4/webm/poster"
 git push origin main
 ```
+
+- [x] **Step 7: Fix pass** (commit `8c612d7`) — first pass landed at 2.4 MB combined (2× plan budget) and a near-black poster (intro frame at t=0). Fix: shortened `waitForTimeout` from 6000 → 4000 ms, raised MP4 CRF 24 → 30 and WebM VP9 CRF 34 → 38, extracted poster at `-ss 2.5` instead of `-ss 0`. Final payload: mp4 580 KB + webm 630 KB = **1.24 MB combined** (under 1.3 MB ceiling), poster brightness 93.5/255. Resolver note: Playwright resolved via project-local `node_modules/` symlinks to the global `@playwright/cli` install — NODE_PATH failed for ESM bare-specifier resolution. No `package.json` changes.
 
 ---
 
