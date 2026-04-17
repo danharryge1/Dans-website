@@ -23,10 +23,15 @@ export function HeroScreen({
 
       {/* Draft side — full frame underneath */}
       <div data-hero-draft className="absolute inset-0">
+        {/* Intrinsic dims match the 1120×700 source file — tells the browser
+            the aspect ratio up-front and avoids CLS even if the ancestor
+            aspect-ratio box fails to size in time. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={draftSrc}
           alt={draftAlt}
+          width={1120}
+          height={700}
           className="w-full h-full object-cover"
           loading="eager"
           decoding="async"

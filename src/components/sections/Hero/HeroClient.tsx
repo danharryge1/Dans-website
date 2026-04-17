@@ -23,7 +23,10 @@ export function HeroClient() {
     const desktop = window.matchMedia("(min-width: 768px)").matches;
 
     // Reduced motion: skip autoplay, snap reveal in 600ms, stop here.
-    // No Lenis, no ScrollTrigger, no float tween.
+    // No Lenis, no ScrollTrigger, no float tween. Sparkles + side-labels land
+    // in the same end-state as scroll-complete so reduced-motion users are not
+    // stuck with `opacity: 0` inline markup that scroll-driven tweens normally
+    // flip.
     if (reduced) {
       gsap.to(section, {
         duration: 0.6,
@@ -32,6 +35,30 @@ export function HeroClient() {
         "--seam-x": "100%",
         ease: "power2.out",
       } as CSSVarTweenVars);
+
+      const reducedSparkles = section.querySelectorAll<HTMLElement>(
+        "[data-hero-sparkle]",
+      );
+      if (reducedSparkles.length > 0) {
+        gsap.to(reducedSparkles, {
+          opacity: 1,
+          duration: 0.6,
+          delay: 0.2,
+          ease: "power2.out",
+        });
+      }
+
+      const reducedSideLabels = section.querySelectorAll<HTMLElement>(
+        "[data-hero-side-label]",
+      );
+      if (reducedSideLabels.length > 0) {
+        gsap.to(reducedSideLabels, {
+          opacity: 0,
+          duration: 0.6,
+          delay: 0.2,
+          ease: "power2.out",
+        });
+      }
       return;
     }
 
