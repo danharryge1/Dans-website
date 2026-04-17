@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
+/* ---------- FONTS ---------- */
+@font-face {
+  font-family: "Comico";
+  src: url("/fonts/Comico-Regular.woff2") format("woff2"),
+       url("/fonts/Comico-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Permanent Marker";
+  src: url("/fonts/PermanentMarker-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- DESIGN TOKENS ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* surfaces */
+  --bg-primary: #0D544C;
+  --bg-darker: #0B2422;
+  --bg-card: rgba(11, 36, 34, 0.85);
+  --bg-card-border: rgba(140, 200, 165, 0.35);
+
+  /* text */
+  --text-primary: #F5F5F0;
+  --text-secondary: #A5B9AD;
+  --text-accent: #F5F0F4;
+
+  /* grid */
+  --grid-line: rgba(180, 220, 200, 0.15);
+  --grid-glow: rgba(180, 240, 200, 0.10);
+
+  /* accents + inputs */
+  --gold-accent: #C8A55C;
+  --border-input: #F5F5F0;
+  --btn-primary-border: #F5F5F0;
+
+  /* font families */
+  --font-comico: "Comico", cursive;
+  --font-marker: "Permanent Marker", cursive;
 }
 
+/* ---------- TAILWIND v4 THEME BINDINGS ---------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg-primary);
+  --color-bg-darker: var(--bg-darker);
+  --color-text: var(--text-primary);
+  --color-text-muted: var(--text-secondary);
+  --color-text-accent: var(--text-accent);
+  --color-grid-line: var(--grid-line);
+  --color-gold: var(--gold-accent);
+  --font-display: var(--font-comico);
+  --font-sans: var(--font-marker);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ---------- BASE ---------- */
+html, body { height: 100%; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-marker);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
