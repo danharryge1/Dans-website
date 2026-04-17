@@ -37,7 +37,7 @@
 
 ---
 
-## Task 0: Test Infrastructure (Vitest + RTL)
+## Task 0: Test Infrastructure (Vitest + RTL) ✅ done (commit 7c4ee61)
 
 **Files:**
 - Modify: `/Users/dangeorge/The Vault/Dans Website/package.json`
