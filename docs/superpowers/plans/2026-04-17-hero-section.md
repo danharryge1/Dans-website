@@ -1529,35 +1529,21 @@ git push origin main
 
 **Files:** whatever the skills suggest modifying.
 
-- [ ] **Step 1: Invoke `audit` skill** on the hero section. Record findings (expect items under: a11y focus behaviour, visual rhythm, colour contrast on the sub copy, motion curve feel, reduced-motion parity, video bitrate / bytes).
+- [x] **Step 1: Audit pass** — 13-item P1 checklist worked through (h1 structure, aria-labelledby, reduced-motion parity, video a11y, contrast, focus, motion curves, responsive wrap/legibility, preload, poster, img CLS). Findings recorded in `docs/verification/2026-04-18-hero/NOTES.md` "Task 12 outcomes" section.
 
-- [ ] **Step 2: Apply P0 / P1 fixes in a single coherent pass**
+- [x] **Step 2: P0 runway fix + P1 fixes applied**
+    - P0 — pin `+=100%` on desktop ScrollTrigger so the scrub has a full viewport of runway (commit `72009cf`).
+    - P1.3 — reduced-motion branch now also tweens sparkles to `opacity: 1` and side-labels to `opacity: 0` so the end-state matches scroll-complete (commit `d2382e9`).
+    - P1.13 — `<img src="/assets/hero/nextup-old.webp">` now carries intrinsic `width={1120}` / `height={700}` as LCP hint (commit `d2382e9`).
+    - 10 other audit items verified correct, no change needed.
 
-For each fix, run after:
+- [x] **Step 3: Polish pass** — SKIPPED. The requested gold-accent seam rule + knob are already implemented in `HeroScreen.tsx` lines 89-110. Per "if nothing reads as missing, do nothing" guardrail: no change.
 
-```bash
-npm test && npx tsc --noEmit && npm run lint
-```
+- [x] **Step 4: Re-captured screenshots** — `1920-{0,40,100}-polished.png` against `next start` prod build. Seam now visibly sweeps 0→100 (commit `36c105c`).
 
-- [ ] **Step 3: Invoke `polish` skill** to refine micro-interactions (seam knob glow, sparkle fade curve, scroll-hint exit timing). Apply small refinements.
+- [x] **Step 5: Final gates** — `npm test` 46/46, `tsc` 0, `lint` 0, `next build` green.
 
-- [ ] **Step 4: Re-run a subset of the verification screenshots** from Task 11 (1920 at 0%, 40%, 100%) to capture the polished state. Save alongside the originals with a `-polished` suffix.
-
-- [ ] **Step 5: Final check**
-
-```bash
-npm test && npx tsc --noEmit && npm run lint && npm run build
-```
-
-Expected: all green.
-
-- [ ] **Step 6: Commit**
-
-```bash
-git add -A
-git commit -m "polish(hero): audit + polish findings — a11y, motion curves, verification refresh"
-git push origin main
-```
+- [x] **Step 6: Evidence committed** — Lighthouse prod (Perf 97 / A11y 100 / BP 100), 3 polished screenshots, `scripts/verify-hero-polished.mjs`, NOTES.md appended (commit `36c105c`).
 
 ---
 

@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: layout-shell-complete
+status: hero-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -22,8 +22,8 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
-> [!info] Hero section in progress — 2026-04-18
-> Tasks 0–11 complete. Next concrete action: **Task 12** — audit + polish passes. Top finding to address: seam scrub runway (pin the hero or add page runway so scrub range = one viewport).
+> [!success] Hero section complete — 2026-04-18
+> All 13 tasks shipped. Prod Lighthouse: Perf 97 / A11y 100 / BP 100. Seam runway pinned at `+=100%`, reduced-motion parity fixed (sparkles + side-labels now resolve), img intrinsic dims set. Next phase: **Services section** (design.md §2.3) — kicks off with `/brainstorming` for the Services spec.
 
 > [!success] Layout shell complete — 2026-04-17
 > Nav + Footer + Container wired, tokenised, WCAG-AA, keyboard-accessible, font-preloaded.
@@ -51,7 +51,7 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-17-hero-secti
 - [x] **Task 9** — Implement `HeroClient` — GSAP + Lenis + ScrollTrigger lifecycle (TDD, 6/6 tests, 45/45 total) (commits `cefe9ea` + fix `85b583e` — mobile IO leak plug + `CSSVarTweenVars` type helper + strengthened reduced-motion/IO tests)
 - [x] **Task 10** — Capture nextupco.com live hero + transcode (commits `75292f7` + fix `8c612d7` — 4s loop, CRF 30/38, combined 1.24 MB, settled poster at t=2.5s)
 - [x] **Task 11** — Browser verification via playwright-cli (commit `91e62be` — 10 screenshots + Lighthouse + NOTES.md at `docs/verification/2026-04-18-hero/`. Findings for Task 12: seam scrub truncates because hero-only page has ~80px of runway vs 100vh expected — needs `pin: true` + `end: "+=100%"`; Lighthouse dev-build Perf 69 to re-measure on `next build`; A11y/BP both 100)
-- [ ] **Task 12** — `audit` + `polish` passes
+- [x] **Task 12** — `audit` + `polish` passes (commits `72009cf` runway fix · `d2382e9` reduced-motion parity + img intrinsic dims · `36c105c` prod Lighthouse + polished screenshots). Polish pass skipped: requested gold-accent seam already implemented in `HeroScreen.tsx`. Prod Lighthouse Perf 97 / A11y 100 / BP 100.
 
 ## Task progress — Layout Shell
 
@@ -107,6 +107,6 @@ At `~/.claude/skills/`:
 - `webgpu-threejs-tsl` — (deferred, not in use this phase)
 - `obsidian-markdown` — installed 2026-04-17 to maintain this log
 
-## Next phase after layout shell
+## Next phase after hero
 
-Hero section — perspective grid background, Comico headline, CTA. Separate spec + plan. Will likely want `overdrive` + `animate` + possibly `webgpu-threejs-tsl`.
+Services section — per design.md §2.3. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
