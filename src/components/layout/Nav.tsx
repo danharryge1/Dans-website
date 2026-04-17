@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LINKS = [
   { label: "PORTFOLIO", href: "#portfolio" },
@@ -12,6 +12,8 @@ const LINKS = [
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
@@ -22,10 +24,18 @@ export function Nav() {
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
+    const prevOverflow = document.body.style.overflow;
+    const trigger = triggerRef.current;
     document.body.style.overflow = "hidden";
+    firstLinkRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+      trigger?.focus();
     };
   }, [open]);
 
@@ -33,12 +43,7 @@ export function Nav() {
     <>
       <nav
         data-scrolled={scrolled ? "true" : "false"}
-        className="fixed top-0 inset-x-0 z-50 py-6 transition-[background-color,backdrop-filter] duration-[250ms] ease-out"
-        style={{
-          backgroundColor: scrolled ? "rgba(11,36,34,0.6)" : "transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
-        }}
+        className="fixed top-0 inset-x-0 z-50 py-6 transition-[background-color] duration-[250ms] ease-out"
       >
         <ul
           className="hidden md:flex justify-center gap-10 text-[14px] uppercase tracking-[0.05em]"
@@ -46,27 +51,21 @@ export function Nav() {
         >
           {LINKS.map((l) => (
             <li key={l.label}>
-              <a
-                href={l.href}
-                className="transition-colors duration-200 ease-out"
-                style={{ color: "var(--text-secondary)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-accent)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-secondary)")}
-              >
-                {l.label}
-              </a>
+              <a href={l.href}>{l.label}</a>
             </li>
           ))}
         </ul>
 
         <button
+          ref={triggerRef}
           type="button"
           aria-label="Open menu"
-          className="md:hidden absolute right-6 top-1/2 -translate-y-1/2 text-2xl"
+          aria-expanded={open}
+          className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center text-2xl"
           style={{ color: "var(--text-primary)" }}
           onClick={() => setOpen(true)}
         >
-          ☰
+          <span aria-hidden="true">☰</span>
         </button>
       </nav>
 
@@ -74,25 +73,27 @@ export function Nav() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-10 transition-opacity duration-300"
+          aria-label="Main navigation"
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-10"
           style={{ backgroundColor: "var(--bg-darker)" }}
         >
           <button
             type="button"
             aria-label="Close menu"
-            className="absolute right-6 top-6 text-3xl"
+            className="absolute right-4 top-4 w-11 h-11 flex items-center justify-center text-3xl"
             style={{ color: "var(--text-primary)" }}
             onClick={() => setOpen(false)}
           >
-            ×
+            <span aria-hidden="true">×</span>
           </button>
-          {LINKS.map((l) => (
+          {LINKS.map((l, i) => (
             <a
               key={l.label}
+              ref={i === 0 ? firstLinkRef : undefined}
               href={l.href}
               onClick={() => setOpen(false)}
               className="text-[48px] leading-none"
-              style={{ fontFamily: "var(--font-comico)", color: "var(--text-primary)" }}
+              style={{ fontFamily: "var(--font-comico)" }}
             >
               {l.label}
             </a>

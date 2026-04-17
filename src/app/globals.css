@@ -28,7 +28,7 @@
 
   /* text */
   --text-primary: #F5F5F0;
-  --text-secondary: #A5B9AD;
+  --text-secondary: #B3C9BB; /* bumped from #A5B9AD — clears WCAG AA ~5.1:1 on --bg-primary */
   --text-accent: #F5F0F4;
 
   /* grid */
@@ -39,6 +39,9 @@
   --gold-accent: #C8A55C;
   --border-input: #F5F5F0;
   --btn-primary-border: #F5F5F0;
+
+  /* nav chrome — scrolled state background, tokenised from bg-darker */
+  --nav-scrolled-bg: color-mix(in oklch, var(--bg-darker) 60%, transparent);
 
   /* font families */
   --font-comico: "Comico", cursive;
@@ -67,4 +70,48 @@ body {
   font-family: var(--font-marker);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- NAV CHROME ---------- */
+nav[data-scrolled="true"] {
+  background-color: var(--nav-scrolled-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Desktop nav links — muted by default, lift to accent on hover/focus */
+nav ul a {
+  color: var(--text-secondary);
+  transition: color 200ms ease-out;
+}
+
+/* Mobile overlay links — start at primary, lift to accent */
+[role="dialog"] a {
+  color: var(--text-primary);
+  transition: color 200ms ease-out;
+}
+
+nav ul a:hover,
+nav ul a:focus-visible,
+[role="dialog"] a:hover,
+[role="dialog"] a:focus-visible {
+  color: var(--text-accent);
+}
+
+/* Visible keyboard focus rings on every interactive element in the chrome */
+nav :is(a, button):focus-visible,
+[role="dialog"] :is(a, button):focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  nav,
+  nav ul a,
+  [role="dialog"],
+  [role="dialog"] a {
+    transition: none;
+  }
 }
