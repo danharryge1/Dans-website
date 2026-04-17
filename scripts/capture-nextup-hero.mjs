@@ -19,8 +19,8 @@ const ctx = await browser.newContext({
 });
 const page = await ctx.newPage();
 await page.goto("https://nextupco.com", { waitUntil: "networkidle" });
-// Let the hero animations settle, then record ~6s of life.
-await page.waitForTimeout(6000);
+// Let the hero animations settle, then record ~4s of life.
+await page.waitForTimeout(4000);
 await page.close();
 await ctx.close();
 await browser.close();
