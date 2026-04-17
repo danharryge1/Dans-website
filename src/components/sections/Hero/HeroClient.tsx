@@ -5,6 +5,10 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 
+// Tighter type for tweens that set CSS custom properties.
+// Avoids broad `as gsap.TweenVars` casts at call sites.
+type CSSVarTweenVars = gsap.TweenVars & Record<`--${string}`, string | number>;
+
 export function HeroClient() {
   useEffect(() => {
     // Register inside useEffect so it only runs in a browser context.
@@ -21,14 +25,13 @@ export function HeroClient() {
     // Reduced motion: skip autoplay, snap reveal in 600ms, stop here.
     // No Lenis, no ScrollTrigger, no float tween.
     if (reduced) {
-      // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
       gsap.to(section, {
         duration: 0.6,
         delay: 0.2,
         "--hero-progress": 1,
         "--seam-x": "100%",
         ease: "power2.out",
-      } as gsap.TweenVars);
+      } as CSSVarTweenVars);
       return;
     }
 
@@ -67,6 +70,11 @@ export function HeroClient() {
       section.querySelectorAll<HTMLElement>("[data-hero-side-label]"),
     );
 
+    // Hoisted so cleanup can disconnect even if the component unmounts
+    // before the observer fires. `ctx.revert()` does NOT clean up raw
+    // IntersectionObservers, so leaving it inside gsap.context would leak.
+    let io: IntersectionObserver | null = null;
+
     const ctx = gsap.context(() => {
       if (desktop) {
         // Desktop: scrubbed ScrollTrigger timeline — all tweens share one master trigger.
@@ -79,14 +87,13 @@ export function HeroClient() {
           },
         });
 
-        // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
         tl.to(
           section,
           {
             "--hero-progress": 1,
             "--seam-x": "100%",
             ease: "none",
-          } as gsap.TweenVars,
+          } as CSSVarTweenVars,
           0,
         );
 
@@ -107,12 +114,11 @@ export function HeroClient() {
         tl.to(sideLabels, { opacity: 0, ease: "none" }, 0.9);
       } else {
         // Mobile: one-shot IntersectionObserver reveal — no scroll coupling.
-        const io = new IntersectionObserver(
+        io = new IntersectionObserver(
           (entries) => {
             if (entries.some((e) => e.isIntersecting)) {
               const tl = gsap.timeline();
 
-              // Cast required: GSAP TweenVars doesn't type CSS custom properties directly.
               tl.to(
                 section,
                 {
@@ -120,7 +126,7 @@ export function HeroClient() {
                   "--seam-x": "100%",
                   duration: 1.8,
                   ease: "power3.out",
-                } as gsap.TweenVars,
+                } as CSSVarTweenVars,
                 0,
               );
 
@@ -135,7 +141,7 @@ export function HeroClient() {
               tl.to(sideLabels, { opacity: 0, duration: 0.3 }, 1.5);
 
               // Disconnect after first fire — one-shot only.
-              io.disconnect();
+              io?.disconnect();
             }
           },
           { threshold: 0.3 },
@@ -149,6 +155,8 @@ export function HeroClient() {
       if (floatTween) floatTween.kill();
       if (rafHandler) gsap.ticker.remove(rafHandler);
       if (lenis) lenis.destroy();
+      // Idempotent — safe if the observer already self-disconnected.
+      if (io) io.disconnect();
     };
   }, []);
 

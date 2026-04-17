@@ -1,10 +1,18 @@
 import { render, cleanup } from "@testing-library/react";
+import type { Mock } from "vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Use vi.hoisted so these are available inside the hoisted vi.mock factories.
-const { mockScrollTriggerKill, mockContextRevert } = vi.hoisted(() => ({
+const {
+  mockScrollTriggerKill,
+  mockContextRevert,
+  mockLenisCtor,
+  mockTickerAdd,
+} = vi.hoisted(() => ({
   mockScrollTriggerKill: vi.fn(),
   mockContextRevert: vi.fn(),
+  mockLenisCtor: vi.fn(),
+  mockTickerAdd: vi.fn(),
 }));
 
 vi.mock("gsap", () => {
@@ -14,7 +22,11 @@ vi.mock("gsap", () => {
     return { revert: mockContextRevert };
   });
   const registerPlugin = vi.fn();
-  const ticker = { add: vi.fn(), remove: vi.fn(), lagSmoothing: vi.fn() };
+  const ticker = {
+    add: mockTickerAdd,
+    remove: vi.fn(),
+    lagSmoothing: vi.fn(),
+  };
   return {
     default: {
       to,
@@ -42,13 +54,40 @@ vi.mock("gsap/ScrollTrigger", () => ({
 }));
 
 vi.mock("lenis", () => {
+  // Must be callable as a constructor (component uses `new Lenis()`),
+  // so wrap the spy in a function that delegates to it.
   function MockLenis() {
+    mockLenisCtor();
     return { on: vi.fn(), raf: vi.fn(), destroy: vi.fn() };
   }
-  return { default: vi.fn().mockImplementation(MockLenis) };
+  return { default: MockLenis };
 });
 
 import { HeroClient } from "./HeroClient";
+
+// Shared IO spy state between the stub class and tests.
+type IOCallback = (entries: Array<{ isIntersecting: boolean }>) => void;
+let ioObserveSpy: Mock;
+let ioDisconnectSpy: Mock;
+let ioCtorSpy: Mock;
+let lastIOCallback: IOCallback | null = null;
+
+class FakeIntersectionObserver {
+  constructor(cb: IOCallback) {
+    ioCtorSpy(cb);
+    lastIOCallback = cb;
+  }
+  observe(...args: unknown[]) {
+    ioObserveSpy(...args);
+  }
+  disconnect() {
+    ioDisconnectSpy();
+  }
+  unobserve() {}
+  takeRecords() {
+    return [];
+  }
+}
 
 describe("<HeroClient />", () => {
   beforeEach(() => {
@@ -63,11 +102,18 @@ describe("<HeroClient />", () => {
       removeListener: vi.fn(),
       dispatchEvent: vi.fn(),
     })) as typeof window.matchMedia;
+
+    ioObserveSpy = vi.fn();
+    ioDisconnectSpy = vi.fn();
+    ioCtorSpy = vi.fn();
+    lastIOCallback = null;
+    vi.stubGlobal("IntersectionObserver", FakeIntersectionObserver);
   });
 
   afterEach(() => {
     cleanup();
     document.body.innerHTML = "";
+    vi.unstubAllGlobals();
     vi.clearAllMocks();
   });
 
@@ -91,7 +137,7 @@ describe("<HeroClient />", () => {
     expect(mockContextRevert).toHaveBeenCalled();
   });
 
-  it("respects prefers-reduced-motion: reduce", () => {
+  it("respects prefers-reduced-motion: reduce (skips Lenis and ticker)", () => {
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: query.includes("prefers-reduced-motion"),
       media: query,
@@ -101,6 +147,35 @@ describe("<HeroClient />", () => {
       removeListener: vi.fn(),
       dispatchEvent: vi.fn(),
     })) as typeof window.matchMedia;
-    expect(() => render(<HeroClient />)).not.toThrow();
+
+    render(<HeroClient />);
+
+    // Reduced-motion branch must short-circuit before Lenis / ticker wiring.
+    expect(mockLenisCtor).not.toHaveBeenCalled();
+    expect(mockTickerAdd).not.toHaveBeenCalled();
+  });
+
+  it("on mobile: constructs an IntersectionObserver, observes #hero, disconnects on first intersection", () => {
+    // Force the mobile branch: matchMedia returns false for min-width: 768px.
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })) as typeof window.matchMedia;
+
+    render(<HeroClient />);
+
+    expect(ioCtorSpy).toHaveBeenCalledTimes(1);
+    const section = document.getElementById("hero");
+    expect(ioObserveSpy).toHaveBeenCalledWith(section);
+
+    // Simulate an intersecting entry — one-shot handler should disconnect.
+    expect(lastIOCallback).toBeTypeOf("function");
+    lastIOCallback?.([{ isIntersecting: true }]);
+    expect(ioDisconnectSpy).toHaveBeenCalled();
   });
 });
