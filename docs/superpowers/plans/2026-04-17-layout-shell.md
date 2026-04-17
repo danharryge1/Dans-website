@@ -835,7 +835,7 @@ git commit -m "feat(layout): add Nav with scroll-aware backdrop-blur + mobile ov
 
 ---
 
-## Task 7: Wire `Nav` + `Footer` + `Container` Into Root Layout
+## Task 7: Wire `Nav` + `Footer` + `Container` Into Root Layout ✅ done (commit d342e7b)
 
 **Files:**
 - Modify: `/Users/dangeorge/The Vault/Dans Website/src/app/layout.tsx` (full rewrite)

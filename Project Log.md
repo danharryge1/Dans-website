@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: building-layout-shell
+status: verifying-layout-shell
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -24,7 +24,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 > [!todo] Active phase
 > **`subagent-driven-development`** executing the layout-shell plan.
-> Next concrete action: dispatch implementer subagent for **Task 7 — wire Nav + Footer + Container into root `layout.tsx`**.
+> Next concrete action: **Task 8 — manual browser verification across desktop/tablet/mobile + `verification-before-completion`**.
 
 ## Workflow chain
 
@@ -41,7 +41,7 @@ Mirror of the plan's checkboxes. Source of truth is still [[2026-04-17-layout-sh
 - [x] **Task 4** — Build `Container` component (TDD) (commit `a2baa20`)
 - [x] **Task 5** — Build `Footer` component (TDD) (commit `deba0e4`)
 - [x] **Task 6** — Build `Nav` component (TDD, client, scroll + mobile overlay) (commit `edd6471`)
-- [ ] **Task 7** — Wire layout.tsx + page.tsx
+- [x] **Task 7** — Wire layout.tsx + page.tsx (commit `d342e7b`)
 - [ ] **Task 8** — Manual browser verification + `verification-before-completion`
 - [ ] **Task 9** — `audit` + `polish` passes
 
