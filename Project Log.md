@@ -24,7 +24,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 > [!todo] Active phase
 > **`subagent-driven-development`** executing the layout-shell plan.
-> Next concrete action: dispatch implementer subagent for **Task 1 — install gsap / lenis / motion / three**.
+> Next concrete action: dispatch implementer subagent for **Task 2 — copy fonts to `public/fonts/`**.
 
 ## Workflow chain
 
@@ -35,7 +35,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 Mirror of the plan's checkboxes. Source of truth is still [[2026-04-17-layout-shell]] — this is a glanceable summary.
 
 - [x] **Task 0** — Vitest + RTL test infrastructure (commit `7c4ee61`)
-- [ ] **Task 1** — Install gsap / lenis / motion / three
+- [x] **Task 1** — Install gsap / lenis / motion / three (commit `0dfc71d`)
 - [ ] **Task 2** — Copy fonts to `public/fonts/`
 - [ ] **Task 3** — Rewrite `globals.css` (tokens + `@font-face` + Tailwind theme)
 - [ ] **Task 4** — Build `Container` component (TDD)
