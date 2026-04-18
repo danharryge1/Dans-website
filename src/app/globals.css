@@ -202,3 +202,22 @@ nav :is(a, button):focus-visible,
     animation: none !important;
   }
 }
+
+/* ---------- PHILOSOPHY (Phase 5) ---------- */
+/* No new design tokens — reuses --bg-darker / --text-primary / --gold-accent /
+   --font-comico / --font-marker. Block below is motion-fallback only. */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-philosophy-eyebrow],
+  [data-philosophy-block] h3,
+  [data-philosophy-block] p {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-philosophy-rule] {
+    /* Tailwind utility classes on the span set the correct final width per
+       breakpoint; this reset wipes any lingering inline width:0 that GSAP may
+       have set before reduced-motion kicked in at run time. */
+    width: revert !important;
+  }
+}
