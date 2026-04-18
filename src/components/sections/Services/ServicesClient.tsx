@@ -20,14 +20,13 @@ export function ServicesClient() {
     ).matches;
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
-    if (prefersReducedMotion) {
-      // snap-to-lit — cards already render lit via default token; nothing to do.
-      return;
-    }
+    // IO hoisted OUTSIDE gsap.context — raw DOM observers aren't tracked by ctx.revert().
+    let io: IntersectionObserver | null = null;
 
-    if (!isDesktop) {
-      // mobile path lands in Task 6
-      return;
+    if (prefersReducedMotion) {
+      return () => {
+        // nothing to tear down
+      };
     }
 
     const cards = Array.from(
@@ -38,76 +37,188 @@ export function ServicesClient() {
     );
 
     const ctx = gsap.context(() => {
+      // reset each card to dim before animating in
       cards.forEach((card) => {
         gsap.set(card, { "--sweep-x": 0 } as CSSVarTweenVars);
       });
 
-      if (heading) {
-        gsap.set(heading, {
-          y: 16,
-          opacity: 0,
-          letterSpacing: "0.08em",
+      if (isDesktop) {
+        // header reveal
+        if (heading) {
+          gsap.set(heading, {
+            y: 16,
+            opacity: 0,
+            letterSpacing: "0.08em",
+          });
+          ScrollTrigger.create({
+            trigger: heading,
+            start: "top 75%",
+            once: true,
+            onEnter: () => {
+              gsap.to(heading, {
+                y: 0,
+                opacity: 1,
+                letterSpacing: "0.05em",
+                duration: 0.6,
+                ease: "power2.out",
+              });
+            },
+          });
+        }
+
+        // per-card scroll-linked sweep
+        cards.forEach((card) => {
+          const arcPath = card.querySelector<SVGPathElement>(
+            "[data-services-arc-path]",
+          );
+          const arcDot = card.querySelector<SVGCircleElement>(
+            "[data-services-arc-dot]",
+          );
+          let arcDrawn = false;
+
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top 80%",
+            end: "top 30%",
+            scrub: 0.6,
+            onUpdate: (self) => {
+              gsap.set(card, {
+                "--sweep-x": self.progress,
+              } as CSSVarTweenVars);
+
+              if (!arcDrawn && self.progress >= 0.6) {
+                arcDrawn = true;
+                if (arcPath) {
+                  gsap.to(arcPath, {
+                    strokeDashoffset: 0,
+                    duration: 0.6,
+                    ease: "power2.out",
+                  });
+                }
+                if (arcDot) {
+                  gsap.to(arcDot, {
+                    opacity: 1,
+                    duration: 0.2,
+                    delay: 0.4,
+                    ease: "power2.out",
+                  });
+                }
+              }
+            },
+          });
         });
-        ScrollTrigger.create({
-          trigger: heading,
-          start: "top 75%",
-          once: true,
-          onEnter: () => {
-            gsap.to(heading, {
-              y: 0,
-              opacity: 1,
-              letterSpacing: "0.05em",
-              duration: 0.6,
-              ease: "power2.out",
-            });
-          },
+      } else {
+        // mobile one-shot — scale + opacity initial state; fired by IO below
+        if (heading) {
+          gsap.set(heading, { y: 12, opacity: 0 });
+        }
+        cards.forEach((card) => {
+          gsap.set(card, { opacity: 0, scale: 0.98 });
         });
       }
+    }, section);
 
-      cards.forEach((card) => {
-        const arcPath = card.querySelector<SVGPathElement>(
-          "[data-services-arc-path]",
-        );
-        const arcDot = card.querySelector<SVGCircleElement>(
-          "[data-services-arc-dot]",
-        );
-        let arcDrawn = false;
+    if (!isDesktop) {
+      io = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries;
+          if (!entry?.isIntersecting) return;
 
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top 80%",
-          end: "top 30%",
-          scrub: 0.6,
-          onUpdate: (self) => {
-            gsap.set(card, {
-              "--sweep-x": self.progress,
-            } as CSSVarTweenVars);
+          const tl = gsap.timeline();
 
-            if (!arcDrawn && self.progress >= 0.6) {
-              arcDrawn = true;
-              if (arcPath) {
-                gsap.to(arcPath, {
+          if (heading) {
+            tl.to(heading, {
+              y: 0,
+              opacity: 1,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+
+          cards.forEach((card, i) => {
+            const arcPath = card.querySelector<SVGPathElement>(
+              "[data-services-arc-path]",
+            );
+            const arcDot = card.querySelector<SVGCircleElement>(
+              "[data-services-arc-dot]",
+            );
+
+            const cardStart = 0.2 + i * 0.2; // 200ms stagger
+
+            tl.to(
+              card,
+              {
+                opacity: 1,
+                scale: 1,
+                duration: 0.7,
+                ease: "power2.out",
+              },
+              cardStart,
+            );
+
+            tl.to(
+              card,
+              {
+                "--sweep-x": 1,
+                duration: 0.9,
+                ease: "power2.out",
+              } as CSSVarTweenVars,
+              cardStart,
+            );
+
+            if (arcPath) {
+              tl.to(
+                arcPath,
+                {
                   strokeDashoffset: 0,
                   duration: 0.6,
                   ease: "power2.out",
-                });
-              }
-              if (arcDot) {
-                gsap.to(arcDot, {
+                },
+                cardStart + 0.54,
+              );
+            }
+            if (arcDot) {
+              tl.to(
+                arcDot,
+                {
                   opacity: 1,
                   duration: 0.2,
-                  delay: 0.4,
                   ease: "power2.out",
+                },
+                cardStart + 0.9,
+              );
+            }
+          });
+
+          // post-reveal arc float
+          tl.add(() => {
+            cards.forEach((card) => {
+              const arcSvg = card.querySelector<SVGElement>(
+                "[data-services-arc-float]",
+              );
+              if (arcSvg) {
+                gsap.to(arcSvg, {
+                  y: -1,
+                  duration: 2,
+                  ease: "sine.inOut",
+                  yoyo: true,
+                  repeat: -1,
                 });
               }
-            }
-          },
-        });
-      });
-    }, section);
+            });
+          });
+
+          // one-shot
+          io?.disconnect();
+        },
+        { threshold: 0.25 },
+      );
+      io.observe(section);
+    }
 
     return () => {
       ctx.revert();
+      if (io) io.disconnect();
     };
   }, []);
 

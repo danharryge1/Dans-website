@@ -9,10 +9,20 @@ const gsapSetSpy = vi.fn();
 const gsapToSpy = vi.fn();
 
 vi.mock("gsap", () => {
+  const makeTimeline = () => {
+    const tl: any = {};
+    tl.to = (...args: any[]) => {
+      gsapToSpy(...args);
+      return tl;
+    };
+    tl.add = () => tl;
+    return tl;
+  };
   const gsap = {
     registerPlugin: vi.fn(),
     set: gsapSetSpy,
     to: gsapToSpy,
+    timeline: vi.fn(() => makeTimeline()),
     context: (fn: () => void) => {
       fn();
       return { revert: gsapContextRevert };
@@ -114,5 +124,93 @@ describe("<ServicesClient /> — desktop branch", () => {
     );
     unmount();
     expect(gsapContextRevert).toHaveBeenCalled();
+  });
+});
+
+const observeSpy = vi.fn();
+const disconnectSpy = vi.fn();
+
+describe("<ServicesClient /> — mobile branch", () => {
+  let ioCallback: IntersectionObserverCallback | null = null;
+
+  beforeEach(() => {
+    scrollTriggerCreate.mockReset();
+    gsapContextRevert.mockReset();
+    gsapSetSpy.mockReset();
+    gsapToSpy.mockReset();
+    observeSpy.mockReset();
+    disconnectSpy.mockReset();
+    ioCallback = null;
+
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: !query.includes("min-width") && !query.includes("reduced"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }));
+
+    vi.stubGlobal(
+      "IntersectionObserver",
+      vi.fn(function (
+        this: IntersectionObserver,
+        cb: IntersectionObserverCallback,
+      ) {
+        ioCallback = cb;
+        this.observe = observeSpy;
+        this.disconnect = disconnectSpy;
+        this.unobserve = vi.fn();
+        this.takeRecords = vi.fn(() => []);
+        return this;
+      }),
+    );
+  });
+
+  afterEach(() => {
+    cleanup();
+    vi.unstubAllGlobals();
+  });
+
+  it("observes the services section on mount (mobile)", async () => {
+    const mod = await import("./ServicesClient");
+    render(
+      <>
+        <Harness />
+        <mod.ServicesClient />
+      </>,
+    );
+    expect(observeSpy).toHaveBeenCalledTimes(1);
+    expect(scrollTriggerCreate).not.toHaveBeenCalled();
+  });
+
+  it("disconnects the observer on unmount (leak guard)", async () => {
+    const mod = await import("./ServicesClient");
+    const { unmount } = render(
+      <>
+        <Harness />
+        <mod.ServicesClient />
+      </>,
+    );
+    unmount();
+    expect(disconnectSpy).toHaveBeenCalled();
+  });
+
+  it("fires the one-shot timeline when the section intersects", async () => {
+    const mod = await import("./ServicesClient");
+    render(
+      <>
+        <Harness />
+        <mod.ServicesClient />
+      </>,
+    );
+    // simulate intersection
+    const entry = {
+      isIntersecting: true,
+      intersectionRatio: 0.5,
+    } as IntersectionObserverEntry;
+    ioCallback!([entry], {} as IntersectionObserver);
+    expect(gsapToSpy).toHaveBeenCalled();
+    // should disconnect after firing (one-shot)
+    expect(disconnectSpy).toHaveBeenCalled();
   });
 });
