@@ -18,19 +18,20 @@ describe("<ServiceCard />", () => {
   });
 
   it("tags the root as an article with list-item role and data hooks", () => {
-    const { container } = render(<ServiceCard entry={entry} index={0} />);
+    const { container } = render(<ServiceCard entry={entry} index={2} />);
     const root = container.querySelector("article") as HTMLElement;
     expect(root.getAttribute("role")).toBe("listitem");
     expect(root.getAttribute("data-services-card")).toBe("");
     expect(root.getAttribute("data-card-id")).toBe("ui-ux");
+    expect(root.getAttribute("data-card-index")).toBe("2");
   });
 
-  it("renders an aria-hidden arc SVG with a quarter-circle path and dot", () => {
+  it("renders an aria-hidden arc SVG with quarter-circle path + dot carrying GSAP hooks", () => {
     const { container } = render(<ServiceCard entry={entry} index={0} />);
     const svg = container.querySelector("svg[aria-hidden='true']") as SVGElement;
     expect(svg).toBeTruthy();
-    expect(svg.querySelector("path")).toBeTruthy();
-    expect(svg.querySelector("circle")).toBeTruthy();
+    expect(svg.querySelector("[data-services-arc-path]")).toBeTruthy();
+    expect(svg.querySelector("[data-services-arc-dot]")).toBeTruthy();
   });
 
   it("renders an aria-hidden sweep element", () => {

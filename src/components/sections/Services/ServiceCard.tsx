@@ -1,3 +1,4 @@
+import type React from "react";
 import type { ServiceEntry } from "./services.data";
 
 type Props = {
@@ -7,12 +8,13 @@ type Props = {
 
 export function ServiceCard({ entry, index }: Props) {
   return (
+    // parent must carry role="list" (see Services.tsx) for the listitem role to be valid ARIA
     <article
       role="listitem"
       data-services-card=""
       data-card-id={entry.id}
       data-card-index={index}
-      className="group relative overflow-hidden rounded-[12px] border p-0"
+      className="group relative overflow-hidden rounded-[12px] border"
       style={
         {
           background: "var(--services-card-bg)",
