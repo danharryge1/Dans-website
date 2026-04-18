@@ -20,15 +20,10 @@ export function SelectedWorks() {
 
         <div
           data-works-row
-          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 md:gap-6 md:overflow-x-auto"
-          style={{ scrollSnapType: "x mandatory" }}
+          className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 md:gap-6"
         >
           {PROJECTS.map((entry) => (
-            <div
-              key={entry.id}
-              className="snap-start"
-              style={{ scrollSnapAlign: "start" }}
-            >
+            <div key={entry.id} className="snap-start">
               <WorkCard
                 entry={{
                   id: entry.id,
@@ -41,7 +36,7 @@ export function SelectedWorks() {
               />
             </div>
           ))}
-          <div className="snap-start" style={{ scrollSnapAlign: "start" }}>
+          <div className="snap-start">
             <WorkCard placeholder />
           </div>
         </div>
