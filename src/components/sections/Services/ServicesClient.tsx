@@ -22,6 +22,7 @@ export function ServicesClient() {
 
     // IO hoisted OUTSIDE gsap.context — raw DOM observers aren't tracked by ctx.revert().
     let io: IntersectionObserver | null = null;
+    const floatTweens: gsap.core.Tween[] = [];
 
     if (prefersReducedMotion) {
       return () => {
@@ -197,13 +198,15 @@ export function ServicesClient() {
                 "[data-services-arc-float]",
               );
               if (arcSvg) {
-                gsap.to(arcSvg, {
-                  y: -1,
-                  duration: 2,
-                  ease: "sine.inOut",
-                  yoyo: true,
-                  repeat: -1,
-                });
+                floatTweens.push(
+                  gsap.to(arcSvg, {
+                    y: -1,
+                    duration: 2,
+                    ease: "sine.inOut",
+                    yoyo: true,
+                    repeat: -1,
+                  }),
+                );
               }
             });
           });
@@ -219,6 +222,7 @@ export function ServicesClient() {
     return () => {
       ctx.revert();
       if (io) io.disconnect();
+      floatTweens.forEach((t) => t.kill());
     };
   }, []);
 

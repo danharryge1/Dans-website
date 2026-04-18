@@ -6,7 +6,9 @@ const scrollTriggerCreate = vi.fn();
 const scrollTriggerKill = vi.fn();
 const gsapContextRevert = vi.fn();
 const gsapSetSpy = vi.fn();
-const gsapToSpy = vi.fn();
+const gsapToSpy = vi.fn<(...args: any[]) => { kill: () => void }>(() => ({
+  kill: vi.fn(),
+}));
 
 vi.mock("gsap", () => {
   const makeTimeline = () => {
@@ -15,7 +17,10 @@ vi.mock("gsap", () => {
       gsapToSpy(...args);
       return tl;
     };
-    tl.add = () => tl;
+    tl.add = (fn?: () => void) => {
+      if (typeof fn === "function") fn();
+      return tl;
+    };
     return tl;
   };
   const gsap = {
@@ -49,13 +54,13 @@ function Harness() {
       </h2>
       <div data-services-grid>
         <article data-services-card data-card-id="ui-ux" data-card-index="0">
-          <svg><path data-services-arc-path /><circle data-services-arc-dot /></svg>
+          <svg data-services-arc-float><path data-services-arc-path /><circle data-services-arc-dot /></svg>
         </article>
         <article data-services-card data-card-id="custom-dev" data-card-index="1">
-          <svg><path data-services-arc-path /><circle data-services-arc-dot /></svg>
+          <svg data-services-arc-float><path data-services-arc-path /><circle data-services-arc-dot /></svg>
         </article>
         <article data-services-card data-card-id="brand" data-card-index="2">
-          <svg><path data-services-arc-path /><circle data-services-arc-dot /></svg>
+          <svg data-services-arc-float><path data-services-arc-path /><circle data-services-arc-dot /></svg>
         </article>
       </div>
     </section>
@@ -69,6 +74,7 @@ describe("<ServicesClient /> — desktop branch", () => {
     gsapContextRevert.mockReset();
     gsapSetSpy.mockReset();
     gsapToSpy.mockReset();
+    gsapToSpy.mockImplementation(() => ({ kill: vi.fn() }));
 
     vi.stubGlobal("matchMedia", (query: string) => ({
       matches: query.includes("min-width"), // desktop=true, reduced-motion=false
@@ -138,6 +144,7 @@ describe("<ServicesClient /> — mobile branch", () => {
     gsapContextRevert.mockReset();
     gsapSetSpy.mockReset();
     gsapToSpy.mockReset();
+    gsapToSpy.mockImplementation(() => ({ kill: vi.fn() }));
     observeSpy.mockReset();
     disconnectSpy.mockReset();
     ioCallback = null;
@@ -212,5 +219,10 @@ describe("<ServicesClient /> — mobile branch", () => {
     expect(gsapToSpy).toHaveBeenCalled();
     // should disconnect after firing (one-shot)
     expect(disconnectSpy).toHaveBeenCalled();
+    // arc-float tweens are scheduled (repeat: -1 marker)
+    expect(gsapToSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({ repeat: -1 }),
+    );
   });
 });
