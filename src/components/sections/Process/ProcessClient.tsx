@@ -39,6 +39,8 @@ export function ProcessClient() {
 
     const positionThread = () => {
       if (!threadContainer || !threadLine || blocks.length === 0) return;
+      const offsetParent = threadContainer.offsetParent as HTMLElement | null;
+      if (!offsetParent) return;
 
       const numerals = blocks
         .map((b) => b.querySelector<HTMLElement>("[data-process-numeral]"))
@@ -46,10 +48,10 @@ export function ProcessClient() {
 
       if (numerals.length === 0) return;
 
-      const sectionRect = section.getBoundingClientRect();
+      const parentRect = offsetParent.getBoundingClientRect();
       const yCenters = numerals.map((n) => {
         const r = n.getBoundingClientRect();
-        return r.top + r.height / 2 - sectionRect.top;
+        return r.top + r.height / 2 - parentRect.top;
       });
 
       const firstY = yCenters[0];
