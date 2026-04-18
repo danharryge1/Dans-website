@@ -170,3 +170,35 @@ nav :is(a, button):focus-visible,
   [data-services-card]      { --sweep-x: 1 !important; }
   [data-services-arc-float] { animation: none !important; }
 }
+
+/* ---------- CASE STUDY TOKENS (Phase 4) ---------- */
+:root {
+  /* FeaturedCase pin runway (documented, used in JS via 500vh string) */
+  --case-pin-height: 500vh;
+
+  /* scroll-driven beat progress channel (0 → 1, driven by timeline onUpdate — reserved) */
+  --case-beat-progress: 0;
+
+  /* video desaturation — overlay copy reads cleaner over slightly muted video */
+  --case-video-desat: 0.8;
+
+  /* SelectedWorks */
+  --ledger-card-border-hover: color-mix(in oklch, var(--gold-accent) 30%, transparent);
+}
+
+/* ---------- CASE STUDY KEYFRAMES ---------- */
+@keyframes case-arrow-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(2px); }
+}
+
+/* ---------- REDUCED MOTION (CASE STUDY) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-case-beat] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-case-arrow-float] {
+    animation: none !important;
+  }
+}
