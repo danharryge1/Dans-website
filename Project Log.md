@@ -22,6 +22,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
+> [!info] Services section in progress — 2026-04-18
+> Tasks 0–3 complete. Next: Task 4 (wire Services into page.tsx + flip --sweep-x default to lit).
+
 > [!success] Hero section complete — 2026-04-18
 > All 13 tasks shipped. Prod Lighthouse: Perf 97 / A11y 100 / BP 100. Seam runway pinned at `+=100%`, reduced-motion parity fixed (sparkles + side-labels now resolve), img intrinsic dims set. Next phase: **Services section** (design.md §2.3) — kicks off with `/brainstorming` for the Services spec.
 
@@ -34,6 +37,21 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 ## Workflow chain
 
 `brainstorming → writing-plans → subagent-driven-development → TDD build (taste-skill · impeccable · typeset · layout · stitch-skill) → verification-before-completion → audit → polish`.
+
+## Task progress — Services Section
+
+Mirror of the plan's checkboxes. Source of truth is still [2026-04-18-services-section](docs/superpowers/plans/2026-04-18-services-section.md).
+
+- [x] **Task 0** — Services design tokens + arc-float keyframes + reduced-motion guards in `globals.css` (commit `0cd9893`)
+- [x] **Task 1** — Build `services.data.ts` — three service entries (commit `0cd9893`)
+- [x] **Task 2** — Build `ServiceCard` (TDD) — arc flourish + sweep overlay + label (commit `0cd9893`)
+- [x] **Task 3** — Build `Services` server component + heading + 3-card grid (TDD, 4/4 tests) (commit `124b386`)
+- [ ] **Task 4** — Wire `<Services />` into `page.tsx` + flip `--sweep-x` default to lit
+- [ ] **Task 5** — Desktop scroll-linked reveal in `ServicesClient` (TDD)
+- [ ] **Task 6** — Mobile one-shot reveal branch (TDD)
+- [ ] **Task 7** — 3D hover tilt via Motion (TDD)
+- [ ] **Task 8** — Browser verification via playwright-cli
+- [ ] **Task 9** — `audit` + `polish` passes
 
 ## Task progress — Hero Section
 

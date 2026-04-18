@@ -346,7 +346,7 @@ git push origin main
 
 **Purpose:** Section shell + "TAILORED DIGITAL SOLUTIONS" heading + 3-card grid. Imports and maps `SERVICES`. Includes `<ServicesClient />` stub for now — the motion lifecycle goes in later tasks. Server Component. No `'use client'`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `src/components/sections/Services/Services.test.tsx`:
 
@@ -393,13 +393,13 @@ describe("<Services />", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- Services.test`
 
 Expected: FAIL — module `./Services` not found.
 
-- [ ] **Step 3: Create stub `ServicesClient.tsx`**
+- [x] **Step 3: Create stub `ServicesClient.tsx`**
 
 Stub it so Services.tsx can import it. Real lifecycle goes in Task 4.
 
@@ -413,7 +413,7 @@ export function ServicesClient() {
 }
 ```
 
-- [ ] **Step 4: Implement `Services.tsx`**
+- [x] **Step 4: Implement `Services.tsx`**
 
 ```tsx
 import { SERVICES } from "./services.data";
@@ -467,31 +467,25 @@ export function Services() {
 }
 ```
 
-- [ ] **Step 5: Create barrel `index.ts`**
+- [x] **Step 5: Create barrel `index.ts`**
 
 ```ts
 export { Services } from "./Services";
 ```
 
-- [ ] **Step 6: Run to confirm pass**
+- [x] **Step 6: Run to confirm pass**
 
 Run: `npm test -- Services.test`
 
 Expected: `4 passed`.
 
-- [ ] **Step 7: Type check**
+- [x] **Step 7: Type check**
 
 Run: `npx tsc --noEmit`
 
 Expected: no errors.
 
-- [ ] **Step 8: Commit**
-
-```bash
-git add src/components/sections/Services/Services.tsx src/components/sections/Services/Services.test.tsx src/components/sections/Services/ServicesClient.tsx src/components/sections/Services/index.ts
-git commit -m "feat(services): add Services server component + heading + 3-card grid"
-git push origin main
-```
+- [x] **Step 8: Commit** — `124b386`
 
 ---
 
