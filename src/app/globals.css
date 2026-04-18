@@ -149,7 +149,7 @@ nav :is(a, button):focus-visible,
   /* card surface */
   --services-card-bg: rgba(245, 245, 240, 0.02);
   --services-card-border: rgba(245, 245, 240, 0.08);
-  --services-card-border-hover: rgba(200, 165, 92, 0.3);
+  --services-card-border-hover: color-mix(in oklch, var(--gold-accent) 30%, transparent);
 
   /* scroll-driven sweep channel (0 → 1 across each card) */
   --sweep-x: 0;
