@@ -68,7 +68,10 @@ async function runReducedMotion(browser) {
   await context.close();
 }
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  args: ["--autoplay-policy=no-user-gesture-required"],
+});
 for (const vp of viewports) {
   await runViewport(browser, vp);
 }
