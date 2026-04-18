@@ -1550,7 +1550,7 @@ The script boots `next start` via `npm run build && npm run start`, navigates to
 
 Plus: reduced-motion variant at desktop width — confirm snap state.
 
-- [ ] **Step 1: Build prod bundle**
+- [x] **Step 1: Build prod bundle**
 
 ```bash
 npm run build
@@ -1558,7 +1558,7 @@ npm run build
 
 Expected: build succeeds, no warnings relevant to Services.
 
-- [ ] **Step 2: Start prod server (background)**
+- [x] **Step 2: Start prod server (background)**
 
 ```bash
 npm run start &
@@ -1566,7 +1566,7 @@ npm run start &
 
 Wait ~2s for boot. Verify: `curl -s http://localhost:3000 | grep services-heading` returns a non-empty match.
 
-- [ ] **Step 3: Create `scripts/verify-services.mjs`**
+- [x] **Step 3: Create `scripts/verify-services.mjs`**
 
 ```js
 import { chromium, devices } from "playwright";
@@ -1655,7 +1655,7 @@ await browser.close();
 console.log("Verification complete.");
 ```
 
-- [ ] **Step 4: Run the verification script**
+- [x] **Step 4: Run the verification script**
 
 ```bash
 node scripts/verify-services.mjs
@@ -1663,13 +1663,13 @@ node scripts/verify-services.mjs
 
 Expected: 10 screenshots saved under `docs/verification/2026-04-18-services/`.
 
-- [ ] **Step 5: Stop the prod server**
+- [x] **Step 5: Stop the prod server**
 
 ```bash
 pkill -f "next start"
 ```
 
-- [ ] **Step 6: Manually review screenshots**
+- [x] **Step 6: Manually review screenshots**
 
 Open each PNG. Verify, for each viewport:
 
@@ -1680,7 +1680,7 @@ Open each PNG. Verify, for each viewport:
 
 If any screenshot shows a regression (blank card, arc missing, caption unreadable), stop and fix before continuing.
 
-- [ ] **Step 7: Write `NOTES.md`**
+- [x] **Step 7: Write `NOTES.md`**
 
 Create `docs/verification/2026-04-18-services/NOTES.md`:
 
@@ -1711,7 +1711,7 @@ Captured via `scripts/verify-services.mjs` against prod build (`next build && ne
 
 Fill in the Results section honestly as you review screenshots.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add scripts/verify-services.mjs docs/verification/2026-04-18-services/
@@ -1728,7 +1728,7 @@ git push origin main
 
 **Purpose:** One final accessibility + taste pass before declaring the section done. Audit covers a11y (tab order, focus, contrast, aria labels, reduced motion parity). Polish covers micro-details (spacing, typography, border weights, easings).
 
-- [ ] **Step 1: Audit pass — a11y checklist**
+- [x] **Step 1: Audit pass — a11y checklist**
 
 Walk through each:
 
@@ -1743,7 +1743,7 @@ Walk through each:
 
 Fix any finding inline. Commit each fix separately if non-trivial.
 
-- [ ] **Step 2: Polish pass — taste checklist**
+- [x] **Step 2: Polish pass — taste checklist**
 
 Walk through each:
 
@@ -1759,7 +1759,7 @@ Walk through each:
 
 Fix anything that bugs you. Re-capture screenshots if something substantial changed.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification**
 
 ```bash
 npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
@@ -1767,11 +1767,11 @@ npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all green.
 
-- [ ] **Step 4: Take final polished screenshots**
+- [x] **Step 4: Take final polished screenshots**
 
 Re-run `node scripts/verify-services.mjs`. Copy any changed screenshots over the originals in `docs/verification/2026-04-18-services/`. Update NOTES.md with "Polished: YES" + final observations.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -1779,7 +1779,7 @@ git commit -m "polish(services): audit + polish pass — [brief list of changes]
 git push origin main
 ```
 
-- [ ] **Step 6: Update Project Log.md**
+- [x] **Step 6: Update Project Log.md**
 
 Open `/Users/dangeorge/The Vault/Dans Website/Project Log.md`. Under the "Task progress — Services Section" section (add if not present), check off all tasks 0–9 with their commit SHAs. Update the `status:` frontmatter to `services-complete`. Update the "Current status" callout. Commit:
 

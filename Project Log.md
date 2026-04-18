@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: hero-complete
+status: services-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -22,8 +22,8 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
-> [!info] Services section in progress — 2026-04-18
-> Tasks 0–7 complete. ServiceCard is now a Motion-backed client component with spring-damped ±3° hover tilt, gated off on coarse pointer or reduced-motion via `useSyncExternalStore`. 63/63 tests green. Next: Task 8 (browser verification via playwright-cli).
+> [!success] Services section complete — 2026-04-18
+> All 10 tasks (0–9) shipped. Three-card "Tailored Digital Solutions" grid with desktop per-card scroll-scrubbed gold sheen sweep + quarter-arc draw-in, mobile one-shot staggered reveal, Motion-backed ±3° hover tilt (pointer-fine + motion-OK only), and reduced-motion snap state. Audit pass confirms WCAG AAA contrast (body 9.3:1, heading 14.89:1), clean landmarks, no keyboard traps. 63/63 tests · tsc · lint · prod build all green. Next phase: TBD pending PRD review.
 
 > [!success] Hero section complete — 2026-04-18
 > All 13 tasks shipped. Prod Lighthouse: Perf 97 / A11y 100 / BP 100. Seam runway pinned at `+=100%`, reduced-motion parity fixed (sparkles + side-labels now resolve), img intrinsic dims set. Next phase: **Services section** (design.md §2.3) — kicks off with `/brainstorming` for the Services spec.
@@ -50,8 +50,8 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-18-services-s
 - [x] **Task 5** — Desktop scroll-linked reveal in `ServicesClient` (TDD, 3/3 ServicesClient tests, 58/58 total) (commits `b2f1b6e` + `5d36e5d` — dropped unused scopeRef + dead sr-only div)
 - [x] **Task 6** — Mobile one-shot reveal branch (TDD, 6/6 ServicesClient tests, 61/61 total) (commits `d19e641` + `b165bcb` — killed infinite arc-float tween leak; tightened `repeat:-1` coverage)
 - [x] **Task 7** — 3D hover tilt via Motion (TDD, 7/7 ServiceCard tests, 63/63 total) (commit `6bce332` — used `useSyncExternalStore` for matchMedia gate; spring 200/20/0.5; gated off on pointer-coarse + prefers-reduced-motion)
-- [ ] **Task 8** — Browser verification via playwright-cli
-- [ ] **Task 9** — `audit` + `polish` passes
+- [x] **Task 8** — Browser verification via playwright-cli — 10 screenshots (desktop/tablet/mobile × 3 scroll positions + reduced-motion) + NOTES.md at `docs/verification/2026-04-18-services/` (commit `ffbfb95`)
+- [x] **Task 9** — `audit` + `polish` passes (commits `512dabc` polish-pass notes · `<pending>` phase transition). No code fixes required — WCAG AAA contrast (body 9.3:1), clean landmarks, Task 8 "orphan" note retracted (tablet third card correctly spans via `md:col-span-2`). Tests/tsc/lint/build all green.
 
 ## Task progress — Hero Section
 
