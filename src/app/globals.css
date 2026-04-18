@@ -221,3 +221,27 @@ nav :is(a, button):focus-visible,
     width: revert !important;
   }
 }
+
+/* ---------- PROCESS (Phase 6) ---------- */
+/* No new design tokens — reuses --bg-primary / --text-primary / --gold-accent /
+   --font-comico / --font-marker. Block below is motion-fallback only. */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-process-thread] {
+    transform: scaleY(1) !important;
+  }
+  [data-process-dot] {
+    transform: translate(-50%, -50%) scale(1) !important;
+    opacity: 1 !important;
+  }
+  [data-process-block] h3,
+  [data-process-block] p,
+  [data-process-block] [data-process-numeral] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-process-eyebrow] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
