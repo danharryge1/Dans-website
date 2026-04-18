@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ServiceCard } from "./ServiceCard";
 
 describe("<ServiceCard />", () => {
@@ -45,5 +45,62 @@ describe("<ServiceCard />", () => {
     const { container } = render(<ServiceCard entry={entry} index={0} />);
     const h3 = container.querySelector("h3");
     expect(h3?.textContent).toBe("UI / UX DESIGN");
+  });
+});
+
+describe("<ServiceCard /> — hover tilt", () => {
+  const entry = {
+    id: "ui-ux" as const,
+    title: "UI / UX DESIGN",
+    body: "Design that behaves. Every click predictable, every edge considered.",
+  };
+
+  beforeEach(() => {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: !query.includes("coarse") && !query.includes("reduced"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("renders without crashing on pointer-fine devices (tilt hook wired)", () => {
+    const { container } = render(<ServiceCard entry={entry} index={0} />);
+    const root = container.querySelector("article") as HTMLElement;
+    expect(root).toBeTruthy();
+    // Dispatching a pointermove should not throw — listener must be safely attached.
+    expect(() => {
+      root.dispatchEvent(new Event("pointermove"));
+      root.dispatchEvent(new Event("pointerleave"));
+    }).not.toThrow();
+  });
+
+  it("does not apply tilt transform on pointer-coarse (touch) devices", () => {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: query.includes("coarse"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+    const { container } = render(<ServiceCard entry={entry} index={0} />);
+    const root = container.querySelector("article") as HTMLElement;
+    expect(root).toBeTruthy();
+    // On coarse pointers, the component should not apply any tilt rotation.
+    // Motion may emit `transform: none` as the baseline — that's acceptable;
+    // what matters is there is no rotateX / rotateY in the transform string.
+    const transform = root.style.transform || "";
+    expect(transform).not.toMatch(/rotateX|rotateY/);
   });
 });

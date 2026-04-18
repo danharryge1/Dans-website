@@ -1,4 +1,8 @@
+"use client";
+
+import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import type React from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { ServiceEntry } from "./services.data";
 
 type Props = {
@@ -7,23 +11,101 @@ type Props = {
   className?: string;
 };
 
+const TILT_MAX = 3;
+
+// useSyncExternalStore-backed gate: tilt is enabled only when the user has a
+// fine pointer AND has not requested reduced motion. Computed client-side
+// (server snapshot is always `false`) so SSR is stable.
+function subscribeMedia(callback: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const coarse = window.matchMedia("(pointer: coarse)");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  coarse.addEventListener("change", callback);
+  reduced.addEventListener("change", callback);
+  return () => {
+    coarse.removeEventListener("change", callback);
+    reduced.removeEventListener("change", callback);
+  };
+}
+
+function getTiltEnabledSnapshot(): boolean {
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return !coarse && !reduced;
+}
+
+function getTiltEnabledServerSnapshot(): boolean {
+  return false;
+}
+
 export function ServiceCard({ entry, index, className }: Props) {
+  const ref = useRef<HTMLElement | null>(null);
+  const tiltEnabled = useSyncExternalStore(
+    subscribeMedia,
+    getTiltEnabledSnapshot,
+    getTiltEnabledServerSnapshot,
+  );
+
+  const mvX = useMotionValue(0);
+  const mvY = useMotionValue(0);
+
+  const springConfig = { stiffness: 200, damping: 20, mass: 0.5 };
+  const smoothX = useSpring(mvX, springConfig);
+  const smoothY = useSpring(mvY, springConfig);
+
+  const rotateY = useTransform(smoothX, [-1, 1], [-TILT_MAX, TILT_MAX]);
+  const rotateX = useTransform(smoothY, [-1, 1], [TILT_MAX, -TILT_MAX]);
+
+  useEffect(() => {
+    if (!tiltEnabled) return;
+    const el = ref.current;
+    if (!el) return;
+
+    const handleMove = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      mvX.set(x * 2 - 1);
+      mvY.set(y * 2 - 1);
+    };
+    const handleLeave = () => {
+      mvX.set(0);
+      mvY.set(0);
+    };
+
+    el.addEventListener("pointermove", handleMove);
+    el.addEventListener("pointerleave", handleLeave);
+    return () => {
+      el.removeEventListener("pointermove", handleMove);
+      el.removeEventListener("pointerleave", handleLeave);
+    };
+  }, [tiltEnabled, mvX, mvY]);
+
   return (
-    // parent must carry role="list" (see Services.tsx) for the listitem role to be valid ARIA
-    <article
+    <motion.article
+      ref={ref}
       role="listitem"
       data-services-card=""
       data-card-id={entry.id}
       data-card-index={index}
-      className={["group relative overflow-hidden rounded-[12px] border", className].filter(Boolean).join(" ")}
-      style={
-        {
-          background: "var(--services-card-bg)",
-          borderColor: "var(--services-card-border)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-        } as React.CSSProperties
-      }
+      className={[
+        "group relative overflow-hidden rounded-[12px] border transition-[border-color,transform] duration-200 ease-out hover:-translate-y-[2px]",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{
+        background: "var(--services-card-bg)",
+        borderColor: "var(--services-card-border)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        rotateX: tiltEnabled ? rotateX : 0,
+        rotateY: tiltEnabled ? rotateY : 0,
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={{
+        borderColor: "var(--services-card-border-hover)",
+      }}
     >
       {/* card-image panel — holds arc, sweep, label */}
       <div
@@ -103,6 +185,6 @@ export function ServiceCard({ entry, index, className }: Props) {
           </p>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
