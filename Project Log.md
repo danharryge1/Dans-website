@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: case-study-task-9-complete
+status: case-study-task-10-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -22,8 +22,8 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
-> [!info] Active phase: Case Study (FeaturedCase) — Task 10 next
-> Task 9 complete (329eefc): `<FeaturedCase />` mounted between Services and SelectedWorks. 90/90 tests · tsc · lint · prod build all green. Next: Task 10 — browser verification via playwright-cli (22 screenshots across 3 viewports + reduced-motion variant, saved to `docs/verification/2026-04-18-case-study/`).
+> [!info] Active phase: Case Study (FeaturedCase) — Task 11 next
+> Task 10 complete (2184eb6): 22 Playwright screenshots across 3 viewports (desktop/tablet/mobile) × 7 scroll positions + 1 reduced-motion variant at `docs/verification/2026-04-18-case-study/`. Key findings: GSAP ScrollTrigger does not advance in headless Playwright (instant scrollTo doesn't fire scroll events), so early-beat frames show blank panels — content is confirmed present via reduced-motion capture. Two genuine concerns for Task 11: (1) white-box overlap artifact at `desktop-07-selected` (element bleeding outside case study container after pin releases); (2) Act 1 left-panel overlay copy invisible at desktop (z-index or opacity initial-state issue). Reduced-motion desktop capture is clean — stacked beats, no pin artifacts, full asset rendering. Next: Task 11 — audit + polish pass.
 
 > [!success] Services section complete — 2026-04-18
 > All 10 tasks (0–9) shipped. Three-card "Tailored Digital Solutions" grid with desktop per-card scroll-scrubbed gold sheen sweep + quarter-arc draw-in, mobile one-shot staggered reveal, Motion-backed ±3° hover tilt (pointer-fine + motion-OK only), and reduced-motion snap state. Audit pass confirms WCAG AAA contrast (body 9.3:1, heading 14.89:1), clean landmarks, no keyboard traps. 63/63 tests · tsc · lint · prod build all green. Next phase: TBD pending PRD review.

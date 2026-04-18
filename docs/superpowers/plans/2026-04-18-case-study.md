@@ -2047,7 +2047,7 @@ git push origin main
 
 ---
 
-## Task 10: Browser verification via playwright-cli
+## Task 10: Browser verification via playwright-cli ✅ 2184eb6
 
 **Files:**
 - Create: `/Users/dangeorge/The Vault/Dans Website/scripts/verify-case-study.mjs`
@@ -2056,7 +2056,7 @@ git push origin main
 
 **Context:** Mirrors the Services verification pattern. Need screenshots covering: pre-pin, Act 1, Beat 01, Beat 02, Beat 03, Act 3, Selected Works, + reduced-motion desktop variant.
 
-- [ ] **Step 1: Build prod bundle**
+- [x] **Step 1: Build prod bundle**
 
 ```bash
 npm run build
@@ -2064,7 +2064,7 @@ npm run build
 
 Expected: succeeds.
 
-- [ ] **Step 2: Start prod server (background)**
+- [x] **Step 2: Start prod server (background)**
 
 ```bash
 npm run start &
@@ -2072,7 +2072,7 @@ npm run start &
 
 Wait ~2s. Verify: `curl -s http://localhost:3000 | grep case-study-heading` returns a non-empty match.
 
-- [ ] **Step 3: Create `scripts/verify-case-study.mjs`**
+- [x] **Step 3: Create `scripts/verify-case-study.mjs`**
 
 ```js
 import { chromium } from "playwright";
@@ -2152,7 +2152,7 @@ await browser.close();
 console.log("Case study verification complete.");
 ```
 
-- [ ] **Step 4: Run the verification script**
+- [x] **Step 4: Run the verification script**
 
 ```bash
 node scripts/verify-case-study.mjs
@@ -2160,13 +2160,13 @@ node scripts/verify-case-study.mjs
 
 Expected: 22 screenshots (3 viewports × 7 positions + 1 reduced-motion) under `docs/verification/2026-04-18-case-study/`.
 
-- [ ] **Step 5: Stop prod server**
+- [x] **Step 5: Stop prod server**
 
 ```bash
 pkill -f "next start"
 ```
 
-- [ ] **Step 6: Manually review screenshots**
+- [x] **Step 6: Manually review screenshots**
 
 Open each PNG. For each viewport verify:
 
@@ -2181,7 +2181,7 @@ Open each PNG. For each viewport verify:
 
 If anything regresses (misaligned beat, poster missing, chip off-canvas), stop and fix.
 
-- [ ] **Step 7: Write `NOTES.md`**
+- [x] **Step 7: Write `NOTES.md`**
 
 Create `docs/verification/2026-04-18-case-study/NOTES.md`:
 
@@ -2221,7 +2221,7 @@ Captured via `scripts/verify-case-study.mjs` against prod build (`next build && 
 
 Fill in Results honestly as you review.
 
-- [ ] **Step 8: Commit + push**
+- [x] **Step 8: Commit + push**
 
 ```bash
 git add scripts/verify-case-study.mjs docs/verification/2026-04-18-case-study/
