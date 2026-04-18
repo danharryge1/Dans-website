@@ -23,7 +23,7 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 ## Current status
 
 > [!info] Services section in progress — 2026-04-18
-> Tasks 0–6 complete. Desktop scrub reveal + mobile one-shot reveal (IO-gated, leak-tight) both wired. 61/61 tests green. Next: Task 7 (3D hover tilt via Motion — TDD; converts ServiceCard to `'use client'`).
+> Tasks 0–7 complete. ServiceCard is now a Motion-backed client component with spring-damped ±3° hover tilt, gated off on coarse pointer or reduced-motion via `useSyncExternalStore`. 63/63 tests green. Next: Task 8 (browser verification via playwright-cli).
 
 > [!success] Hero section complete — 2026-04-18
 > All 13 tasks shipped. Prod Lighthouse: Perf 97 / A11y 100 / BP 100. Seam runway pinned at `+=100%`, reduced-motion parity fixed (sparkles + side-labels now resolve), img intrinsic dims set. Next phase: **Services section** (design.md §2.3) — kicks off with `/brainstorming` for the Services spec.
@@ -49,7 +49,7 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-18-services-s
 - [x] **Task 4** — Wire `<Services />` into `page.tsx` + flip `--sweep-x` default to lit (commit `a16ecd1`, build: 55/55 tests, prod build green)
 - [x] **Task 5** — Desktop scroll-linked reveal in `ServicesClient` (TDD, 3/3 ServicesClient tests, 58/58 total) (commits `b2f1b6e` + `5d36e5d` — dropped unused scopeRef + dead sr-only div)
 - [x] **Task 6** — Mobile one-shot reveal branch (TDD, 6/6 ServicesClient tests, 61/61 total) (commits `d19e641` + `b165bcb` — killed infinite arc-float tween leak; tightened `repeat:-1` coverage)
-- [ ] **Task 7** — 3D hover tilt via Motion (TDD)
+- [x] **Task 7** — 3D hover tilt via Motion (TDD, 7/7 ServiceCard tests, 63/63 total) (commit `6bce332` — used `useSyncExternalStore` for matchMedia gate; spring 200/20/0.5; gated off on pointer-coarse + prefers-reduced-motion)
 - [ ] **Task 8** — Browser verification via playwright-cli
 - [ ] **Task 9** — `audit` + `polish` passes
 

@@ -1243,7 +1243,7 @@ Note: ServiceCard was a Server Component. Converting the wrapper to a Motion-bac
 
 Option A is cleaner — the card *has* client-only behaviour now. Server Components are the default but not a dogma. Convert `ServiceCard` to `'use client'`.
 
-- [ ] **Step 1: Extend test file with tilt tests**
+- [x] **Step 1: Extend test file with tilt tests**
 
 Open `src/components/sections/Services/ServiceCard.test.tsx`. Append:
 
@@ -1327,13 +1327,13 @@ Also add `beforeEach` import at the top:
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
 ```
 
-- [ ] **Step 2: Run to confirm new tests fail**
+- [x] **Step 2: Run to confirm new tests fail**
 
 Run: `npm test -- ServiceCard`
 
 Expected: 2 new tests FAIL — pointer handlers not wired.
 
-- [ ] **Step 3: Convert `ServiceCard.tsx` to client component with Motion tilt**
+- [x] **Step 3: Convert `ServiceCard.tsx` to client component with Motion tilt**
 
 Replace the full contents of `src/components/sections/Services/ServiceCard.tsx`:
 
@@ -1494,13 +1494,13 @@ export function ServiceCard({ entry, index }: Props) {
 }
 ```
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- ServiceCard`
 
 Expected: 7 passed (5 original + 2 new).
 
-- [ ] **Step 5: Manual check — hover tilt on desktop**
+- [x] **Step 5: Manual check — hover tilt on desktop**
 
 Dev server. Hover a card with the mouse. Expected:
 
@@ -1512,7 +1512,7 @@ Dev server. Hover a card with the mouse. Expected:
 
 Mobile (pointer-coarse via devtools device emulation): tap cards — no tilt, no hover border.
 
-- [ ] **Step 6: Type check + lint + build**
+- [x] **Step 6: Type check + lint + build**
 
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
@@ -1520,7 +1520,7 @@ npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all clean.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit** — `6bce332` (used `useSyncExternalStore` for the matchMedia gate instead of `useEffect`+`useState` — SSR-safe, subscribes to MQL change events, sidesteps React 19 `set-state-in-effect` lint)
 
 ```bash
 git add src/components/sections/Services/ServiceCard.tsx src/components/sections/Services/ServiceCard.test.tsx
