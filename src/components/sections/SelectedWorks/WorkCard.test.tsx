@@ -15,7 +15,7 @@ describe("<WorkCard /> — real project", () => {
   it("renders the thumbnail with correct src + alt", () => {
     const { container } = render(<WorkCard entry={entry} />);
     const img = container.querySelector("img") as HTMLImageElement;
-    expect(img.getAttribute("src")).toBe("/assets/hero/nextup-live-poster.webp");
+    expect(img.getAttribute("src")).toContain("nextup-live-poster.webp");
     expect(img.getAttribute("alt")).toBe("NextUp — live homepage");
   });
 

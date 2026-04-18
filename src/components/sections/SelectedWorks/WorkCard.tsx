@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type RealProps = {
   entry: {
     id: string;
@@ -60,10 +62,12 @@ export function WorkCard(props: Props) {
         className="relative aspect-[16/10] w-full overflow-hidden rounded-[12px] border transition-[border-color] duration-200 ease-out group-hover:[border-color:var(--ledger-card-border-hover)]"
         style={{ borderColor: "var(--services-card-border)" }}
       >
-        <img
+        <Image
           src={entry.thumbnailSrc}
           alt={entry.thumbnailAlt}
-          className="h-full w-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.02]"
+          fill
+          sizes="(max-width: 768px) 100vw, 320px"
+          className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.02]"
         />
       </div>
       <div className="flex items-baseline justify-between gap-4">
