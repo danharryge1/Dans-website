@@ -1,11 +1,11 @@
 export type ProjectEntry = {
-  id: string;
-  title: string;
-  year: number;
-  descriptor: string;
-  thumbnailSrc: string;
-  thumbnailAlt: string;
-  featured: boolean;
+  readonly id: string;
+  readonly title: string;
+  readonly year: number;
+  readonly descriptor: string;
+  readonly thumbnailSrc: string;
+  readonly thumbnailAlt: string;
+  readonly featured: boolean;
 };
 
 export const PROJECTS = [
