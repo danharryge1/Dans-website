@@ -2037,7 +2037,7 @@ npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all green.
 
-- [ ] **Step 4: Commit + push**
+- [x] **Step 4: Commit + push** — 329eefc
 
 ```bash
 git add src/app/page.tsx
