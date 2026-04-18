@@ -1,10 +1,10 @@
 export type ServiceEntry = {
-  id: "ui-ux" | "custom-dev" | "brand";
-  title: string;
-  body: string;
+  readonly id: "ui-ux" | "custom-dev" | "brand";
+  readonly title: string;
+  readonly body: string;
 };
 
-export const SERVICES: readonly ServiceEntry[] = [
+export const SERVICES = [
   {
     id: "ui-ux",
     title: "UI / UX DESIGN",
@@ -20,4 +20,4 @@ export const SERVICES: readonly ServiceEntry[] = [
     title: "BRAND STRATEGY",
     body: "A voice that's yours. Visuals that prove it.",
   },
-] as const;
+] as const satisfies readonly ServiceEntry[];
