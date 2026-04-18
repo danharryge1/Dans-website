@@ -1,5 +1,7 @@
 # Services — Browser Verification (2026-04-18)
 
+**Polished: YES** (Task 9 — 2026-04-18)
+
 Captured via `scripts/verify-services.mjs` against prod build (`next build && next start`).
 
 ## Environment
@@ -44,3 +46,25 @@ Captured via `scripts/verify-services.mjs` against prod build (`next build && ne
 - None material. Layout, type, and sheen reveal render correctly across desktop/tablet/mobile and under reduced-motion. Minor notes for polish consideration (not regressions):
   - Mobile heading breaks into three lines at 375px — intentional per token scale, but could be worth double-checking line-height feels balanced when next to the stacked cards.
   - Tablet second row (Brand Strategy alone) leaves dead space to its right — acceptable for the 2-col grid breakpoint, but polish pass could consider whether a 1-col layout at 768px reads better than an uneven 2-col + orphan.
+
+## Polish pass (2026-04-18) — nothing material to change
+
+Audit + taste checks clean. No code changes required; no screenshot re-capture.
+
+**Audit (a11y):**
+- Keyboard tab order: clean. Cards are `<article>` with no interactive children — no `tabindex`, no focus traps, no outline-none leaks. Tab flows nav → hero → (skips Services static content) → footer.
+- Focus visible: no regression. Layout-shell `:focus-visible` rules still own focus styling; Services has nothing focusable to style.
+- Contrast: **`--text-secondary` (#B3C9BB) on `--bg-darker` (#0B2422) = 9.3:1** — AAA (well above the 4.5:1 AA bar for body). Heading (#F5F5F0 on #0B2422) = 14.89:1. Gold accent (#C8A55C on #0B2422) = 6.97:1 — AAA even as text, decorative-safe. No token bump needed.
+- Reduced-motion parity: verified in Task 8 (`desktop-reduced-motion.png`). No regression.
+- SR landmarks: `<section id="services" aria-labelledby="services-heading">`, `<h2 id="services-heading">`, grid `role="list"`, cards `role="listitem"`, arc SVG + sweep div `aria-hidden="true"`. All confirmed via grep.
+- Reflow at 320px: skipped (optional; 375px verified clean, no horizontal overflow risk from the grid).
+- Motion pauses on tab-hidden: GSAP ScrollTrigger pauses naturally. N/A.
+
+**Polish (taste):**
+- 48px heading / 24px card title / p-8 card padding / 48px arc / `rgba(200,165,92,0.6)` sweep seam / `scrub: 0.6` / 200ms mobile stagger / ±3° hover tilt / ±1px arc float (2s duration, yoyo = 4s cycle) / 1px border — all kept. Screenshots + earlier user review already endorsed the calibration.
+
+**Task 8 follow-ups resolved:**
+- **Mobile 3-line heading (375px):** verified against `mobile-02-mid-sweep.png`. The "TAILORED / DIGITAL / SOLUTIONS" break reads as intentional — each word centered on its own line forms a natural diamond with the Comico handwritten voice. Not awkward. **Kept.**
+- **Tablet orphan card:** verified against `tablet-03-revealed.png`. Brand Strategy **does span both columns** at `md:col-span-2` — the `className={i === SERVICES.length - 1 ? "md:col-span-2 lg:col-span-1" : undefined}` propagation is working. The Task 8 NOTES ambiguously used "orphan" language in one line while correctly describing the full-width span elsewhere. No code fix; this polish note retracts the orphan concern.
+
+**Non-blocking observation:** In `tablet-03-revealed.png` the third (spanning) Brand Strategy card's body copy reads slightly dimmer than the first two. Expected — on a tablet at that scroll position the third card's per-card `scrub` hasn't fully completed (its trigger fires later because it sits in the second row). Not a regression; not worth intervening.
