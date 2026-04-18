@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: case-study-task-10-complete
+status: case-study-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -22,8 +22,8 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 
 ## Current status
 
-> [!info] Active phase: Case Study (FeaturedCase) — Task 11 next
-> Task 10 complete (2184eb6): 22 Playwright screenshots across 3 viewports (desktop/tablet/mobile) × 7 scroll positions + 1 reduced-motion variant at `docs/verification/2026-04-18-case-study/`. Key findings: GSAP ScrollTrigger does not advance in headless Playwright (instant scrollTo doesn't fire scroll events), so early-beat frames show blank panels — content is confirmed present via reduced-motion capture. Two genuine concerns for Task 11: (1) white-box overlap artifact at `desktop-07-selected` (element bleeding outside case study container after pin releases); (2) Act 1 left-panel overlay copy invisible at desktop (z-index or opacity initial-state issue). Reduced-motion desktop capture is clean — stacked beats, no pin artifacts, full asset rendering. Next: Task 11 — audit + polish pass.
+> [!success] Case Study complete — 2026-04-18
+> All 12 tasks (0–11) shipped. `<FeaturedCase />` — pinned 500vh three-act story (setup · 3 decision beats · outcome), single `<video>` DOM node shared across Acts 1+3, one `ScrollTrigger` wrapping one GSAP timeline with labels for every beat. `<SelectedWorks />` — horizontal ledger with the NextUp card + honest dashed "NEXT UP →" placeholder. `projects.data.ts` typed `as const satisfies readonly ProjectEntry[]` for extensibility. 4 new decision-beat assets captured from live `nextupco.com`. Reduced-motion disables pin entirely and stacks beats naturally. Audit clean (WCAG labels, muted+playsInline autoplay, prefers-reduced-motion guards at both JS and CSS layers, video bundle ~1.4MB under 2MB budget). Task 11 also resolved a genuine regression: act2 had `max-w-[1400px]` + opaque teal bg that covered the video at Act 3 and the Act 1 overlay copy at Act 1 (commit `edf1a59`). 90/90 tests · tsc · lint · prod build all green.
 
 > [!success] Services section complete — 2026-04-18
 > All 10 tasks (0–9) shipped. Three-card "Tailored Digital Solutions" grid with desktop per-card scroll-scrubbed gold sheen sweep + quarter-arc draw-in, mobile one-shot staggered reveal, Motion-backed ±3° hover tilt (pointer-fine + motion-OK only), and reduced-motion snap state. Audit pass confirms WCAG AAA contrast (body 9.3:1, heading 14.89:1), clean landmarks, no keyboard traps. 63/63 tests · tsc · lint · prod build all green. Next phase: TBD pending PRD review.
@@ -142,8 +142,8 @@ Mirror of the plan's checkboxes. Source of truth is [2026-04-18-case-study](docs
 - [x] **Task 7** — Implement GSAP client logic in `FeaturedCaseClient` (commit `d342e7b`)
 - [x] **Task 8** — Capture decision-beat assets via Playwright (commit `67dd39d`) — 7 files in `public/assets/case-study/nextup/`; webm CRF bumped 32→34 to meet ≤400KB budget; used sharp for webp encode (ffmpeg 8.x dropped webp encoder)
 - [x] **Task 9** — Wire `<FeaturedCase />` into `page.tsx` (commit `329eefc`) — 90/90 tests · tsc · lint · prod build all green
-- [ ] **Task 10** — Browser verification via playwright-cli
-- [ ] **Task 11** — `audit` + `polish` passes
+- [x] **Task 10** — Browser verification via playwright-cli (commit `2184eb6`) — 22 screenshots (desktop/tablet/mobile × 7 scroll positions + reduced-motion) at `docs/verification/2026-04-18-case-study/`. Initial capture surfaced two apparent concerns (white-box at 07-selected, blank Act 1 overlay) that turned out to be the same real regression — addressed in Task 11.
+- [x] **Task 11** — `audit` + `polish` passes (commits `edf1a59` act2 fix · `28f295d` verify-script autoplay-policy · `17dc5f7` screenshots + NOTES rewrite · `<pending>` phase transition). Root-caused the white-box: Act 2's `max-w-[1400px]` + opaque teal bg stayed when gsap.set killed `mx-auto`, leaving a 1400×1080 teal panel covering the video + Act 1 overlay. Two-edit fix (remove inline bg, add `maxWidth: "none"` to gsap.set) resolves both symptoms. Verify script now passes `--autoplay-policy=no-user-gesture-required` so headless captures match what real users see. NOTES.md rewritten to separate real bugs from verification-tool quirks. A11y/bundle audit clean. 90/90 tests · tsc · lint · prod build all green.
 
 ## Next phase after hero
 

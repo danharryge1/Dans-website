@@ -2239,7 +2239,7 @@ git push origin main
 
 **Purpose:** Final a11y + taste pass; declare the phase complete.
 
-- [ ] **Step 1: Audit — a11y checklist**
+- [x] **Step 1: Audit — a11y checklist** — clean. Both sections have `aria-labelledby`; decorative assets `alt="" aria-hidden`; videos `muted + autoPlay + playsInline + poster`; reduced-motion guarded at JS (`FeaturedCaseClient` early return) and CSS (`globals.css` four `@media (prefers-reduced-motion: reduce)` blocks); video bundle 1.4MB (under 2MB budget).
 
 1. **Keyboard:** Tab from nav → hero → services → case study (no focusable content — pin doesn't trap) → selected works (no focusable content today) → footer. No trap.
 2. **Focus visible:** Nothing focusable today in the case study / ledger. Future detail-page links will need `:focus-visible` rings.
@@ -2252,7 +2252,7 @@ git push origin main
 
 Fix any finding. Commit each non-trivial fix as its own commit.
 
-- [ ] **Step 2: Polish — taste checklist**
+- [x] **Step 2: Polish — taste checklist** — fixed the one real regression uncovered by Task 10 screenshots: `desktop-07-selected` white rectangle + `desktop-02-act-1` invisible overlay were the same bug (act2 `max-w-[1400px]` + opaque teal bg covering the video and the Act 1 bottom-left copy when `gsap.set` killed `mx-auto`). Two-edit fix in `edf1a59`: remove inline `background` on act2; add `maxWidth: "none"` to `gsap.set(act2)`. No taste-level adjustments needed — typography, crossfade, ledger spacing, and arrow amplitude all land as designed.
 
 1. **Pin feel:** Does the 500vh runway feel right? Too long = users bounce; too short = beats blur. Adjust to `+=400%` or `+=600%` if needed; re-verify.
 2. **Beat crossfade:** Is the y-translate distance (40px) right? Too much = choppy; too little = unnoticeable.
@@ -2266,27 +2266,13 @@ Fix any finding. Commit each non-trivial fix as its own commit.
 
 Fix what bugs you. Re-capture screenshots if anything substantial changed.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification** — 90/90 tests · tsc clean · lint clean · prod build green.
 
-```bash
-npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
-```
+- [x] **Step 4: Final screenshots** — regenerated all 22 PNGs after the fix; NOTES.md rewritten (commit `17dc5f7`).
 
-Expected: all green.
+- [x] **Step 5: Commit polish changes** — three commits: `edf1a59` act2 fix · `28f295d` verify-script autoplay policy · `17dc5f7` screenshots + NOTES rewrite.
 
-- [ ] **Step 4: Final screenshots**
-
-Re-run `node scripts/verify-case-study.mjs`. Overwrite earlier PNGs. Update `NOTES.md` with "Polished: YES — [one-line list of changes]".
-
-- [ ] **Step 5: Commit polish changes**
-
-```bash
-git add -A
-git commit -m "polish(case-study): audit + polish pass — [brief list of changes]"
-git push origin main
-```
-
-- [ ] **Step 6: Update Project Log.md**
+- [x] **Step 6: Update Project Log.md**
 
 Open `/Users/dangeorge/The Vault/Dans Website/Project Log.md`.
 
@@ -2300,7 +2286,7 @@ Open `/Users/dangeorge/The Vault/Dans Website/Project Log.md`.
 
 3. Add a new "Task progress — Case Study" section mirroring the Services one, with all 12 tasks checked + commit SHAs.
 
-- [ ] **Step 7: Commit Project Log update**
+- [x] **Step 7: Commit Project Log update**
 
 ```bash
 git add "Project Log.md"
