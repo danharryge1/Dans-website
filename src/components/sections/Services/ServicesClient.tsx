@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,8 +9,6 @@ type CSSVarTweenVars = gsap.TweenVars & Record<`--${string}`, string | number>;
 gsap.registerPlugin(ScrollTrigger);
 
 export function ServicesClient() {
-  const scopeRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -113,5 +111,5 @@ export function ServicesClient() {
     };
   }, []);
 
-  return <div ref={scopeRef} aria-hidden="true" className="sr-only" />;
+  return null;
 }
