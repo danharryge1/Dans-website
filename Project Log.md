@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: philosophy-complete
+status: process-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -21,6 +21,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 > - Project conventions → [[claude]]
 
 ## Current status
+
+> [!success] Process complete — 2026-04-18
+> All 10 tasks (0–9) shipped. `<Process />` — Server Component on `var(--bg-primary)` with gold "THE PROCESS" eyebrow above a bookend rule, three `<PhaseBlock />` entries (01 THE BRIEF · 02 THE BUILD · 03 THE SHIP), and a single absolute-positioned `<GoldThread />` overlay with one 1.5px draw-down line + three dot markers anchored to numeral Y-centers. Motion isolated in one `'use client'` sibling (`ProcessClient.tsx`): five ScrollTriggers (one scrubbed thread draw + one eyebrow fade + three per-block reveals) inside a single `gsap.context(…, section)` for scoped teardown, plus a debounced (150ms) `ResizeObserver` recomputing thread geometry. `phases.data.ts` typed `as const satisfies readonly Phase[]`; copy locked with ASCII straight quotes; `phases.data.test.ts` bakes in the site-wide no-dashes rule via `/[\u2014\u2013\u002D]/` regex. Reduced-motion guarded at JS (early return before `gsap.context`) and CSS (`@media (prefers-reduced-motion: reduce)` block) layers. Task 8 verification surfaced a coordinate-space defect — thread container positioned its `top` relative to `section.getBoundingClientRect()` when its offsetParent is the inner `max-w-[1100px]` wrapper, so the rail sat ~200-270px below the numerals; fixed in `04c01ba` by measuring against `threadContainer.offsetParent.getBoundingClientRect()`. 138/138 tests (28 files) · tsc · lint · prod build all green. 10 playwright-cli captures at `docs/verification/2026-04-18-process/` confirm alignment on desktop/tablet/mobile + reduced-motion. Next phase: **Contact section** (design.md §2.7).
 
 > [!success] Philosophy complete — 2026-04-18
 > All 9 tasks (0–8) shipped. `<Philosophy />` — Server Component shell on `var(--bg-darker)` with gold eyebrow ("OUR PHILOSOPHY"), two `[data-philosophy-bookend]` gold rules framing the stack, and three `<BeliefBlock />` entries (one xl-scaled headline + two lg). Single `'use client'` sibling `PhilosophyClient.tsx` owns all motion: per-block ScrollTriggers fade the eyebrow in and stagger-reveal each headline + body, plus a gold rule width-draw from 0 → captured `getComputedStyle` width. `beliefs.data.ts` typed `as const satisfies readonly Belief[]`, locked copy uses ASCII straight quotes, and `beliefs.data.test.ts` bakes in the site-wide no-dashes rule via `/[\u2014\u2013\u002D]/` regex. Reduced-motion guarded at both JS (early-return before `gsap.context`) and CSS (`@media (prefers-reduced-motion: reduce)` block) layers; CSS fallback uses `width: revert` so Tailwind per-breakpoint widths reassert. 113/113 tests (23 files) · tsc · lint · prod build all green. 10 playwright-cli captures at `docs/verification/2026-04-18-philosophy/` confirm layout on desktop/tablet/mobile + reduced-motion.
@@ -162,6 +165,21 @@ Mirror of the plan's checkboxes. Source of truth is [2026-04-18-philosophy](docs
 - [x] **Task 7** — Browser verification via playwright-cli — 10 PNGs (desktop/tablet/mobile × 3 scroll positions + reduced-motion) + NOTES.md at `docs/verification/2026-04-18-philosophy/` (commit `8366912`)
 - [x] **Task 8** — `audit` + `polish` passes — 113/113 tests · tsc · lint · prod build all green. No code fixes required. Phase transition.
 
-## Next phase after philosophy
+## Task progress — Process
 
-Process section — per design.md §2.6. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
+Mirror of the plan's checkboxes. Source of truth is [2026-04-18-process](docs/superpowers/plans/2026-04-18-process.md).
+
+- [x] **Task 0** — Scaffold `Process/` folder + barrel export (commit `1db474e`)
+- [x] **Task 1** — Build `phases.data.ts` + tests including no-dashes regex guard (commit `98a9ab3`)
+- [x] **Task 2** — Build `PhaseBlock` component (TDD) — 3-col grid (thread rail + numeral + title+body), `md:contents` flex pattern for mobile (commit `222e24b`)
+- [x] **Task 3** — Build `GoldThread` overlay component (TDD) — absolute positioned draw-down line + three dot markers, all aria-hidden (commit `2ccdfd4`)
+- [x] **Task 4** — Build `Process` server component (TDD) — section shell + bookend + eyebrow + three PhaseBlocks + GoldThread + ProcessClient mount (commit `44b49db`)
+- [x] **Task 5** — Implement `ProcessClient` motion (TDD) — 5 ScrollTriggers (eyebrow + thread scrub + 3 per-block reveals), ResizeObserver geometry recompute, `gsap.context` teardown, reduced-motion JS early-return; added conditional `ResizeObserver` stub to `test-setup.ts` to unblock Process integration test (commit `6b4c38a`)
+- [x] **Task 6** — Append Process reduced-motion CSS fallback block to `globals.css` (commit `081de8d`)
+- [x] **Task 7** — Wire `<Process />` into `page.tsx` after `<Philosophy />` (commit `55c63b2`)
+- [x] **Task 8** — Browser verification via playwright-cli — 10 PNGs (desktop/tablet/mobile × 3 scroll positions + reduced-motion) + NOTES.md at `docs/verification/2026-04-18-process/` (commit `06e80da`). Verification surfaced coordinate-space defect: thread container positioned its top relative to `section.getBoundingClientRect()` instead of its actual offsetParent (the inner `max-w-[1100px]` wrapper), so the rail sat ~200-270px below the numerals. Fixed by measuring against `threadContainer.offsetParent.getBoundingClientRect()` (commit `04c01ba`). Reduced-motion dot stacking flagged as NOTES follow-up (dots remain at top:0 when `positionThread()` is skipped on reduce; visually harmless).
+- [x] **Task 9** — `audit` + `polish` passes — 138/138 tests · tsc · lint · prod build all green. Lint warning on unused `_cb` param in ResizeObserverStub silenced via `void _cb` (commit `a4ade1f`). Phase transition.
+
+## Next phase after process
+
+Contact section — per design.md §2.7. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
