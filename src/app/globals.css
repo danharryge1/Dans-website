@@ -143,3 +143,29 @@ nav :is(a, button):focus-visible,
   [data-hero-sparkle] { animation: none !important; }
   [data-hero-laptop]  { transform: none !important; }
 }
+
+/* ---------- SERVICES TOKENS (Phase 3) ---------- */
+:root {
+  /* card surface */
+  --services-card-bg: rgba(245, 245, 240, 0.02);
+  --services-card-border: rgba(245, 245, 240, 0.08);
+  --services-card-border-hover: rgba(200, 165, 92, 0.3);
+
+  /* scroll-driven sweep channel (0 → 1 across each card) */
+  --sweep-x: 0;
+
+  /* arc geometry — quarter-circle r=48, circumference/4 ≈ 75.4 */
+  --arc-length: 75.4;
+}
+
+/* ---------- SERVICES KEYFRAMES ---------- */
+@keyframes services-arc-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-1px); }
+}
+
+/* ---------- REDUCED MOTION (SERVICES) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-services-card]      { --sweep-x: 1 !important; }
+  [data-services-arc-float] { animation: none !important; }
+}
