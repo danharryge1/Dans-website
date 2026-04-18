@@ -581,7 +581,7 @@ Desktop-only: gated by `window.matchMedia("(min-width: 768px)").matches` AND `pr
 type CSSVarTweenVars = gsap.TweenVars & Record<`--${string}`, string | number>;
 ```
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `src/components/sections/Services/ServicesClient.test.tsx`:
 
@@ -707,13 +707,13 @@ describe("<ServicesClient /> — desktop branch", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- ServicesClient`
 
 Expected: FAIL — expected 4 ScrollTrigger calls, got 0 (stub still returns null).
 
-- [ ] **Step 3: Implement `ServicesClient.tsx` (desktop branch + stubs)**
+- [x] **Step 3: Implement `ServicesClient.tsx` (desktop branch + stubs)**
 
 Replace the stub:
 
@@ -843,13 +843,13 @@ export function ServicesClient() {
 }
 ```
 
-- [ ] **Step 4: Run tests to confirm pass**
+- [x] **Step 4: Run tests to confirm pass**
 
 Run: `npm test -- ServicesClient`
 
 Expected: `3 passed`.
 
-- [ ] **Step 5: Manual visual check in the browser**
+- [x] **Step 5: Manual visual check in the browser**
 
 Dev server should still be running. Open `http://localhost:3000`. Scroll down. Expected:
 
@@ -859,7 +859,7 @@ Dev server should still be running. Open `http://localhost:3000`. Scroll down. E
 - Arc strokes in once seam passes ~60%, dot fades in shortly after
 - Heading fades up with tiny letter-spacing settle on first scroll into section
 
-- [ ] **Step 6: Type check + lint + build**
+- [x] **Step 6: Type check + lint + build**
 
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
@@ -867,7 +867,7 @@ npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all clean.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit** — `b2f1b6e` + refactor `5d36e5d` (dropped unused scopeRef / dead sr-only div → `return null`)
 
 ```bash
 git add src/components/sections/Services/ServicesClient.tsx src/components/sections/Services/ServicesClient.test.tsx
@@ -885,7 +885,7 @@ git push origin main
 
 **Purpose:** On viewports < 768px, replace scrub with an IntersectionObserver one-shot timeline: header fades up, then each card staggers 200ms apart with sweep + scale + arc draw + opacity. After reveal completes, arcs start a tiny ±1px vertical float. Per spec, the IO must be hoisted OUTSIDE `gsap.context()` and its cleanup handled by the outer effect (not by `ctx.revert()`).
 
-- [ ] **Step 1: Extend test file with mobile-branch cases**
+- [x] **Step 1: Extend test file with mobile-branch cases**
 
 Append to `src/components/sections/Services/ServicesClient.test.tsx`:
 
@@ -971,13 +971,13 @@ describe("<ServicesClient /> — mobile branch", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm new tests fail**
+- [x] **Step 2: Run to confirm new tests fail**
 
 Run: `npm test -- ServicesClient`
 
 Expected: 3 mobile tests FAIL — IO not attached, gsap.to not called, disconnect not called.
 
-- [ ] **Step 3: Implement mobile branch**
+- [x] **Step 3: Implement mobile branch**
 
 Replace the `if (!isDesktop) { return; }` block in `ServicesClient.tsx` with the mobile implementation. Also extend the outer cleanup to disconnect the IO. The full updated `useEffect` body:
 
@@ -1196,13 +1196,13 @@ useEffect(() => {
 }, []);
 ```
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- ServicesClient`
 
 Expected: all 6 tests pass (3 desktop + 3 mobile).
 
-- [ ] **Step 5: Manual visual check on mobile viewport**
+- [x] **Step 5: Manual visual check on mobile viewport**
 
 In a browser, resize to 375px wide (Chrome devtools device toolbar → iPhone). Refresh. Scroll past hero. Expected:
 
@@ -1211,7 +1211,7 @@ In a browser, resize to 375px wide (Chrome devtools device toolbar → iPhone). 
 - Arcs continue a tiny float after reveal completes
 - Resize to desktop: desktop behaviour resumes on reload
 
-- [ ] **Step 6: Type check + lint + build**
+- [x] **Step 6: Type check + lint + build**
 
 ```bash
 npx tsc --noEmit && npm run lint && npm run build
@@ -1219,7 +1219,7 @@ npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all clean.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit** — `d19e641` + fix `b165bcb` (kill infinite arc-float tweens on unmount — they escape `ctx.revert` since `tl.add` fires after the context closes)
 
 ```bash
 git add src/components/sections/Services/ServicesClient.tsx src/components/sections/Services/ServicesClient.test.tsx
