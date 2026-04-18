@@ -1,4 +1,3 @@
-import type React from "react";
 import { SERVICES } from "./services.data";
 import { ServiceCard } from "./ServiceCard";
 import { ServicesClient } from "./ServicesClient";
@@ -9,7 +8,7 @@ export function Services() {
       id="services"
       aria-labelledby="services-heading"
       className="relative w-full py-32 md:py-40"
-      style={{ background: "var(--bg-darker)" } as React.CSSProperties}
+      style={{ background: "var(--bg-darker)" }}
     >
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="mx-auto max-w-[1200px]">
@@ -25,18 +24,20 @@ export function Services() {
           <div
             role="list"
             className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
-            style={{ perspective: "1000px" } as React.CSSProperties}
+            style={{ perspective: "1000px" }}
             data-services-grid
           >
             {SERVICES.map((entry, i) => (
-              <div
+              <ServiceCard
                 key={entry.id}
+                entry={entry}
+                index={i}
                 className={
-                  i === 2 ? "md:col-span-2 lg:col-span-1" : undefined
+                  i === SERVICES.length - 1
+                    ? "md:col-span-2 lg:col-span-1"
+                    : undefined
                 }
-              >
-                <ServiceCard entry={entry} index={i} />
-              </div>
+              />
             ))}
           </div>
         </div>

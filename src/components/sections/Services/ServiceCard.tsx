@@ -4,9 +4,10 @@ import type { ServiceEntry } from "./services.data";
 type Props = {
   entry: ServiceEntry;
   index: number;
+  className?: string;
 };
 
-export function ServiceCard({ entry, index }: Props) {
+export function ServiceCard({ entry, index, className }: Props) {
   return (
     // parent must carry role="list" (see Services.tsx) for the listitem role to be valid ARIA
     <article
@@ -14,7 +15,7 @@ export function ServiceCard({ entry, index }: Props) {
       data-services-card=""
       data-card-id={entry.id}
       data-card-index={index}
-      className="group relative overflow-hidden rounded-[12px] border"
+      className={["group relative overflow-hidden rounded-[12px] border", className].filter(Boolean).join(" ")}
       style={
         {
           background: "var(--services-card-bg)",
