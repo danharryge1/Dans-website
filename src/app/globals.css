@@ -152,7 +152,8 @@ nav :is(a, button):focus-visible,
   --services-card-border-hover: color-mix(in oklch, var(--gold-accent) 30%, transparent);
 
   /* scroll-driven sweep channel (0 → 1 across each card) */
-  --sweep-x: 0;
+  /* default to lit; ServicesClient will set to 0 on mount before animating */
+  --sweep-x: 1;
 
   /* arc geometry — quarter-circle r=48, circumference/4 ≈ 75.4 */
   --arc-length: 75.4;
