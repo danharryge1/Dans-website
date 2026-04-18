@@ -34,7 +34,9 @@ vi.mock("gsap/ScrollTrigger", () => ({
 import { ProcessClient } from "./ProcessClient";
 
 class ResizeObserverStub {
-  constructor(_cb: ResizeObserverCallback) {}
+  constructor(_cb: ResizeObserverCallback) {
+    void _cb;
+  }
   observe = mocks.observeMock;
   unobserve = vi.fn();
   disconnect = mocks.disconnectMock;
