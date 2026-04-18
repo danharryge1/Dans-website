@@ -57,7 +57,7 @@ export function WorkCard(props: Props) {
       className="group relative flex w-[320px] shrink-0 flex-col gap-4 transition-transform duration-200 ease-out hover:-translate-y-[2px]"
     >
       <div
-        className="relative aspect-[16/10] w-full overflow-hidden rounded-[12px] border"
+        className="relative aspect-[16/10] w-full overflow-hidden rounded-[12px] border transition-[border-color] duration-200 ease-out group-hover:[border-color:var(--ledger-card-border-hover)]"
         style={{ borderColor: "var(--services-card-border)" }}
       >
         <img
