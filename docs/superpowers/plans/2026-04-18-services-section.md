@@ -496,7 +496,7 @@ Expected: no errors.
 
 **Context:** Cards currently render lit by default (no `ServicesClient` logic yet = `--sweep-x` inherits its `:root` default of 0, BUT we want cards visible so we verify markup + copy before wiring motion). We'll temporarily force `--sweep-x: 1` at the section level via an inline style until Task 5 onwards drives it. Simpler: flip the default in globals.css to `1` so un-mounted / static rendering shows lit cards — Task 5 will override to `0` on mount before animating to `1`. Per spec §11 SSR-flash protection, this matches the designed approach.
 
-- [ ] **Step 1: Update `:root` default for `--sweep-x` to `1` in `globals.css`**
+- [x] **Step 1: Update `:root` default for `--sweep-x` to `1` in `globals.css`**
 
 Open `src/app/globals.css`, find the Services tokens block added in Task 0, change:
 
@@ -517,7 +517,7 @@ to:
   --sweep-x: 1;
 ```
 
-- [ ] **Step 2: Modify `page.tsx`**
+- [x] **Step 2: Modify `page.tsx`**
 
 Replace the entire contents of `src/app/page.tsx` with:
 
@@ -535,7 +535,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 3: Start dev server and visual-check**
+- [x] **Step 3: Start dev server and visual-check**
 
 Run (non-blocking): `npm run dev`
 
@@ -547,7 +547,7 @@ Open `http://localhost:3000`. Scroll past hero. Expected:
 - No console errors / React warnings
 - Hero still behaves as before (pinned reveal, seam scrub)
 
-- [ ] **Step 4: Run full test suite + type check + lint + build**
+- [x] **Step 4: Run full test suite + type check + lint + build**
 
 ```bash
 npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
@@ -555,7 +555,7 @@ npm test -- --run && npx tsc --noEmit && npm run lint && npm run build
 
 Expected: all green.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit** — `a16ecd1`
 
 ```bash
 git add src/app/page.tsx src/app/globals.css
