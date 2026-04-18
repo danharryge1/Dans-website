@@ -110,7 +110,6 @@ export function FeaturedCase() {
         <div
           data-case-act="2"
           className="relative z-20 mx-auto w-full max-w-[1400px] px-6 py-32 md:px-10 md:py-40 lg:px-12"
-          style={{ background: "var(--bg-primary)" }}
         >
           <div className="flex flex-col gap-32 md:gap-40">
             <DecisionBeat

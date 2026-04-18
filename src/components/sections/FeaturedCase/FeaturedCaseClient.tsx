@@ -37,6 +37,7 @@ export function FeaturedCaseClient() {
         inset: 0,
         margin: 0,
         padding: 0,
+        maxWidth: "none",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
