@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: services-complete
+status: case-study-task-8-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -21,6 +21,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 > - Project conventions → [[claude]]
 
 ## Current status
+
+> [!info] Active phase: Case Study (FeaturedCase) — Task 9 next
+> Task 8 complete (67dd39d): 7 assets captured to `public/assets/case-study/nextup/` from live nextupco.com. Next: Task 9 — wire `<FeaturedCase />` into `page.tsx` + visual check.
 
 > [!success] Services section complete — 2026-04-18
 > All 10 tasks (0–9) shipped. Three-card "Tailored Digital Solutions" grid with desktop per-card scroll-scrubbed gold sheen sweep + quarter-arc draw-in, mobile one-shot staggered reveal, Motion-backed ±3° hover tilt (pointer-fine + motion-OK only), and reduced-motion snap state. Audit pass confirms WCAG AAA contrast (body 9.3:1, heading 14.89:1), clean landmarks, no keyboard traps. 63/63 tests · tsc · lint · prod build all green. Next phase: TBD pending PRD review.
@@ -124,6 +127,23 @@ At `~/.claude/skills/`:
 - `taste-skill` — taste, soft, stitch, minimalist, brutalist, redesign, output
 - `webgpu-threejs-tsl` — (deferred, not in use this phase)
 - `obsidian-markdown` — installed 2026-04-17 to maintain this log
+
+## Task progress — Case Study (FeaturedCase)
+
+Mirror of the plan's checkboxes. Source of truth is [2026-04-18-case-study](docs/superpowers/plans/2026-04-18-case-study.md).
+
+- [x] **Task 0** — Design tokens for case study section in `globals.css`
+- [x] **Task 1** — Build `case-study.data.ts` data file
+- [x] **Task 2** — Build `BeatStrip` component (TDD)
+- [x] **Task 3** — Build `FeaturedCase` server component (TDD)
+- [x] **Task 4** — Build `FeaturedCaseClient` (GSAP scroll orchestration) (TDD)
+- [x] **Task 5** — Build `SelectedWorks` + `WorkCard` components (TDD)
+- [x] **Task 6** — Build `FeaturedCase` markup + video elements
+- [x] **Task 7** — Implement GSAP client logic in `FeaturedCaseClient` (commit `d342e7b`)
+- [x] **Task 8** — Capture decision-beat assets via Playwright (commit `67dd39d`) — 7 files in `public/assets/case-study/nextup/`; webm CRF bumped 32→34 to meet ≤400KB budget; used sharp for webp encode (ffmpeg 8.x dropped webp encoder)
+- [ ] **Task 9** — Wire `<FeaturedCase />` into `page.tsx` + visual check
+- [ ] **Task 10** — Browser verification via playwright-cli
+- [ ] **Task 11** — `audit` + `polish` passes
 
 ## Next phase after hero
 

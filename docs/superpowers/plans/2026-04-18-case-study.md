@@ -1814,7 +1814,7 @@ git push origin main
 
 Assumes ffmpeg is installed (`brew install ffmpeg`).
 
-- [ ] **Step 1: Confirm ffmpeg + playwright browsers available**
+- [x] **Step 1: Confirm ffmpeg + playwright browsers available**
 
 ```bash
 which ffmpeg && npx playwright --version
@@ -1822,7 +1822,7 @@ which ffmpeg && npx playwright --version
 
 Expected: paths to both.
 
-- [ ] **Step 2: Create capture script**
+- [x] **Step 2: Create capture script**
 
 ```js
 // scripts/capture-case-study-assets.mjs
@@ -1955,7 +1955,7 @@ await browser.close();
 console.log("Assets captured to", OUT);
 ```
 
-- [ ] **Step 3: Run capture**
+- [x] **Step 3: Run capture**
 
 ```bash
 node scripts/capture-case-study-assets.mjs
@@ -1966,13 +1966,13 @@ Expected: 7 files land in `public/assets/case-study/nextup/`:
 - `beat-02-scroll.mp4`, `beat-02-scroll.webm`, `beat-02-scroll-poster.webp`
 - `beat-03-magnetic.mp4`, `beat-03-magnetic.webm`, `beat-03-magnetic-poster.webp`
 
-- [ ] **Step 4: Sanity-check file sizes**
+- [x] **Step 4: Sanity-check file sizes**
 
 Run: `ls -la public/assets/case-study/nextup/`
 
 Expected: all `.mp4` and `.webm` ≤ 400KB each. If larger, rerun with higher CRF (`-crf 32` → `-crf 34`).
 
-- [ ] **Step 5: Commit + push**
+- [x] **Step 5: Commit + push** — 67dd39d
 
 ```bash
 git add scripts/capture-case-study-assets.mjs public/assets/case-study/
