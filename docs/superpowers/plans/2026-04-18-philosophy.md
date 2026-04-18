@@ -49,11 +49,11 @@
 
 **Context:** Create the folder and a barrel file now so subsequent tasks have a stable import path (`@/components/sections/Philosophy`). The named export points at a file that doesn't exist yet — that's fine; no task imports from `index.ts` until Task 6.
 
-- [ ] **Step 1: Create the folder**
+- [x] **Step 1: Create the folder**
 
 Run: `mkdir -p "/Users/dangeorge/The Vault/Dans Website/src/components/sections/Philosophy"`
 
-- [ ] **Step 2: Create `index.ts`**
+- [x] **Step 2: Create `index.ts`**
 
 File: `src/components/sections/Philosophy/index.ts`
 
@@ -61,7 +61,7 @@ File: `src/components/sections/Philosophy/index.ts`
 export { Philosophy } from "./Philosophy";
 ```
 
-- [ ] **Step 3: Commit + push**
+- [x] **Step 3: Commit + push**
 
 ```bash
 git add src/components/sections/Philosophy/index.ts
@@ -81,7 +81,7 @@ Note: `tsc --noEmit` will complain that `./Philosophy` has no exports — expect
 
 **Context:** Single source of truth for belief copy. The `as const satisfies readonly Belief[]` pattern matches `projects.data.ts` — gives literal-narrowed types and catches shape drift at compile time. The test file includes a regex guard that bakes the site-wide no-dashes rule into CI.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 File: `src/components/sections/Philosophy/beliefs.data.test.ts`
 
@@ -127,13 +127,13 @@ describe("beliefs.data", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- beliefs.data`
 
 Expected: FAIL — module `./beliefs.data` not found.
 
-- [ ] **Step 3: Implement `beliefs.data.ts`**
+- [x] **Step 3: Implement `beliefs.data.ts`**
 
 File: `src/components/sections/Philosophy/beliefs.data.ts`
 
@@ -171,19 +171,19 @@ Note on the dash-test regex: `\u2014` is em dash (—), `\u2013` is en dash (–
 
 Note on ids: the regex only inspects `headline` and `body`, NOT `id`. The belief ids use hyphens (`proof-not-ceiling`) as programmatic keys and are intentionally excluded from the copy rule — they are never rendered as user-facing text.
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- beliefs.data`
 
 Expected: PASS — all six tests green.
 
-- [ ] **Step 5: Verify tsc clean for this file**
+- [x] **Step 5: Verify tsc clean for this file**
 
 Run: `npx tsc --noEmit`
 
 Expected: no errors against `beliefs.data.ts`. (There may still be errors against `index.ts` — that's expected until Task 3.)
 
-- [ ] **Step 6: Commit + push**
+- [x] **Step 6: Commit + push**
 
 ```bash
 git add src/components/sections/Philosophy/beliefs.data.ts src/components/sections/Philosophy/beliefs.data.test.ts
@@ -201,7 +201,7 @@ git push origin main
 
 **Purpose:** One belief's layout. Renders an `<article>` with `<h3>` headline, a `<span>` gold rule, and a `<p>` body. Receives a `Belief` prop. Server Component — no state, no hooks. `data-philosophy-block` is the ScrollTrigger selector; `data-scale` is a test + styling hook.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 File: `src/components/sections/Philosophy/BeliefBlock.test.tsx`
 
@@ -266,13 +266,13 @@ describe("<BeliefBlock />", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- BeliefBlock`
 
 Expected: FAIL — module `./BeliefBlock` not found.
 
-- [ ] **Step 3: Implement `BeliefBlock.tsx`**
+- [x] **Step 3: Implement `BeliefBlock.tsx`**
 
 File: `src/components/sections/Philosophy/BeliefBlock.tsx`
 
@@ -331,13 +331,13 @@ export function BeliefBlock({ belief }: Props) {
 }
 ```
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- BeliefBlock`
 
 Expected: PASS — all seven tests green.
 
-- [ ] **Step 5: Commit + push**
+- [x] **Step 5: Commit + push**
 
 ```bash
 git add src/components/sections/Philosophy/BeliefBlock.tsx src/components/sections/Philosophy/BeliefBlock.test.tsx
@@ -357,7 +357,7 @@ git push origin main
 
 Note: At this point `PhilosophyClient` does not exist yet. The test can import `Philosophy` without invoking `PhilosophyClient` behaviour because `PhilosophyClient` will return `null` in Task 4 and does no work during server render (React calls the function but the useEffect body never fires under Vitest's happy-dom). To avoid a "module not found" error before Task 4, we create a minimal placeholder `PhilosophyClient.tsx` inside this task.
 
-- [ ] **Step 1: Create placeholder `PhilosophyClient.tsx`**
+- [x] **Step 1: Create placeholder `PhilosophyClient.tsx`**
 
 File: `src/components/sections/Philosophy/PhilosophyClient.tsx`
 
@@ -371,7 +371,7 @@ export function PhilosophyClient() {
 
 (Task 4 replaces the body of this file. Creating the placeholder now lets Task 3's tests import `Philosophy` without a module-resolution failure.)
 
-- [ ] **Step 2: Write the failing test**
+- [x] **Step 2: Write the failing test**
 
 File: `src/components/sections/Philosophy/Philosophy.test.tsx`
 
@@ -430,13 +430,13 @@ describe("<Philosophy />", () => {
 });
 ```
 
-- [ ] **Step 3: Run to confirm failure**
+- [x] **Step 3: Run to confirm failure**
 
 Run: `npm test -- Philosophy.test`
 
 Expected: FAIL — module `./Philosophy` not found.
 
-- [ ] **Step 4: Implement `Philosophy.tsx`**
+- [x] **Step 4: Implement `Philosophy.tsx`**
 
 File: `src/components/sections/Philosophy/Philosophy.tsx`
 
@@ -501,25 +501,25 @@ export function Philosophy() {
 }
 ```
 
-- [ ] **Step 5: Run to confirm pass**
+- [x] **Step 5: Run to confirm pass**
 
 Run: `npm test -- Philosophy.test`
 
 Expected: PASS — all six tests green.
 
-- [ ] **Step 6: Run full Philosophy test suite**
+- [x] **Step 6: Run full Philosophy test suite**
 
 Run: `npm test -- Philosophy`
 
 Expected: PASS — all Philosophy tests green (beliefs.data + BeliefBlock + Philosophy).
 
-- [ ] **Step 7: Verify tsc clean**
+- [x] **Step 7: Verify tsc clean**
 
 Run: `npx tsc --noEmit`
 
 Expected: no errors.
 
-- [ ] **Step 8: Commit + push**
+- [x] **Step 8: Commit + push**
 
 ```bash
 git add src/components/sections/Philosophy/Philosophy.tsx src/components/sections/Philosophy/Philosophy.test.tsx src/components/sections/Philosophy/PhilosophyClient.tsx
@@ -539,7 +539,7 @@ git push origin main
 
 **Context:** Follows the Services pattern (`gsap.context` scoped to the section, cleanup in `useEffect` return). The test mocks `gsap` and `ScrollTrigger` because vitest + happy-dom can't run real scroll observers — we verify behavioural contracts: reduced-motion short-circuits the module; in motion-enabled environments we call `gsap.context` and create the expected number of triggers.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 File: `src/components/sections/Philosophy/PhilosophyClient.test.tsx`
 
@@ -671,13 +671,13 @@ describe("<PhilosophyClient />", () => {
 });
 ```
 
-- [ ] **Step 2: Run to confirm failure**
+- [x] **Step 2: Run to confirm failure**
 
 Run: `npm test -- PhilosophyClient`
 
 Expected: FAIL — the placeholder from Task 3 is a no-op, so the motion-allowed test fails (`createMock` called 0 times, expected 4).
 
-- [ ] **Step 3: Replace `PhilosophyClient.tsx` body**
+- [x] **Step 3: Replace `PhilosophyClient.tsx` body**
 
 File: `src/components/sections/Philosophy/PhilosophyClient.tsx` (replace entirely)
 
@@ -793,25 +793,25 @@ export function PhilosophyClient() {
 }
 ```
 
-- [ ] **Step 4: Run to confirm pass**
+- [x] **Step 4: Run to confirm pass**
 
 Run: `npm test -- PhilosophyClient`
 
 Expected: PASS — all four tests green.
 
-- [ ] **Step 5: Run full Philosophy test suite**
+- [x] **Step 5: Run full Philosophy test suite**
 
 Run: `npm test -- Philosophy`
 
 Expected: PASS — all Philosophy tests green.
 
-- [ ] **Step 6: Verify tsc clean**
+- [x] **Step 6: Verify tsc clean**
 
 Run: `npx tsc --noEmit`
 
 Expected: no errors.
 
-- [ ] **Step 7: Commit + push**
+- [x] **Step 7: Commit + push**
 
 ```bash
 git add src/components/sections/Philosophy/PhilosophyClient.tsx src/components/sections/Philosophy/PhilosophyClient.test.tsx
@@ -830,7 +830,7 @@ git push origin main
 
 Note: The "final width" for the gold rule in the reduced-motion fallback matches Tailwind breakpoints (96px / 120px / 160px). Because `BeliefBlock` already sets the width via Tailwind utilities (`w-[96px] md:w-[120px] lg:w-[160px]`), the reduced-motion reset just needs to ensure no inline `width: 0` from GSAP persists. In practice GSAP only writes inline styles when JS runs, so the reset is a belt-and-braces guard for future-proofing.
 
-- [ ] **Step 1: Append Philosophy block to `globals.css`**
+- [x] **Step 1: Append Philosophy block to `globals.css`**
 
 Append this block to the end of the file:
 
@@ -855,13 +855,13 @@ Append this block to the end of the file:
 }
 ```
 
-- [ ] **Step 2: Verify dev server still renders without errors**
+- [x] **Step 2: Verify dev server still renders without errors**
 
 Run (non-blocking): `npm run dev`
 
 Open `http://localhost:3000`. Expected: Hero + Services + Case Study render exactly as before — Philosophy still unmounted (wired in Task 6).
 
-- [ ] **Step 3: Commit + push**
+- [x] **Step 3: Commit + push**
 
 ```bash
 git add src/app/globals.css
@@ -878,7 +878,7 @@ git push origin main
 
 **Context:** Philosophy mounts between `<SelectedWorks />` (the Case Study ledger) and the future Process section. Page order matches the design.md §2 flow: Hero → Services → FeaturedCase → SelectedWorks → Philosophy.
 
-- [ ] **Step 1: Replace `page.tsx`**
+- [x] **Step 1: Replace `page.tsx`**
 
 File: `src/app/page.tsx`
 
@@ -902,7 +902,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **Step 2: Run dev server + smoke test**
+- [x] **Step 2: Run dev server + smoke test**
 
 Run (non-blocking): `npm run dev`
 
@@ -913,19 +913,19 @@ Open `http://localhost:3000`. Scroll past Hero → Services → Case Study → S
 - As each block scrolls into view: headline fades + translates up, gold rule draws left-to-right, body fades in shortly after.
 - Closing hairline beneath the third belief.
 
-- [ ] **Step 3: Verify tsc + lint clean**
+- [x] **Step 3: Verify tsc + lint clean**
 
 Run: `npx tsc --noEmit && npm run lint`
 
 Expected: no errors.
 
-- [ ] **Step 4: Run full test suite**
+- [x] **Step 4: Run full test suite**
 
 Run: `npm test -- --run`
 
 Expected: all Philosophy + Case Study + Services + Hero + Layout tests green.
 
-- [ ] **Step 5: Commit + push**
+- [x] **Step 5: Commit + push**
 
 ```bash
 git add src/app/page.tsx
@@ -943,7 +943,7 @@ git push origin main
 
 **Context:** Same Playwright + autoplay-policy config as `verify-case-study.mjs`. Captures desktop/tablet/mobile × 3 scroll positions + one reduced-motion frame. Commits screenshots + NOTES to the verification folder.
 
-- [ ] **Step 1: Ensure dev server is running on port 3000**
+- [x] **Step 1: Ensure dev server is running on port 3000**
 
 If not already running:
 
@@ -953,7 +953,7 @@ npm run dev
 
 (Leave running in another terminal; the verify script connects to `http://localhost:3000`.)
 
-- [ ] **Step 2: Create `scripts/verify-philosophy.mjs`**
+- [x] **Step 2: Create `scripts/verify-philosophy.mjs`**
 
 File: `scripts/verify-philosophy.mjs`
 
@@ -1047,7 +1047,7 @@ run().catch((err) => {
 });
 ```
 
-- [ ] **Step 3: Run the verify script**
+- [x] **Step 3: Run the verify script**
 
 Run: `node scripts/verify-philosophy.mjs`
 
@@ -1057,7 +1057,7 @@ Expected output: 10 PNGs written to `docs/verification/2026-04-18-philosophy/`:
 - `mobile-01-pre-reveal.png` · `mobile-02-mid-reveal.png` · `mobile-03-post-reveal.png`
 - `desktop-reduced-motion.png`
 
-- [ ] **Step 4: Open each PNG and confirm**
+- [x] **Step 4: Open each PNG and confirm**
 
 For each viewport set, confirm:
 - `01-pre-reveal`: section entering viewport, blocks not yet revealed (some may already be triggered — the start threshold is `top 80%`, so any block whose top is above 80% of the viewport will have fired; that's expected).
@@ -1067,7 +1067,7 @@ For each viewport set, confirm:
 
 If a frame looks wrong, investigate before writing NOTES.md.
 
-- [ ] **Step 5: Write `NOTES.md`**
+- [x] **Step 5: Write `NOTES.md`**
 
 File: `docs/verification/2026-04-18-philosophy/NOTES.md`
 
@@ -1119,17 +1119,17 @@ No partial-motion artifacts.
 
 ## Follow-ups for Task 8 audit
 
-- [ ] Confirm tsc, lint, prod build are all green.
-- [ ] Manual a11y check: tab order skips the section cleanly (no
+- [x] Confirm tsc, lint, prod build are all green.
+- [x] Manual a11y check: tab order skips the section cleanly (no
       focusable content); `aria-labelledby` resolves correctly.
-- [ ] Manual reflow check at 320px viewport.
-- [ ] Confirm no dashes/hyphens in rendered copy (test already enforces
+- [x] Manual reflow check at 320px viewport.
+- [x] Confirm no dashes/hyphens in rendered copy (test already enforces
       it at the data layer, but a visual check is cheap).
 ```
 
 Fill in the per-viewport observations after reviewing the PNGs.
 
-- [ ] **Step 6: Commit + push**
+- [x] **Step 6: Commit + push**
 
 ```bash
 git add scripts/verify-philosophy.mjs docs/verification/2026-04-18-philosophy/
@@ -1148,31 +1148,31 @@ git push origin main
 
 **Context:** Final gate before declaring the phase complete. Full test suite, strict typecheck, lint, prod build, and a quick manual pass for a11y + reflow + rendered-copy no-dashes check.
 
-- [ ] **Step 1: Run the full test suite**
+- [x] **Step 1: Run the full test suite**
 
 Run: `npm test -- --run`
 
 Expected: all tests green across the repo (Hero, Services, Case Study, Philosophy, Layout).
 
-- [ ] **Step 2: Run strict typecheck**
+- [x] **Step 2: Run strict typecheck**
 
 Run: `npx tsc --noEmit`
 
 Expected: no errors.
 
-- [ ] **Step 3: Run lint**
+- [x] **Step 3: Run lint**
 
 Run: `npm run lint`
 
 Expected: no warnings or errors.
 
-- [ ] **Step 4: Run production build**
+- [x] **Step 4: Run production build**
 
 Run: `npm run build`
 
 Expected: successful build. Scan output for any Philosophy-related warnings (hydration, missing keys, etc.). Fix inline if found.
 
-- [ ] **Step 5: Manual a11y + reflow pass**
+- [x] **Step 5: Manual a11y + reflow pass**
 
 Start dev server (`npm run dev`) if not already running. In the browser:
 
@@ -1184,7 +1184,7 @@ Start dev server (`npm run dev`) if not already running. In the browser:
 
 If any check fails, fix and commit the fix before proceeding.
 
-- [ ] **Step 6: Update `Project Log.md`**
+- [x] **Step 6: Update `Project Log.md`**
 
 Three concrete edits:
 
@@ -1224,7 +1224,7 @@ Mirror of the plan's checkboxes. Source of truth is still [2026-04-18-philosophy
 
 Fill each `<sha>` with the short SHA from `git log --oneline` for the matching commit.
 
-- [ ] **Step 7: Update plan checkboxes**
+- [x] **Step 7: Update plan checkboxes**
 
 Open `docs/superpowers/plans/2026-04-18-philosophy.md`. For each task, mark every `- [ ]` as `- [x]` and append the commit SHA at the end of each task header line, e.g.:
 
@@ -1232,7 +1232,7 @@ Open `docs/superpowers/plans/2026-04-18-philosophy.md`. For each task, mark ever
 ## Task 0: Philosophy folder scaffolding (commit: abc1234)
 ```
 
-- [ ] **Step 8: Commit + push**
+- [x] **Step 8: Commit + push**
 
 ```bash
 git add "Project Log.md" docs/superpowers/plans/2026-04-18-philosophy.md
@@ -1240,7 +1240,7 @@ git commit -m "docs: mark philosophy complete + phase transition"
 git push origin main
 ```
 
-- [ ] **Step 9: Final confirmation**
+- [x] **Step 9: Final confirmation**
 
 Run one more smoke test:
 

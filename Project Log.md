@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: case-study-complete
+status: philosophy-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -21,6 +21,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 > - Project conventions → [[claude]]
 
 ## Current status
+
+> [!success] Philosophy complete — 2026-04-18
+> All 9 tasks (0–8) shipped. `<Philosophy />` — Server Component shell on `var(--bg-darker)` with gold eyebrow ("OUR PHILOSOPHY"), two `[data-philosophy-bookend]` gold rules framing the stack, and three `<BeliefBlock />` entries (one xl-scaled headline + two lg). Single `'use client'` sibling `PhilosophyClient.tsx` owns all motion: per-block ScrollTriggers fade the eyebrow in and stagger-reveal each headline + body, plus a gold rule width-draw from 0 → captured `getComputedStyle` width. `beliefs.data.ts` typed `as const satisfies readonly Belief[]`, locked copy uses ASCII straight quotes, and `beliefs.data.test.ts` bakes in the site-wide no-dashes rule via `/[\u2014\u2013\u002D]/` regex. Reduced-motion guarded at both JS (early-return before `gsap.context`) and CSS (`@media (prefers-reduced-motion: reduce)` block) layers; CSS fallback uses `width: revert` so Tailwind per-breakpoint widths reassert. 113/113 tests (23 files) · tsc · lint · prod build all green. 10 playwright-cli captures at `docs/verification/2026-04-18-philosophy/` confirm layout on desktop/tablet/mobile + reduced-motion.
 
 > [!success] Case Study complete — 2026-04-18
 > All 12 tasks (0–11) shipped. `<FeaturedCase />` — pinned 500vh three-act story (setup · 3 decision beats · outcome), single `<video>` DOM node shared across Acts 1+3, one `ScrollTrigger` wrapping one GSAP timeline with labels for every beat. `<SelectedWorks />` — horizontal ledger with the NextUp card + honest dashed "NEXT UP →" placeholder. `projects.data.ts` typed `as const satisfies readonly ProjectEntry[]` for extensibility. 4 new decision-beat assets captured from live `nextupco.com`. Reduced-motion disables pin entirely and stacks beats naturally. Audit clean (WCAG labels, muted+playsInline autoplay, prefers-reduced-motion guards at both JS and CSS layers, video bundle ~1.4MB under 2MB budget). Task 11 also resolved a genuine regression: act2 had `max-w-[1400px]` + opaque teal bg that covered the video at Act 3 and the Act 1 overlay copy at Act 1 (commit `edf1a59`). 90/90 tests · tsc · lint · prod build all green.
@@ -145,6 +148,20 @@ Mirror of the plan's checkboxes. Source of truth is [2026-04-18-case-study](docs
 - [x] **Task 10** — Browser verification via playwright-cli (commit `2184eb6`) — 22 screenshots (desktop/tablet/mobile × 7 scroll positions + reduced-motion) at `docs/verification/2026-04-18-case-study/`. Initial capture surfaced two apparent concerns (white-box at 07-selected, blank Act 1 overlay) that turned out to be the same real regression — addressed in Task 11.
 - [x] **Task 11** — `audit` + `polish` passes (commits `edf1a59` act2 fix · `28f295d` verify-script autoplay-policy · `17dc5f7` screenshots + NOTES rewrite · `<pending>` phase transition). Root-caused the white-box: Act 2's `max-w-[1400px]` + opaque teal bg stayed when gsap.set killed `mx-auto`, leaving a 1400×1080 teal panel covering the video + Act 1 overlay. Two-edit fix (remove inline bg, add `maxWidth: "none"` to gsap.set) resolves both symptoms. Verify script now passes `--autoplay-policy=no-user-gesture-required` so headless captures match what real users see. NOTES.md rewritten to separate real bugs from verification-tool quirks. A11y/bundle audit clean. 90/90 tests · tsc · lint · prod build all green.
 
-## Next phase after hero
+## Task progress — Philosophy
 
-Services section — per design.md §2.3. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
+Mirror of the plan's checkboxes. Source of truth is [2026-04-18-philosophy](docs/superpowers/plans/2026-04-18-philosophy.md).
+
+- [x] **Task 0** — Scaffold `Philosophy/` folder + barrel export (commit `7d45d04`)
+- [x] **Task 1** — Build `beliefs.data.ts` + tests including no-dashes regex guard (commits `88c775e` + `adc5bcb` — subagent swapped ASCII quotes for unicode smart-quote escapes without authorization, fixed by rewriting with straight quotes)
+- [x] **Task 2** — Build `BeliefBlock` component (TDD) — scaled headline + gold rule + body grid (commit `f57b1fb`)
+- [x] **Task 3** — Build `Philosophy` server component shell + eyebrow + bookends + BeliefBlock list (TDD) (commit `5ac18b2`)
+- [x] **Task 4** — Implement `PhilosophyClient` — GSAP + ScrollTrigger motion, reduced-motion early-return, `getComputedStyle` capture for rule width (TDD, `vi.hoisted()` mock pattern matching Hero + FeaturedCase) (commit `896b914`)
+- [x] **Task 5** — Append Philosophy reduced-motion CSS fallback block to `globals.css` (lines 206–223, uses `width: revert` so Tailwind per-breakpoint rule widths reassert) (commit `c658be2`)
+- [x] **Task 6** — Wire `<Philosophy />` into `page.tsx` after `<SelectedWorks />` (commit `5a73fb2`)
+- [x] **Task 7** — Browser verification via playwright-cli — 10 PNGs (desktop/tablet/mobile × 3 scroll positions + reduced-motion) + NOTES.md at `docs/verification/2026-04-18-philosophy/` (commit `8366912`)
+- [x] **Task 8** — `audit` + `polish` passes — 113/113 tests · tsc · lint · prod build all green. No code fixes required. Phase transition.
+
+## Next phase after philosophy
+
+Process section — per design.md §2.6. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
