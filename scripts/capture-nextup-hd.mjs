@@ -4,7 +4,7 @@
 //   nextup-live-hd.mp4 / .webm / -hd-poster.webp → 1920×1200 (case study Act 1 backdrop)
 // Usage: node scripts/capture-nextup-hd.mjs
 import { chromium } from "playwright";
-import { mkdir, unlink, rename } from "node:fs/promises";
+import { mkdir, unlink } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { readdir, stat } from "node:fs/promises";
 import { dirname, resolve, join } from "node:path";
