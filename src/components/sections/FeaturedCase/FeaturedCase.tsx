@@ -16,11 +16,10 @@ export function FeaturedCase() {
 
       <div
         data-case-pin
-        className="relative w-full md:min-h-screen"
+        className="relative w-full"
+        style={{ minHeight: "100vh" }}
       >
-        {/* Single backdrop video — one DOM node, Client toggles opacity across acts.
-            Hidden on mobile: no pinning runs below md, so the video would sit
-            stacked behind the acts as a static backdrop. Teal section bg shows through. */}
+        {/* Single backdrop video — one DOM node, Client toggles opacity across acts */}
         <video
           data-case-video
           aria-hidden="true"
@@ -30,16 +29,16 @@ export function FeaturedCase() {
           playsInline
           preload="metadata"
           poster="/assets/hero/nextup-live-poster.webp"
-          className="pointer-events-none absolute inset-0 hidden h-full w-full object-cover md:block"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           style={{ filter: "saturate(var(--case-video-desat))" }}
         >
           <source src="/assets/hero/nextup-live.webm" type="video/webm" />
           <source src="/assets/hero/nextup-live.mp4" type="video/mp4" />
         </video>
 
-        {/* Act 1 — setup. Flows in-document on mobile; absolute overlay on desktop. */}
-        <div data-case-act="1" className="relative z-10 md:absolute md:inset-0">
-          <div className="px-6 py-20 md:absolute md:bottom-16 md:left-12 md:p-0">
+        {/* Act 1 — setup */}
+        <div data-case-act="1" className="absolute inset-0 z-10">
+          <div className="absolute bottom-10 left-6 md:bottom-16 md:left-12">
             <p
               className="mb-2 font-[var(--font-comico)] text-[28px] uppercase tracking-[0.05em] md:text-[40px]"
               style={{ color: "var(--text-primary)" }}
