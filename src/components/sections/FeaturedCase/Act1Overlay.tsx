@@ -56,7 +56,7 @@ export function Act1Overlay() {
         </div>
       ) : null}
 
-      <div className="absolute bottom-10 left-6 md:bottom-16 md:left-12">
+      <div className="absolute inset-y-0 left-6 flex flex-col justify-center md:left-12">
         <p
           className="mb-2 font-[var(--font-comico)] text-[28px] uppercase tracking-[0.05em] md:text-[40px]"
           style={{ color: "var(--text-primary)" }}
@@ -71,7 +71,7 @@ export function Act1Overlay() {
         </p>
       </div>
 
-      <div className="absolute right-4 top-8 flex items-center gap-2 md:right-12 md:top-16 md:gap-4">
+      <div className="absolute right-4 top-[80px] flex items-center gap-2 md:right-12 md:top-[84px] md:gap-4">
         <ChipButton
           label="DRAFT"
           thumb="/assets/hero/nextup-old.webp"
@@ -111,7 +111,7 @@ export function Act1Overlay() {
       {!active ? (
         <p
           aria-hidden="true"
-          className="absolute right-4 top-[84px] font-[var(--font-marker)] text-[10px] tracking-[0.18em] md:right-12 md:top-[100px] md:text-[11px]"
+          className="absolute right-4 top-[154px] font-[var(--font-marker)] text-[10px] tracking-[0.18em] md:right-12 md:top-[158px] md:text-[11px]"
           style={{ color: "var(--gold-accent)", opacity: 0.75 }}
         >
           ← tap to compare

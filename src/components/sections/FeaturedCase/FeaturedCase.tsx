@@ -27,7 +27,7 @@ export function FeaturedCase() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 85% 65% at 50% 38%, rgba(60,125,230,0.32) 0%, rgba(28,90,197,0) 65%), radial-gradient(ellipse at center, #0B3D8C 0%, #04265E 55%, #020E26 100%)",
+              "radial-gradient(ellipse 90% 70% at 50% 38%, rgba(20,130,110,0.45) 0%, rgba(13,84,76,0) 65%), radial-gradient(ellipse at center, #0D544C 0%, #083D38 55%, #041E1B 100%)",
           }}
         />
 
