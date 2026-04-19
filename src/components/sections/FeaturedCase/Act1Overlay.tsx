@@ -141,7 +141,7 @@ export function Act1Overlay() {
         {!active ? (
           <p
             aria-hidden="true"
-            className="mt-3 font-[var(--font-marker)] text-[10px] tracking-[0.18em] md:text-[11px]"
+            className="mt-3 font-[var(--font-marker)] text-[13px] tracking-[0.18em] md:text-[15px]"
             style={{ color: "var(--gold-accent)", opacity: 0.75 }}
           >
             ← tap to compare
