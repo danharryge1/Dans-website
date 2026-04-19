@@ -108,7 +108,7 @@ export function FeaturedCase() {
                 autoPlay
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 poster="/assets/hero/intro-bg-poster.jpg"
                 className="h-full w-full object-cover"
               >
@@ -127,7 +127,7 @@ export function FeaturedCase() {
                 autoPlay
                 loop
                 playsInline
-                preload="metadata"
+                preload="auto"
                 poster="/assets/hero/nextup-v2-poster.jpg"
                 className="h-full w-full object-cover"
               >

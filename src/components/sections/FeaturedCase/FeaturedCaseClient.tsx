@@ -18,6 +18,11 @@ export function FeaturedCaseClient() {
     ).matches;
     const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
+    // Always nudge all videos in the section to play regardless of viewport
+    section.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+      v.play().catch(() => {});
+    });
+
     if (prefersReducedMotion || !isDesktop) return;
 
     const pin = section.querySelector<HTMLElement>("[data-case-pin]");
@@ -32,16 +37,6 @@ export function FeaturedCaseClient() {
     );
 
     if (!pin || !act2 || beats.length < 3) return;
-
-    const beatVideos = beats.flatMap((beat) =>
-      Array.from(beat.querySelectorAll<HTMLVideoElement>("video")),
-    );
-    beatVideos.forEach((v) => {
-      const playPromise = v.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(() => {});
-      }
-    });
 
     const ctx = gsap.context(() => {
       gsap.set(act2, {

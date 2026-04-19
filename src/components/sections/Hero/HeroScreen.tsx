@@ -62,7 +62,7 @@ export function HeroScreen({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           poster={videoPoster}
           className="w-full h-full object-cover object-top"
         >

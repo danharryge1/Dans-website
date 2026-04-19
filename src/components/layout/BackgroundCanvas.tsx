@@ -68,7 +68,7 @@ export function BackgroundCanvas() {
       style={{ zIndex: -1, backgroundColor: "#070d0b" }}
       aria-hidden="true"
     >
-      {/* Gold orb */}
+      {/* Gold orb — initial transform matches JS starting position so no flash */}
       <div
         ref={goldRef}
         className="absolute top-0 left-0"
