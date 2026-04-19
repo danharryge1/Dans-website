@@ -8,7 +8,7 @@ export function GoldThread() {
       <span
         aria-hidden="true"
         data-process-thread=""
-        className="absolute top-0 left-0 block w-[1.5px] h-full origin-top"
+        className="absolute top-0 left-[-0.75px] block w-[1.5px] h-full origin-top"
         style={{
           backgroundColor: "var(--gold-accent)",
           opacity: 0.9,

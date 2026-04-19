@@ -96,10 +96,11 @@ export function ProcessClient() {
 
       if (threadLine) {
         gsap.set(threadLine, { scaleY: 0, transformOrigin: "top" });
+        const scrubTrigger = threadContainer ?? section;
         ScrollTrigger.create({
-          trigger: section,
-          start: "top 80%",
-          end: "bottom 60%",
+          trigger: scrubTrigger,
+          start: "top 70%",
+          end: "bottom 50%",
           scrub: 0.5,
           animation: gsap.to(threadLine, { scaleY: 1, ease: "none" }),
         });
