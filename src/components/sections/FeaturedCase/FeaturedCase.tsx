@@ -197,19 +197,67 @@ export function FeaturedCase() {
               title="SMALL FLOURISHES, BIG LIFT"
               body="Magnetic buttons. A full intro sequence. A background that responds to your cursor. Tiny craft decisions, stacked. Crafted by hand, not generated."
             >
-              <video
-                aria-hidden="true"
-                muted
-                autoPlay
-                loop
-                playsInline
-                preload="metadata"
-                poster="/assets/case-study/nextup/beat-03-magnetic-poster.webp"
-                className="h-full w-full object-cover"
-              >
-                <source src="/assets/case-study/nextup/beat-03-magnetic.webm" type="video/webm" />
-                <source src="/assets/case-study/nextup/beat-03-magnetic.mp4" type="video/mp4" />
-              </video>
+              <div className="grid h-full grid-cols-2 gap-[6px] p-[6px]">
+                <div className="grid grid-rows-2 gap-[6px]">
+                  <figure className="relative overflow-hidden rounded-[4px]">
+                    <Image
+                      src="/assets/case-study/nextup/beat-03-rest.webp"
+                      alt=""
+                      aria-hidden={true}
+                      fill
+                      sizes="(max-width: 768px) 40vw, 240px"
+                      className="object-cover"
+                    />
+                    <figcaption
+                      className="absolute bottom-1.5 left-2 font-[var(--font-marker)] text-[11px] tracking-[0.05em]"
+                      style={{
+                        color: "rgba(255,255,255,0.78)",
+                        textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      button at rest.
+                    </figcaption>
+                  </figure>
+                  <figure className="relative overflow-hidden rounded-[4px]">
+                    <Image
+                      src="/assets/case-study/nextup/beat-03-glow.webp"
+                      alt=""
+                      aria-hidden={true}
+                      fill
+                      sizes="(max-width: 768px) 40vw, 240px"
+                      className="object-cover"
+                    />
+                    <figcaption
+                      className="absolute bottom-1.5 left-2 font-[var(--font-marker)] text-[11px] tracking-[0.05em]"
+                      style={{
+                        color: "rgba(255,255,255,0.78)",
+                        textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      cursor pulls it.
+                    </figcaption>
+                  </figure>
+                </div>
+                <figure className="relative overflow-hidden rounded-[4px]">
+                  <Image
+                    src="/assets/case-study/nextup/beat-03-bg.webp"
+                    alt=""
+                    aria-hidden={true}
+                    fill
+                    sizes="(max-width: 768px) 40vw, 320px"
+                    className="object-cover"
+                  />
+                  <figcaption
+                    className="absolute bottom-2 left-2.5 font-[var(--font-marker)] text-[11px] tracking-[0.05em]"
+                    style={{
+                      color: "rgba(255,255,255,0.82)",
+                      textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+                    }}
+                  >
+                    atmosphere responds.
+                  </figcaption>
+                </figure>
+              </div>
             </DecisionBeat>
           </div>
         </div>
