@@ -20,7 +20,12 @@ export function Hero() {
         loop
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover"
+        poster="/assets/hero/hero-bg-poster.jpg"
+        disablePictureInPicture
+        disableRemotePlayback
+        controls={false}
+        tabIndex={-1}
+        className="pointer-events-none absolute inset-0 w-full h-full object-cover"
       >
         <source src="/assets/hero/hero-bg.mp4" type="video/mp4" />
       </video>

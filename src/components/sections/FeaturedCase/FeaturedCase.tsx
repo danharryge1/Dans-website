@@ -110,7 +110,11 @@ export function FeaturedCase() {
                 playsInline
                 preload="auto"
                 poster="/assets/hero/intro-bg-poster.jpg"
-                className="h-full w-full object-cover"
+                disablePictureInPicture
+                disableRemotePlayback
+                controls={false}
+                tabIndex={-1}
+                className="pointer-events-none h-full w-full object-cover"
               >
                 <source src="/assets/hero/intro-bg.mp4" type="video/mp4" />
               </video>
@@ -129,7 +133,11 @@ export function FeaturedCase() {
                 playsInline
                 preload="auto"
                 poster="/assets/hero/nextup-v2-poster.jpg"
-                className="h-full w-full object-cover"
+                disablePictureInPicture
+                disableRemotePlayback
+                controls={false}
+                tabIndex={-1}
+                className="pointer-events-none h-full w-full object-cover"
               >
                 <source src="/assets/hero/nextup-v2.mp4" type="video/mp4" />
               </video>

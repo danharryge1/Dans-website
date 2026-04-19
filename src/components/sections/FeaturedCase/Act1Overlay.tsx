@@ -173,11 +173,17 @@ function RealityVideo() {
     <video
       ref={ref}
       aria-hidden
+      autoPlay
       muted
       loop
       playsInline
       preload="auto"
       poster="/assets/hero/nextup-intro-poster.jpg"
+      disablePictureInPicture
+      disableRemotePlayback
+      controls={false}
+      tabIndex={-1}
+      className="pointer-events-none"
       style={{ display: "block", width: "auto", height: "calc(100vh - 160px)", maxWidth: "calc(100vw - 280px)" }}
     >
       <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />

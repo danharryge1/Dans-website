@@ -62,15 +62,33 @@ export function HeroClient() {
       return;
     }
 
-    // Force-play every video in the hero — clip-path can trick browsers into
-    // skipping playback for occluded elements.
+    // Force-play every video in the hero. Retries on canplay, visibilitychange,
+    // focus, and first user interaction so Safari's autoplay gating can never
+    // leave the video stuck on a poster frame.
     const heroVideos = Array.from(section.querySelectorAll<HTMLVideoElement>("video"));
-    const tryPlayVideo = () => heroVideos.forEach((v) => v.play().catch(() => {}));
+    const tryPlayVideo = () => heroVideos.forEach((v) => {
+      if (v.paused) v.play().catch(() => {});
+    });
     tryPlayVideo();
+    heroVideos.forEach((v) => {
+      v.addEventListener("canplay", tryPlayVideo);
+      v.addEventListener("loadeddata", tryPlayVideo);
+    });
     const visibilityHandler = () => {
       if (!document.hidden) tryPlayVideo();
     };
+    const focusHandler = () => tryPlayVideo();
+    const interactionHandler = () => {
+      tryPlayVideo();
+      window.removeEventListener("pointerdown", interactionHandler);
+      window.removeEventListener("keydown", interactionHandler);
+      window.removeEventListener("scroll", interactionHandler);
+    };
     document.addEventListener("visibilitychange", visibilityHandler);
+    window.addEventListener("focus", focusHandler);
+    window.addEventListener("pointerdown", interactionHandler, { passive: true });
+    window.addEventListener("keydown", interactionHandler);
+    window.addEventListener("scroll", interactionHandler, { passive: true });
 
     // Float animation: infinite y oscillation on laptop mockup element.
     // Created outside gsap.context because it's not ScrollTrigger-driven;
@@ -265,6 +283,14 @@ export function HeroClient() {
       if (lenis) lenis.destroy();
       if (io) io.disconnect();
       document.removeEventListener("visibilitychange", visibilityHandler);
+      window.removeEventListener("focus", focusHandler);
+      window.removeEventListener("pointerdown", interactionHandler);
+      window.removeEventListener("keydown", interactionHandler);
+      window.removeEventListener("scroll", interactionHandler);
+      heroVideos.forEach((v) => {
+        v.removeEventListener("canplay", tryPlayVideo);
+        v.removeEventListener("loadeddata", tryPlayVideo);
+      });
       if (onHeroMouseMove) section.removeEventListener("mousemove", onHeroMouseMove);
       if (knob) {
         knob.removeEventListener("pointerdown", onKnobDown);

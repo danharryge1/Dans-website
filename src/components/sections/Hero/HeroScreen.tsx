@@ -64,7 +64,11 @@ export function HeroScreen({
           playsInline
           preload="auto"
           poster={videoPoster}
-          className="w-full h-full object-cover object-top"
+          disablePictureInPicture
+          disableRemotePlayback
+          controls={false}
+          tabIndex={-1}
+          className="pointer-events-none w-full h-full object-cover object-top"
         >
           <source src={videoMp4} type="video/mp4" />
         </video>
