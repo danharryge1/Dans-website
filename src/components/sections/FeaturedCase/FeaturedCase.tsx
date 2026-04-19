@@ -130,24 +130,42 @@ export function FeaturedCase() {
               title="WHY BLUE"
               body="Our competition is loud. I chose blue because trust is the moat. Trust looks calm, not flashy. The whole palette defers to the work instead of shouting over it."
             >
-              <div className="flex h-full items-stretch gap-4 p-6">
-                <div className="flex w-[96px] flex-col gap-[2px]">
-                  {["#04265E", "#0B3D8C", "#1C5AC5", "#3B7BE0", "#6C9FEB", "#A8C4F2"].map((hex) => (
+              <div className="flex h-full items-stretch">
+                <div className="flex w-[40%] flex-col">
+                  {[
+                    { hex: "#04265E", onDark: true },
+                    { hex: "#0B3D8C", onDark: true },
+                    { hex: "#1C5AC5", onDark: true },
+                    { hex: "#3B7BE0", onDark: true },
+                    { hex: "#6C9FEB", onDark: false },
+                    { hex: "#A8C4F2", onDark: false },
+                  ].map(({ hex, onDark }) => (
                     <div
                       key={hex}
-                      className="h-full w-full"
-                      style={{ background: hex }}
+                      className="flex flex-1 items-center justify-between px-3"
+                      style={{ background: hex, minHeight: "44px" }}
                       aria-hidden="true"
-                    />
+                    >
+                      <span
+                        className="font-[var(--font-marker)] text-[11px] tracking-[0.08em]"
+                        style={{
+                          color: onDark
+                            ? "rgba(255,255,255,0.88)"
+                            : "rgba(11,36,34,0.72)",
+                        }}
+                      >
+                        {hex}
+                      </span>
+                    </div>
                   ))}
                 </div>
-                <div className="relative flex-1 overflow-hidden rounded-[8px]">
+                <div className="relative w-[60%] overflow-hidden">
                   <Image
                     src="/assets/case-study/nextup/beat-01-hero-crop.webp"
                     alt=""
                     aria-hidden={true}
                     fill
-                    sizes="(max-width: 768px) 80vw, 400px"
+                    sizes="(max-width: 768px) 80vw, 500px"
                     className="object-cover"
                   />
                 </div>
