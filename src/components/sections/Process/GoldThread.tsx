@@ -21,7 +21,7 @@ export function GoldThread() {
           key={n}
           aria-hidden="true"
           data-process-dot={String(n)}
-          className="absolute left-0 block h-[10px] w-[10px] rounded-full -translate-x-1/2"
+          className="absolute left-0 block h-[10px] w-[10px] rounded-full"
           style={{
             backgroundColor: "var(--gold-accent)",
             transform: "translate(-50%, -50%) scale(0)",
