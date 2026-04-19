@@ -34,6 +34,16 @@ export function FeaturedCaseClient() {
 
     if (!pin || !act2 || beats.length < 3) return;
 
+    const beatVideos = beats.flatMap((beat) =>
+      Array.from(beat.querySelectorAll<HTMLVideoElement>("video")),
+    );
+    beatVideos.forEach((v) => {
+      const playPromise = v.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {});
+      }
+    });
+
     const ctx = gsap.context(() => {
       gsap.set(act2, {
         position: "absolute",
