@@ -28,9 +28,9 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — box sized to actual image dimensions */}
+      {/* Draft — same height as reality, centred in full overlay */}
       {active === "draft" && (
-        <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
+        <div className="pointer-events-none absolute inset-x-0 bottom-8 top-[96px] flex items-center justify-center md:bottom-12 md:top-[104px]">
           <div
             className="relative overflow-hidden"
             style={{
@@ -48,9 +48,8 @@ export function Act1Overlay() {
               style={{
                 display: "block",
                 width: "auto",
-                height: "auto",
-                maxWidth: "100%",
-                maxHeight: "calc(100vh - 160px)",
+                height: "calc(100vh - 160px)",
+                maxWidth: "calc(100vw - 280px)",
               }}
             />
             <div
@@ -64,9 +63,9 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — box sized to actual video dimensions */}
+      {/* Reality — centred in full overlay */}
       {active === "reality" && (
-        <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
+        <div className="pointer-events-none absolute inset-x-0 bottom-8 top-[96px] flex items-center justify-center md:bottom-12 md:top-[104px]">
           <div
             className="relative overflow-hidden"
             style={{
@@ -173,7 +172,7 @@ function RealityVideo() {
       playsInline
       preload="auto"
       poster="/assets/hero/nextup-intro-poster.jpg"
-      style={{ display: "block", width: "auto", height: "auto", maxWidth: "100%", maxHeight: "calc(100vh - 160px)" }}
+      style={{ display: "block", width: "auto", height: "calc(100vh - 160px)", maxWidth: "calc(100vw - 280px)" }}
     >
       <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
     </video>
