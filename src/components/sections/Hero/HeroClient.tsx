@@ -62,6 +62,19 @@ export function HeroClient() {
       return;
     }
 
+    // Belt-and-braces force-play: some browsers (iOS Safari low-power, strict
+    // autoplay policies) ignore the video's `autoplay` attribute. We call
+    // play() manually on mount, and again on visibility change.
+    const heroVideo = section.querySelector<HTMLVideoElement>("video");
+    const tryPlayVideo = () => {
+      if (heroVideo) heroVideo.play().catch(() => {});
+    };
+    tryPlayVideo();
+    const visibilityHandler = () => {
+      if (!document.hidden) tryPlayVideo();
+    };
+    document.addEventListener("visibilitychange", visibilityHandler);
+
     // Float animation: infinite y oscillation on laptop mockup element.
     // Created outside gsap.context because it's not ScrollTrigger-driven;
     // must be killed manually in cleanup.
@@ -101,6 +114,49 @@ export function HeroClient() {
     // before the observer fires. `ctx.revert()` does NOT clean up raw
     // IntersectionObservers, so leaving it inside gsap.context would leak.
     let io: IntersectionObserver | null = null;
+
+    // Seam drag — lets visitors scrub the comparison by grabbing the knob,
+    // independent of scroll position. Active on desktop + mobile (touch).
+    const knob = section.querySelector<HTMLElement>("[data-hero-knob]");
+    const screen = section.querySelector<HTMLElement>("[data-hero-screen]");
+    let dragging = false;
+    const updateSeamFromX = (clientX: number) => {
+      if (!screen) return;
+      const rect = screen.getBoundingClientRect();
+      const pct = Math.max(
+        0,
+        Math.min(100, ((clientX - rect.left) / rect.width) * 100),
+      );
+      section.style.setProperty("--seam-x", `${pct}%`);
+    };
+    const onKnobDown = (e: PointerEvent) => {
+      dragging = true;
+      try {
+        knob?.setPointerCapture(e.pointerId);
+      } catch {
+        /* noop — capture not supported */
+      }
+      e.preventDefault();
+    };
+    const onKnobMove = (e: PointerEvent) => {
+      if (!dragging) return;
+      updateSeamFromX(e.clientX);
+    };
+    const onKnobUp = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      try {
+        knob?.releasePointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    };
+    if (knob) {
+      knob.addEventListener("pointerdown", onKnobDown);
+      knob.addEventListener("pointermove", onKnobMove);
+      knob.addEventListener("pointerup", onKnobUp);
+      knob.addEventListener("pointercancel", onKnobUp);
+    }
 
     const ctx = gsap.context(() => {
       if (desktop) {
@@ -188,6 +244,13 @@ export function HeroClient() {
       if (lenis) lenis.destroy();
       // Idempotent — safe if the observer already self-disconnected.
       if (io) io.disconnect();
+      document.removeEventListener("visibilitychange", visibilityHandler);
+      if (knob) {
+        knob.removeEventListener("pointerdown", onKnobDown);
+        knob.removeEventListener("pointermove", onKnobMove);
+        knob.removeEventListener("pointerup", onKnobUp);
+        knob.removeEventListener("pointercancel", onKnobUp);
+      }
     };
   }, []);
 

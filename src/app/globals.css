@@ -192,6 +192,22 @@ nav :is(a, button):focus-visible,
   50%      { transform: translateY(2px); }
 }
 
+/* ---------- HERO KNOB KEYFRAMES ---------- */
+@keyframes hero-knob-pulse {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(200,165,92,0.65), 0 4px 10px rgba(0,0,0,0.3);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(200,165,92,0.95), 0 4px 14px rgba(0,0,0,0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-hero-knob] {
+    animation: none !important;
+  }
+}
+
 /* ---------- REDUCED MOTION (CASE STUDY) ---------- */
 @media (prefers-reduced-motion: reduce) {
   [data-case-beat] {

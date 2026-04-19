@@ -14,7 +14,7 @@ export function HeroScreen({
   videoPoster,
 }: HeroScreenProps) {
   return (
-    <div className="relative w-full h-full">
+    <div data-hero-screen className="relative w-full h-full select-none">
       {/* screen-reader description of the transformation */}
       <p className="sr-only">
         Animated reveal: NextUp Co.&rsquo;s original site on the left transitions
@@ -103,15 +103,30 @@ export function HeroScreen({
           transform: "translateX(-1px)",
         }}
       >
-        <span
-          aria-hidden="true"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22px] h-[22px] rounded-full"
+        <button
+          type="button"
+          data-hero-knob
+          aria-label="Drag to compare the draft and the live site"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[32px] h-[32px] rounded-full p-0 flex items-center justify-center gap-[2.5px] cursor-ew-resize pointer-events-auto touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-accent)] focus-visible:ring-offset-2"
           style={{
             backgroundColor: "var(--text-primary)",
             border: "2px solid var(--gold-accent)",
-            boxShadow: "0 0 14px rgba(200,165,92,0.5)",
+            boxShadow:
+              "0 0 18px rgba(200,165,92,0.65), 0 4px 10px rgba(0,0,0,0.3)",
+            animation: "hero-knob-pulse 2.4s ease-in-out infinite",
           }}
-        />
+        >
+          <span
+            aria-hidden="true"
+            className="block w-[2px] h-[10px] rounded-full"
+            style={{ backgroundColor: "var(--gold-accent)" }}
+          />
+          <span
+            aria-hidden="true"
+            className="block w-[2px] h-[10px] rounded-full"
+            style={{ backgroundColor: "var(--gold-accent)" }}
+          />
+        </button>
       </div>
     </div>
   );
