@@ -7,7 +7,7 @@ import { submitContact, type ContactState } from "@/lib/contact-action";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 import { contactCopy } from "./contact.data";
 
-const BUDGET_OPTIONS = ["Under £5k", "£5k to £15k", "£15k to £30k", "£30k+"] as const;
+const PROMPT_CHIPS = ["New website", "Redesign", "E-commerce", "Web app", "Need advice"] as const;
 
 const initialState: ContactState = { status: "idle" };
 
@@ -90,7 +90,7 @@ export function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [budget, setBudget] = useState("");
+  const [chips, setChips] = useState<string[]>([]);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
 
@@ -246,25 +246,28 @@ export function ContactForm() {
           className="mb-3 text-[12px] uppercase tracking-[0.12em]"
           style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
         >
-          Budget range
+          What best describes it?
         </p>
         <div className="flex flex-wrap gap-2">
-          {BUDGET_OPTIONS.map((opt) => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => setBudget(budget === opt ? "" : opt)}
-              className="rounded-full border px-4 py-1.5 text-[13px] transition-all duration-200"
-              style={{
-                fontFamily: "var(--font-marker)",
-                borderColor: budget === opt ? "var(--gold-accent)" : "var(--border-input)",
-                color: budget === opt ? "var(--gold-accent)" : "var(--text-secondary)",
-                background: budget === opt ? "rgba(200,165,92,0.1)" : "transparent",
-              }}
-            >
-              {opt}
-            </button>
-          ))}
+          {PROMPT_CHIPS.map((chip) => {
+            const active = chips.includes(chip);
+            return (
+              <button
+                key={chip}
+                type="button"
+                onClick={() => setChips(active ? chips.filter((c) => c !== chip) : [...chips, chip])}
+                className="rounded-full border px-4 py-1.5 text-[13px] transition-all duration-200"
+                style={{
+                  fontFamily: "var(--font-marker)",
+                  borderColor: active ? "var(--gold-accent)" : "var(--border-input)",
+                  color: active ? "var(--gold-accent)" : "var(--text-secondary)",
+                  background: active ? "rgba(200,165,92,0.1)" : "transparent",
+                }}
+              >
+                {chip}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -289,8 +292,18 @@ export function ContactForm() {
       {/* Hidden real inputs — submitted to server action */}
       <input type="hidden" name="name" value={name} />
       <input type="hidden" name="email" value={email} />
-      <input type="hidden" name="message" value={`${message}${budget ? `\n\nBudget: ${budget}` : ""}`} />
+      <input type="hidden" name="message" value={`${chips.length ? `[${chips.join(", ")}]\n\n` : ""}${message}`} />
       <input type="hidden" name="website" value="" />
+
+      {/* Form header */}
+      <div className="flex items-center justify-between mb-5">
+        <p
+          className="text-[13px] uppercase tracking-[0.12em]"
+          style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
+        >
+          {step === 0 ? "Want to get in touch?" : step === 1 ? "Almost there" : "One last thing"}
+        </p>
+      </div>
 
       {/* Step progress dots */}
       <div className="flex items-center gap-2 mb-7" aria-hidden="true">
@@ -323,6 +336,14 @@ export function ContactForm() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Reply note — always visible */}
+      <p
+        className="mt-5 text-[12px] uppercase tracking-[0.1em]"
+        style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)", opacity: 0.6 }}
+      >
+        I reply within 48h
+      </p>
 
       {state.status === "networkError" && (
         <p role="alert" className="mt-4 text-[14px]" style={{ color: "#E8A098", fontFamily: "var(--font-marker)" }}>

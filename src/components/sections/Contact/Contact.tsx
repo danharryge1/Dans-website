@@ -29,10 +29,23 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative w-full py-32 md:py-40"
-      style={{ backgroundColor: "var(--bg-darker)" }}
+      className="relative w-full py-32 md:py-40 overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(160deg, #061c19 0%, #0d544c 30%, #0b4840 70%, #071a17 100%)",
+      }}
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
+      {/* Radial glow top-left */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-0 top-0 w-[500px] h-[500px]"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 60% at 0% 0%, rgba(200,165,92,0.07) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="relative mx-auto max-w-[1100px]">
           <span
             aria-hidden="true"
@@ -56,9 +69,11 @@ export function Contact() {
             {contactCopy.headline}
           </h2>
 
-          <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            {/* Left panel — enhanced */}
-            <div data-contact-paragraph="" className="flex flex-col justify-between gap-10">
+          {/* 3-col grid: left | divider | right */}
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-[1fr_1px_1fr] lg:gap-0">
+
+            {/* Left panel */}
+            <div data-contact-paragraph="" className="flex flex-col justify-between gap-10 lg:pr-16">
               <div
                 className="text-[18px] md:text-[20px] leading-[1.55] tracking-[0.01em] max-w-[38ch]"
                 style={{ fontFamily: "var(--font-marker)", color: "var(--text-primary)" }}
@@ -72,10 +87,7 @@ export function Contact() {
 
               {/* Availability badge */}
               <div className="flex items-center gap-3">
-                <span
-                  className="relative flex h-2.5 w-2.5 shrink-0"
-                  aria-hidden="true"
-                >
+                <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
                   <span
                     className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
                     style={{ backgroundColor: "#4ade80" }}
@@ -98,27 +110,23 @@ export function Contact() {
                 {STATS.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-xl p-4"
+                    className="rounded-xl p-4 transition-transform duration-200 ease-out hover:-translate-y-1.5 active:-translate-y-1.5 cursor-default"
                     style={{
-                      background: "rgba(200,165,92,0.06)",
-                      border: "1px solid rgba(200,165,92,0.15)",
+                      background:
+                        "linear-gradient(135deg, rgba(200,165,92,0.14) 0%, rgba(200,165,92,0.05) 100%)",
+                      border: "1px solid rgba(200,165,92,0.22)",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
                     }}
                   >
                     <div
                       className="text-[28px] leading-none mb-1"
-                      style={{
-                        fontFamily: "var(--font-comico)",
-                        color: "var(--gold-accent)",
-                      }}
+                      style={{ fontFamily: "var(--font-comico)", color: "var(--gold-accent)" }}
                     >
                       {s.value}
                     </div>
                     <div
                       className="text-[11px] uppercase tracking-[0.08em] leading-[1.3]"
-                      style={{
-                        fontFamily: "var(--font-marker)",
-                        color: "var(--text-secondary)",
-                      }}
+                      style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
                     >
                       {s.label}
                     </div>
@@ -133,14 +141,11 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="X (Twitter)"
-                  className="flex items-center gap-2.5 transition-opacity hover:opacity-100 opacity-60 group"
+                  className="flex items-center gap-2.5 transition-opacity hover:opacity-100 opacity-60"
                   style={{ color: "var(--text-primary)" }}
                 >
                   <XIcon />
-                  <span
-                    className="text-[13px] uppercase tracking-[0.08em]"
-                    style={{ fontFamily: "var(--font-marker)" }}
-                  >
+                  <span className="text-[13px] uppercase tracking-[0.08em]" style={{ fontFamily: "var(--font-marker)" }}>
                     @DanGeorge
                   </span>
                 </a>
@@ -149,21 +154,29 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  className="flex items-center gap-2.5 transition-opacity hover:opacity-100 opacity-60 group"
+                  className="flex items-center gap-2.5 transition-opacity hover:opacity-100 opacity-60"
                   style={{ color: "var(--text-primary)" }}
                 >
                   <LinkedInIcon />
-                  <span
-                    className="text-[13px] uppercase tracking-[0.08em]"
-                    style={{ fontFamily: "var(--font-marker)" }}
-                  >
+                  <span className="text-[13px] uppercase tracking-[0.08em]" style={{ fontFamily: "var(--font-marker)" }}>
                     LinkedIn
                   </span>
                 </a>
               </div>
             </div>
 
-            <div>
+            {/* Vertical divider — desktop only */}
+            <div
+              aria-hidden="true"
+              className="hidden lg:block self-stretch w-px"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0%, rgba(200,165,92,0.35) 20%, rgba(200,165,92,0.35) 80%, transparent 100%)",
+              }}
+            />
+
+            {/* Right panel — form */}
+            <div className="lg:pl-16">
               <ContactForm />
             </div>
           </div>
