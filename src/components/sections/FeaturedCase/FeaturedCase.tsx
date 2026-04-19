@@ -166,6 +166,28 @@ export function FeaturedCase() {
             Built to stay out of the way. Designed, shipped, and maintained by
             one person.
           </p>
+          {/* Site preview video */}
+          <div
+            className="mx-auto mb-12 mt-10 w-full max-w-[900px] overflow-hidden rounded-2xl"
+            style={{
+              boxShadow:
+                "0 0 0 1px rgba(200,165,92,0.2), 0 40px 80px -20px rgba(0,0,0,0.7)",
+            }}
+          >
+            <video
+              aria-hidden="true"
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="metadata"
+              poster="/assets/hero/sites-doing-job-poster.jpg"
+              className="w-full object-cover"
+            >
+              <source src="/assets/hero/sites-doing-job.mp4" type="video/mp4" />
+            </video>
+          </div>
+
           <MagneticButton
             href="https://nextupco.com"
             target="_blank"
