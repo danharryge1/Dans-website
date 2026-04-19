@@ -7,10 +7,23 @@ export function Philosophy() {
     <section
       id="philosophy"
       aria-labelledby="philosophy-heading"
-      className="relative w-full py-32 md:py-40"
-      style={{ backgroundColor: "var(--bg-darker)" }}
+      className="relative w-full py-32 md:py-40 overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(175deg, #020d0b 0%, #041a14 18%, #071f18 38%, #030e0b 62%, #051510 80%, #020d0b 100%)",
+      }}
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
+      {/* Radial warm glow — centre depth */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 65% 45% at 50% 52%, rgba(200,165,92,0.055) 0%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="mx-auto max-w-[1100px]">
           <h2
             id="philosophy-heading"
