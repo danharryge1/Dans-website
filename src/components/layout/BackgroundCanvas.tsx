@@ -2,63 +2,78 @@
 
 import { useEffect, useRef } from "react";
 
-// Static atmospheric layers — pure CSS, zero runtime cost
 const STATIC_LAYERS = [
-  // Gold bloom, bottom-centre — the signature warmth
-  "radial-gradient(ellipse 90% 55% at 50% 92%, rgba(200,165,92,0.17) 0%, transparent 62%)",
-  // Teal wash, left side
-  "radial-gradient(ellipse 65% 75% at 8% 42%, rgba(13,84,76,0.38) 0%, transparent 58%)",
-  // Deep green, right side
-  "radial-gradient(ellipse 55% 65% at 92% 58%, rgba(8,45,35,0.44) 0%, transparent 52%)",
-  // Soft warm blush, top-centre — keeps it from reading pure black at scroll-top
-  "radial-gradient(ellipse 50% 35% at 52% 5%, rgba(200,165,92,0.07) 0%, transparent 60%)",
+  "radial-gradient(ellipse 90% 55% at 50% 92%, rgba(200,165,92,0.14) 0%, transparent 62%)",
+  "radial-gradient(ellipse 65% 75% at 8% 42%, rgba(13,84,76,0.30) 0%, transparent 58%)",
+  "radial-gradient(ellipse 55% 65% at 92% 58%, rgba(8,45,35,0.38) 0%, transparent 52%)",
+  "radial-gradient(ellipse 50% 35% at 52% 5%, rgba(200,165,92,0.05) 0%, transparent 60%)",
 ].join(",");
 
 export function BackgroundCanvas() {
-  const goldRef = useRef<HTMLDivElement>(null);
-  const tealRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const goldRef   = useRef<HTMLDivElement>(null);
+  const tealRef   = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let rafId: number;
-    // Current orb centre in px
-    let gx = window.innerWidth * 0.5;
-    let gy = window.innerHeight * 0.8;
-    let tx = window.innerWidth * 0.2;
-    let ty = window.innerHeight * 0.35;
-    // Mouse in px (default to centre)
-    let mx = window.innerWidth * 0.5;
-    let my = window.innerHeight * 0.5;
-    let t = 0;
+    const W = () => window.innerWidth;
+    const H = () => window.innerHeight;
 
-    const onMouse = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; };
+    // Live mouse position
+    let mx = W() * 0.5;
+    let my = H() * 0.5;
+
+    // Cursor glow — snaps to mouse
+    let cx = mx, cy = my;
+    // Gold drift orb
+    let gx = W() * 0.5,  gy = H() * 0.75;
+    // Teal drift orb
+    let tx = W() * 0.18, ty = H() * 0.35;
+
+    let t = 0;
+    let hasMoved = false;
+
+    const onMouse = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      hasMoved = true;
+    };
     window.addEventListener("mousemove", onMouse, { passive: true });
 
     function tick() {
       rafId = requestAnimationFrame(tick);
       t += 0.007;
+      const w = W(), h = H();
 
-      const W = window.innerWidth;
-      const H = window.innerHeight;
+      // Cursor glow — tight spring, follows mouse closely
+      cx += (mx - cx) * 0.14;
+      cy += (my - cy) * 0.14;
 
-      // Gold orb — natural home near bottom-centre, drawn softly toward cursor
-      const gTargetX = W * 0.5  + (mx - W * 0.5) * 0.20 + Math.sin(t * 0.6)  * W * 0.04;
-      const gTargetY = H * 0.80 + (my - H * 0.5) * 0.12 + Math.cos(t * 0.45) * H * 0.03;
-      gx += (gTargetX - gx) * 0.06;
-      gy += (gTargetY - gy) * 0.06;
+      // Gold orb — home near bottom-centre, moderate mouse pull
+      const gTx = w * 0.50 + (mx - w * 0.5) * 0.28 + Math.sin(t * 0.55) * w * 0.05;
+      const gTy = h * 0.75 + (my - h * 0.5) * 0.18 + Math.cos(t * 0.42) * h * 0.04;
+      gx += (gTx - gx) * 0.055;
+      gy += (gTy - gy) * 0.055;
 
-      // Teal orb — natural home upper-left, moves sluggishly
-      const tTargetX = W * 0.18 + (mx - W * 0.5) * 0.10 + Math.cos(t * 0.5)  * W * 0.03;
-      const tTargetY = H * 0.32 + (my - H * 0.5) * 0.08 + Math.sin(t * 0.38) * H * 0.025;
-      tx += (tTargetX - tx) * 0.028;
-      ty += (tTargetY - ty) * 0.028;
+      // Teal orb — home upper-left, slow drift
+      const tTx = w * 0.18 + (mx - w * 0.5) * 0.12 + Math.cos(t * 0.48) * w * 0.035;
+      const tTy = h * 0.32 + (my - h * 0.5) * 0.09 + Math.sin(t * 0.36) * h * 0.030;
+      tx += (tTx - tx) * 0.022;
+      ty += (tTy - ty) * 0.022;
 
+      if (cursorRef.current) {
+        // Cursor glow: 180px orb, centered on cursor
+        cursorRef.current.style.transform = `translate3d(${cx - 90}px, ${cy - 90}px, 0)`;
+        // Fade in only after first real mouse move so it doesn't sit at centre awkwardly
+        if (hasMoved) cursorRef.current.style.opacity = "1";
+      }
       if (goldRef.current) {
-        goldRef.current.style.transform = `translate3d(${gx - 200}px, ${gy - 200}px, 0)`;
+        goldRef.current.style.transform = `translate3d(${gx - 300}px, ${gy - 300}px, 0)`;
       }
       if (tealRef.current) {
-        tealRef.current.style.transform = `translate3d(${tx - 280}px, ${ty - 280}px, 0)`;
+        tealRef.current.style.transform = `translate3d(${tx - 350}px, ${ty - 350}px, 0)`;
       }
     }
 
@@ -75,29 +90,44 @@ export function BackgroundCanvas() {
       style={{ zIndex: -1, backgroundColor: "#070d0b", backgroundImage: STATIC_LAYERS }}
       aria-hidden="true"
     >
-      {/* Gold cursor orb — warm, responsive */}
+      {/* Tight cursor glow — makes mouse interaction obvious */}
+      <div
+        ref={cursorRef}
+        className="absolute top-0 left-0"
+        style={{
+          width: 180,
+          height: 180,
+          borderRadius: "50%",
+          background: "radial-gradient(circle at center, rgba(200,165,92,0.55) 0%, transparent 70%)",
+          filter: "blur(32px)",
+          willChange: "transform",
+          opacity: 0,
+          transition: "opacity 0.4s ease",
+        }}
+      />
+      {/* Gold drift orb — large, lazy */}
       <div
         ref={goldRef}
         className="absolute top-0 left-0"
         style={{
-          width: 400,
-          height: 400,
+          width: 600,
+          height: 600,
           borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(200,165,92,0.28) 0%, transparent 70%)",
-          filter: "blur(55px)",
+          background: "radial-gradient(circle at center, rgba(200,165,92,0.22) 0%, transparent 70%)",
+          filter: "blur(90px)",
           willChange: "transform",
         }}
       />
-      {/* Teal cursor orb — cool, laggy */}
+      {/* Teal drift orb — large, sluggish */}
       <div
         ref={tealRef}
         className="absolute top-0 left-0"
         style={{
-          width: 560,
-          height: 560,
+          width: 700,
+          height: 700,
           borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(13,84,76,0.32) 0%, transparent 70%)",
-          filter: "blur(70px)",
+          background: "radial-gradient(circle at center, rgba(13,84,76,0.35) 0%, transparent 70%)",
+          filter: "blur(100px)",
           willChange: "transform",
         }}
       />
