@@ -1,5 +1,3 @@
-import { FluidCanvas } from "@/components/sections/SelectedWorks/FluidCanvas";
-
 function XIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -20,15 +18,10 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer
-      className="relative overflow-hidden border-t py-12 px-6 md:py-16"
-      style={{
-        background: "#030e0c",
-        borderColor: "var(--grid-line)",
-      }}
+      className="border-t py-5 px-6"
+      style={{ borderColor: "var(--grid-line)" }}
     >
-      <FluidCanvas />
-
-      <div className="relative z-10 mx-auto max-w-[1400px] flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+      <div className="mx-auto max-w-[1400px] flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
         <p
           className="text-[12px] uppercase tracking-[0.05em]"
           style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}

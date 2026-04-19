@@ -1,4 +1,3 @@
-import { FluidCanvas } from "@/components/sections/SelectedWorks/FluidCanvas";
 import { GoldThread } from "./GoldThread";
 import { PhaseBlock } from "./PhaseBlock";
 import { phases } from "./phases.data";
@@ -9,12 +8,9 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="relative w-full overflow-hidden py-48 md:py-64"
-      style={{ background: "#030e0c" }}
+      className="relative w-full py-48 md:py-64"
     >
-      <FluidCanvas />
-
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="relative mx-auto max-w-[1200px]">
           <span
             aria-hidden="true"
