@@ -24,7 +24,7 @@ describe("<SelectedWorks />", () => {
     expect(realCards.length).toBe(1);
     expect(placeholders.length).toBe(1);
     expect(getByText("NEXTUP")).toBeInTheDocument();
-    expect(getByText("NEXT UP →")).toBeInTheDocument();
+    expect(getByText("ON DECK →")).toBeInTheDocument();
   });
 
   it("renders the cards inside a scroll-snapping row", () => {

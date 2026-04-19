@@ -11,7 +11,7 @@ export function FeaturedCase() {
       style={{ background: "var(--bg-primary)" }}
     >
       <h2 id="case-study-heading" className="sr-only">
-        NextUp — featured case study
+        NextUp, featured case study
       </h2>
 
       <div
@@ -43,7 +43,7 @@ export function FeaturedCase() {
               className="mb-2 font-[var(--font-comico)] text-[28px] uppercase tracking-[0.05em] md:text-[40px]"
               style={{ color: "var(--text-primary)" }}
             >
-              NEXTUP — 2026
+              NEXTUP 2026
             </p>
             <p
               className="font-[var(--font-marker)] text-[15px] leading-[1.5] md:text-[18px]"
@@ -115,7 +115,7 @@ export function FeaturedCase() {
             <DecisionBeat
               index={0}
               title="WHY BLUE"
-              body="Our competition is loud. I chose blue because trust is the moat — and trust looks calm, not flashy. The whole palette defers to the work instead of shouting over it."
+              body="Our competition is loud. I chose blue because trust is the moat. Trust looks calm, not flashy. The whole palette defers to the work instead of shouting over it."
             >
               <div className="flex h-full items-stretch gap-4 p-6">
                 <div className="flex w-[96px] flex-col gap-[2px]">
@@ -164,7 +164,7 @@ export function FeaturedCase() {
             <DecisionBeat
               index={2}
               title="SMALL FLOURISHES, BIG LIFT"
-              body="Magnetic buttons. A full intro sequence. An animated background that responds to the cursor. Tiny craft decisions stacked — none shouting alone, all adding up to a site that feels unmistakably hand-made."
+              body="Magnetic buttons. A full intro sequence. A background that responds to your cursor. Tiny craft decisions, stacked. Crafted by hand, not generated."
             >
               <video
                 aria-hidden="true"
@@ -195,13 +195,10 @@ export function FeaturedCase() {
             The site&apos;s doing its job.
           </p>
           <p
-            className="mx-auto mb-6 inline-block rounded-full border px-4 py-2 font-[var(--font-marker)] text-[13px] uppercase tracking-[0.1em]"
-            style={{
-              borderColor: "var(--gold-accent)",
-              color: "var(--gold-accent)",
-            }}
+            className="mx-auto mb-6 font-[var(--font-marker)] text-[15px] md:text-[16px]"
+            style={{ color: "var(--text-secondary)" }}
           >
-            LIGHTHOUSE 97 · A11Y 100 · BP 100
+            Built to stay out of the way.
           </p>
           <p
             data-case-arrow-float

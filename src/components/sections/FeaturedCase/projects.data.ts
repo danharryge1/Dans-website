@@ -13,9 +13,9 @@ export const PROJECTS = [
     id: "nextup",
     title: "NEXTUP",
     year: 2026,
-    descriptor: "Trust-first website for a modern service company.",
+    descriptor: "Built on trust, for a modern service company.",
     thumbnailSrc: "/assets/hero/nextup-live-poster.webp",
-    thumbnailAlt: "NextUp — live homepage",
+    thumbnailAlt: "NextUp, live homepage",
     featured: true,
   },
 ] as const satisfies readonly ProjectEntry[];

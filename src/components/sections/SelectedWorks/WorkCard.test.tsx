@@ -7,16 +7,16 @@ describe("<WorkCard /> — real project", () => {
     id: "nextup",
     title: "NEXTUP",
     year: 2026,
-    descriptor: "Trust-first website for a modern service company.",
+    descriptor: "Built on trust, for a modern service company.",
     thumbnailSrc: "/assets/hero/nextup-live-poster.webp",
-    thumbnailAlt: "NextUp — live homepage",
+    thumbnailAlt: "NextUp, live homepage",
   };
 
   it("renders the thumbnail with correct src + alt", () => {
     const { container } = render(<WorkCard entry={entry} />);
     const img = container.querySelector("img") as HTMLImageElement;
     expect(img.getAttribute("src")).toContain("nextup-live-poster.webp");
-    expect(img.getAttribute("alt")).toBe("NextUp — live homepage");
+    expect(img.getAttribute("alt")).toBe("NextUp, live homepage");
   });
 
   it("renders the project title as an h3", () => {
@@ -27,7 +27,7 @@ describe("<WorkCard /> — real project", () => {
 
   it("renders the descriptor and year", () => {
     const { getByText } = render(<WorkCard entry={entry} />);
-    expect(getByText("Trust-first website for a modern service company.")).toBeInTheDocument();
+    expect(getByText("Built on trust, for a modern service company.")).toBeInTheDocument();
     expect(getByText("2026")).toBeInTheDocument();
   });
 
@@ -40,14 +40,14 @@ describe("<WorkCard /> — real project", () => {
 });
 
 describe("<WorkCard /> — placeholder", () => {
-  it("renders a placeholder card with NEXT UP label + dashed border marker", () => {
+  it("renders a placeholder card with ON DECK label + dashed border marker", () => {
     const { container, getByText } = render(<WorkCard placeholder />);
-    expect(getByText("NEXT UP →")).toBeInTheDocument();
+    expect(getByText("ON DECK →")).toBeInTheDocument();
     expect(getByText("New project landing soon.")).toBeInTheDocument();
 
     const root = container.querySelector("article") as HTMLElement;
     expect(root.getAttribute("data-work-card-placeholder")).toBe("");
-    expect(root.getAttribute("aria-label")).toBe("Placeholder — new project landing soon");
+    expect(root.getAttribute("aria-label")).toBe("Placeholder, new project landing soon");
   });
 
   it("does not render an img or year when placeholder", () => {

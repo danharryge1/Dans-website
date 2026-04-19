@@ -46,7 +46,7 @@ describe("<FeaturedCase />", () => {
 
   it("renders Act 1 overlay copy", () => {
     const { getByText } = render(<FeaturedCase />);
-    expect(getByText("NEXTUP — 2026")).toBeInTheDocument();
+    expect(getByText("NEXTUP 2026")).toBeInTheDocument();
     expect(getByText("My company. I designed it, built it, ship to it.")).toBeInTheDocument();
   });
 
@@ -59,10 +59,10 @@ describe("<FeaturedCase />", () => {
     expect(getByText("SMALL FLOURISHES, BIG LIFT")).toBeInTheDocument();
   });
 
-  it("renders Act 3 outcome block with locked chip text", () => {
+  it("renders Act 3 outcome block with locked copy", () => {
     const { getByText } = render(<FeaturedCase />);
     expect(getByText("The site's doing its job.")).toBeInTheDocument();
-    expect(getByText("LIGHTHOUSE 97 · A11Y 100 · BP 100")).toBeInTheDocument();
+    expect(getByText("Built to stay out of the way.")).toBeInTheDocument();
   });
 
   it("tags the act regions with data hooks for the Client to target", () => {

@@ -24,7 +24,7 @@ export function WorkCard(props: Props) {
     return (
       <article
         data-work-card-placeholder=""
-        aria-label="Placeholder — new project landing soon"
+        aria-label="Placeholder, new project landing soon"
         className="group relative flex w-[320px] shrink-0 flex-col gap-4"
       >
         <div
@@ -38,7 +38,7 @@ export function WorkCard(props: Props) {
             className="font-[var(--font-comico)] text-[20px] uppercase tracking-[0.1em]"
             style={{ color: "var(--text-secondary)" }}
           >
-            NEXT UP →
+            ON DECK →
           </span>
         </div>
         <p
