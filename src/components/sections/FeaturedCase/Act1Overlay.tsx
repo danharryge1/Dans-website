@@ -28,14 +28,14 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — square box, leaving room for chips on right */}
+      {/* Draft — 16:9 box, full image visible */}
       {active === "draft" && (
-        <div className="pointer-events-none absolute bottom-8 left-5 right-[180px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[240px] md:top-[104px]">
+        <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
           <div
-            className="relative overflow-hidden"
+            className="relative w-full overflow-hidden"
             style={{
-              width: "min(calc(100vh - 160px), calc(100vw - 280px))",
-              height: "min(calc(100vh - 160px), calc(100vw - 280px))",
+              aspectRatio: "16/9",
+              maxHeight: "100%",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -46,7 +46,7 @@ export function Act1Overlay() {
               aria-hidden
               fill
               sizes="90vw"
-              className="object-cover object-top"
+              className="object-contain"
               priority
             />
             <div
@@ -60,14 +60,14 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — square box, leaving room for chips on right */}
+      {/* Reality — 16:9 box, full video visible */}
       {active === "reality" && (
-        <div className="pointer-events-none absolute bottom-8 left-5 right-[180px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[240px] md:top-[104px]">
+        <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
           <div
-            className="relative overflow-hidden"
+            className="relative w-full overflow-hidden"
             style={{
-              width: "min(calc(100vh - 160px), calc(100vw - 280px))",
-              height: "min(calc(100vh - 160px), calc(100vw - 280px))",
+              aspectRatio: "16/9",
+              maxHeight: "100%",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -171,7 +171,7 @@ function RealityVideo() {
       playsInline
       preload="auto"
       poster="/assets/hero/nextup-intro-poster.jpg"
-      className="absolute inset-0 h-full w-full object-cover"
+      className="absolute inset-0 h-full w-full object-contain"
     >
       <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
     </video>
