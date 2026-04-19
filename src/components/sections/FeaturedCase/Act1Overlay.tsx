@@ -197,7 +197,7 @@ function ChipButton({
       className="group flex cursor-pointer flex-col items-center gap-1 focus:outline-none"
     >
       <div
-        className="relative h-[36px] w-[54px] overflow-hidden border transition-all duration-300 group-hover:scale-105 md:h-[40px] md:w-[60px]"
+        className="relative h-[48px] w-[48px] overflow-hidden border transition-all duration-300 group-hover:scale-105 md:h-[56px] md:w-[56px]"
         style={{
           borderColor: active ? "var(--gold-accent)" : "rgba(200,165,92,0.55)",
           boxShadow: active
@@ -209,8 +209,8 @@ function ChipButton({
           src={thumb}
           alt=""
           aria-hidden={true}
-          width={60}
-          height={40}
+          width={56}
+          height={56}
           className="h-full w-full object-cover"
         />
       </div>
