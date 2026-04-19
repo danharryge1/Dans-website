@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: process-complete
+status: contact-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -21,6 +21,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 > - Project conventions → [[claude]]
 
 ## Current status
+
+> [!success] Contact complete — 2026-04-19
+> All 14 tasks (0 to 13) shipped. `<Contact />` — Server Component on `var(--bg-primary)` with gold bookend + `TELL ME WHAT YOU WANT` headline and split-theatre grid (lean-in paragraph left, form right). Single `'use client'` `ContactForm.tsx` uses React 19 `useActionState` + `useFormStatus` + server action wrapping `POST /api/contact`. Route handler (`src/app/api/contact/route.ts`) validates with a shared Zod schema (15-char message min), silently drops honeypot submissions, sends via Resend to `danharryge@gmail.com` when `RESEND_API_KEY` is set, and falls back to silent-success locally when it isn't. Single `ContactThread.tsx` overlay (no dots) with motion isolated to `ContactClient.tsx`: 4 ScrollTriggers (thread scrub + headline + paragraph + form field stagger) inside one `gsap.context(…, section)` with debounced `ResizeObserver` recomputing thread geometry. Reduced-motion guarded at JS + CSS. 189/189 tests (35 files), tsc/lint/prod build all green. 11 playwright-cli captures at `docs/verification/2026-04-19-contact/` (3 viewports × 3 scroll + reduced-motion + success-state). Next phase: post-launch polish / analytics / deployment.
 
 > [!success] Process complete — 2026-04-18
 > All 10 tasks (0–9) shipped. `<Process />` — Server Component on `var(--bg-primary)` with gold "THE PROCESS" eyebrow above a bookend rule, three `<PhaseBlock />` entries (01 THE BRIEF · 02 THE BUILD · 03 THE SHIP), and a single absolute-positioned `<GoldThread />` overlay with one 1.5px draw-down line + three dot markers anchored to numeral Y-centers. Motion isolated in one `'use client'` sibling (`ProcessClient.tsx`): five ScrollTriggers (one scrubbed thread draw + one eyebrow fade + three per-block reveals) inside a single `gsap.context(…, section)` for scoped teardown, plus a debounced (150ms) `ResizeObserver` recomputing thread geometry. `phases.data.ts` typed `as const satisfies readonly Phase[]`; copy locked with ASCII straight quotes; `phases.data.test.ts` bakes in the site-wide no-dashes rule via `/[\u2014\u2013\u002D]/` regex. Reduced-motion guarded at JS (early return before `gsap.context`) and CSS (`@media (prefers-reduced-motion: reduce)` block) layers. Task 8 verification surfaced a coordinate-space defect — thread container positioned its `top` relative to `section.getBoundingClientRect()` when its offsetParent is the inner `max-w-[1100px]` wrapper, so the rail sat ~200-270px below the numerals; fixed in `04c01ba` by measuring against `threadContainer.offsetParent.getBoundingClientRect()`. 138/138 tests (28 files) · tsc · lint · prod build all green. 10 playwright-cli captures at `docs/verification/2026-04-18-process/` confirm alignment on desktop/tablet/mobile + reduced-motion. Next phase: **Contact section** (design.md §2.7).
@@ -180,6 +183,25 @@ Mirror of the plan's checkboxes. Source of truth is [2026-04-18-process](docs/su
 - [x] **Task 8** — Browser verification via playwright-cli — 10 PNGs (desktop/tablet/mobile × 3 scroll positions + reduced-motion) + NOTES.md at `docs/verification/2026-04-18-process/` (commit `06e80da`). Verification surfaced coordinate-space defect: thread container positioned its top relative to `section.getBoundingClientRect()` instead of its actual offsetParent (the inner `max-w-[1100px]` wrapper), so the rail sat ~200-270px below the numerals. Fixed by measuring against `threadContainer.offsetParent.getBoundingClientRect()` (commit `04c01ba`). Reduced-motion dot stacking flagged as NOTES follow-up (dots remain at top:0 when `positionThread()` is skipped on reduce; visually harmless).
 - [x] **Task 9** — `audit` + `polish` passes — 138/138 tests · tsc · lint · prod build all green. Lint warning on unused `_cb` param in ResizeObserverStub silenced via `void _cb` (commit `a4ade1f`). Phase transition.
 
-## Next phase after process
+## Task progress — Contact
 
-Contact section — per design.md §2.7. Separate spec + plan. Kicks off with `/brainstorming` to translate the design.md block into a spec.
+Mirror of the plan's checkboxes. Source of truth is [2026-04-19-contact](docs/superpowers/plans/2026-04-19-contact.md).
+
+- [x] **Task 0** — Install `resend` + `zod` + env scaffold (commit `a0953b5`)
+- [x] **Task 1** — Scaffold `Contact/` folder + barrel export (commit `7042e3e`)
+- [x] **Task 2** — Build `contact.data.ts` + tests with no-dashes + no-smart-quotes guards (commit `ea2eecb`)
+- [x] **Task 3** — Build shared Zod `contact-schema.ts` (15-char message min + honeypot) (commit `1a95bd2`)
+- [x] **Task 4** — Build `POST /api/contact` handler with Resend + Zod + honeypot drop + missing-key fallback (commit `3061386`)
+- [x] **Task 5** — Build `submitContact` server action wrapping the route (commit `d1a5f73`)
+- [x] **Task 6** — Build `ContactThread` overlay (no dots) (commit `8dee7f7`)
+- [x] **Task 7** — Build `ContactForm` client component with `useActionState` + honeypot + success/error states (commit `3ff7aa0`)
+- [x] **Task 8** — Build `Contact` server component shell + two-column grid + client mount (commit `fea5b5f`)
+- [x] **Task 9** — Implement `ContactClient` motion — 4 ScrollTriggers, `offsetParent` thread geometry, ResizeObserver (commit `f8d9e16`)
+- [x] **Task 10** — Append Contact reduced-motion CSS guard to `globals.css` (commit `ef48cbc`)
+- [x] **Task 11** — Wire `<Contact />` into `page.tsx` as closing section (commit `e762016`)
+- [x] **Task 12** — Browser verification via playwright-cli — 11 PNGs + NOTES.md at `docs/verification/2026-04-19-contact/` (commit `c285d8e`)
+- [x] **Task 13** — `audit` + `polish` passes. Phase transition.
+
+## Next phase after contact
+
+Post-launch: production deploy + analytics + Lighthouse gates. Separate spec + plan if scope grows; otherwise inline tasks on main.
