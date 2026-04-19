@@ -28,11 +28,11 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — 16:9 box centred in available space so full image is always visible */}
+      {/* Draft — 16:9 box, full image visible, square corners */}
       {active === "draft" && (
         <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-black"
+            className="relative w-full overflow-hidden"
             style={{
               aspectRatio: "16/9",
               maxHeight: "100%",
@@ -46,7 +46,7 @@ export function Act1Overlay() {
               aria-hidden
               fill
               sizes="90vw"
-              className="object-contain"
+              className="object-cover object-top"
               priority
             />
             <div
@@ -60,11 +60,11 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — 16:9 box centred so full video is always visible */}
+      {/* Reality — 16:9 box, video forced to frame 0 on mount to kill the flash */}
       {active === "reality" && (
         <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="relative w-full overflow-hidden rounded-2xl bg-black"
+            className="relative w-full overflow-hidden"
             style={{
               aspectRatio: "16/9",
               maxHeight: "100%",
@@ -72,19 +72,7 @@ export function Act1Overlay() {
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
           >
-            <video
-              key="reality-video"
-              aria-hidden
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster="/assets/hero/nextup-intro-poster.jpg"
-              className="absolute inset-0 h-full w-full object-contain"
-            >
-              <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
-            </video>
+            <RealityVideo />
             <div
               className="absolute inset-0"
               style={{
@@ -160,6 +148,33 @@ export function Act1Overlay() {
         ) : null}
       </div>
     </div>
+  );
+}
+
+function RealityVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.currentTime = 0;
+    v.load();
+    v.play().catch(() => {});
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      aria-hidden
+      muted
+      loop
+      playsInline
+      preload="auto"
+      poster="/assets/hero/nextup-intro-poster.jpg"
+      className="absolute inset-0 h-full w-full object-cover"
+    >
+      <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
+    </video>
   );
 }
 
