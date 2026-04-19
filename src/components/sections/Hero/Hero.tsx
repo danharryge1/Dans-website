@@ -12,6 +12,28 @@ export function Hero() {
       aria-labelledby="hero-heading"
       className="relative w-full h-[100dvh] flex flex-col items-center justify-center pt-[88px] pb-8 overflow-hidden"
     >
+      {/* Full-screen background video — sits above the canvas (z-index:-1) */}
+      <video
+        aria-hidden="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src="/assets/hero/hero-bg.mp4" type="video/mp4" />
+      </video>
+      {/* Gradient overlay — ensures text stays readable + eases into teal below */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(13,84,76,0.45) 0%, rgba(13,84,76,0.3) 50%, rgba(13,84,76,0.72) 100%)",
+        }}
+      />
+
       <PerspectiveGrid />
       <HeroSparkles />
 
