@@ -1,0 +1,18 @@
+
+> dangeorge-studio@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by process 47620, using available port 3001 instead.
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.0.19:3001
+✓ Ready in 1067ms
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          47620
+- Dir:          /Users/dangeorge/The Vault/Dans Website
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 47620 to stop it.
+[?25h

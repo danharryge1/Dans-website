@@ -16,9 +16,9 @@ export function DecisionBeat({ index, title, body, children }: Props) {
     <div
       data-case-beat=""
       data-beat-index={index}
-      className="grid w-full grid-cols-1 gap-10 md:grid-cols-12 md:gap-12"
+      className="grid w-full grid-cols-1 gap-10 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-12"
     >
-      <div className="md:col-span-5">
+      <div className="min-w-0">
         <div
           className="mb-4 font-[var(--font-comico)] text-[72px] leading-none md:text-[120px]"
           style={{ color: "var(--gold-accent)", opacity: 0.4 }}
@@ -38,7 +38,7 @@ export function DecisionBeat({ index, title, body, children }: Props) {
           {body}
         </p>
       </div>
-      <div className="md:col-span-7">
+      <div className="min-w-0">
         <div
           className="relative aspect-[4/3] w-full overflow-hidden rounded-[12px] border"
           style={{

@@ -65,8 +65,7 @@ export function FeaturedCaseClient() {
           paddingRight: "3rem",
           opacity: 0,
           y: 40,
-          display: "flex",
-          alignItems: "center",
+          alignContent: "center",
         });
       });
       if (act3)
