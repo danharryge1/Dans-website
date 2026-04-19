@@ -143,24 +143,20 @@ export function FeaturedCase() {
           className="relative z-10 w-full overflow-hidden text-center"
           style={{ minHeight: "100vh" }}
         >
-          {/* Full-bleed background video */}
-          <video
-            aria-hidden="true"
-            muted
-            autoPlay
-            loop
-            playsInline
-            preload="metadata"
-            poster="/assets/hero/sites-doing-job-poster.jpg"
-            className="absolute inset-0 h-full w-full object-cover"
-          >
-            <source src="/assets/hero/sites-doing-job.mp4" type="video/mp4" />
-          </video>
-          {/* Overlay so text stays readable */}
+          {/* Background — layered gradients */}
           <div
             aria-hidden="true"
             className="absolute inset-0"
-            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.6) 100%)" }}
+            style={{
+              backgroundColor: "#060d0b",
+              backgroundImage: [
+                "radial-gradient(ellipse 100% 60% at 50% 100%, rgba(200,165,92,0.22) 0%, transparent 65%)",
+                "radial-gradient(ellipse 60% 50% at 50% 55%, rgba(200,165,92,0.07) 0%, transparent 60%)",
+                "radial-gradient(ellipse 70% 90% at 0% 50%, rgba(13,84,76,0.35) 0%, transparent 55%)",
+                "radial-gradient(ellipse 70% 90% at 100% 50%, rgba(11,36,34,0.5) 0%, transparent 55%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, transparent 28%, transparent 72%, rgba(0,0,0,0.48) 100%)",
+              ].join(","),
+            }}
           />
           <div className="relative mx-auto w-full max-w-[1400px] px-6 py-32 md:px-10 md:py-40 lg:px-12">
           <p
