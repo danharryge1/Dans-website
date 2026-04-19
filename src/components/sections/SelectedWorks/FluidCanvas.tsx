@@ -22,35 +22,32 @@ export function FluidCanvas() {
         TRIGGER: "hover",
         IMMEDIATE: true,
         AUTO: true,
-        INTERVAL: 2000,
+        INTERVAL: 4000,
         SIM_RESOLUTION: 128,
         DYE_RESOLUTION: 1024,
-        DENSITY_DISSIPATION: 0.45,
-        VELOCITY_DISSIPATION: 0.12,
-        PRESSURE: 0.7,
+        DENSITY_DISSIPATION: 1.8,   // ~1.5s per splat, no accumulation at 4s interval
+        VELOCITY_DISSIPATION: 0.45,
+        PRESSURE: 0.6,
         PRESSURE_ITERATIONS: 20,
-        CURL: 12,
-        SPLAT_RADIUS: 0.3,
-        SPLAT_FORCE: 5000,
-        SPLAT_COUNT: 5,
+        CURL: 4,
+        SPLAT_RADIUS: 0.24,
+        SPLAT_FORCE: 3500,
+        SPLAT_COUNT: 3,
         SHADING: true,
         COLORFUL: true,
-        COLOR_UPDATE_SPEED: 3,
+        COLOR_UPDATE_SPEED: 2,
         PAUSED: false,
         BACK_COLOR: { r: 3, g: 14, b: 12 },
         TRANSPARENT: false,
         BLOOM: true,
         BLOOM_ITERATIONS: 8,
         BLOOM_RESOLUTION: 256,
-        BLOOM_INTENSITY: 0.65,
-        BLOOM_THRESHOLD: 0.2,
+        BLOOM_INTENSITY: 0.4,
+        BLOOM_THRESHOLD: 0.5,
         BLOOM_SOFT_KNEE: 0.7,
         SUNRAYS: false,
       });
 
-      // Forward section-level mousemove to canvas. The library reads
-      // e.offsetX / e.offsetY so we must inject canvas-relative coords
-      // via Object.defineProperty — synthetic events have offsetX=0 by default.
       const section = document.getElementById("selected-works");
       if (section) {
         const forward = (e: MouseEvent) => {
@@ -95,12 +92,12 @@ export function FluidCanvas() {
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{
-        // Rotate the hue spectrum ~50° to pull the rainbow into gold/amber
-        // (reds→golds) and green/teal (yellows→greens) — the brand palette.
-        // Reduce saturation slightly for a relaxed, not-flashy feel.
-        // Shift rainbow → gold/amber + green/teal; reduce saturation
-        // to keep the palette relaxed and on-brand.
-        filter: "hue-rotate(55deg) saturate(0.78)",
+        // sepia(0.65) collapses blues/purples into warm gold tones.
+        // hue-rotate(40deg) shifts the sepia base to amber-gold and
+        // nudges residual greens to teal. saturate(1.5) restores
+        // visibility lost from sepia. brightness(0.72) caps the ceiling.
+        filter:
+          "sepia(0.65) hue-rotate(40deg) saturate(1.5) brightness(0.72)",
       }}
     />
   );
