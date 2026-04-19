@@ -60,9 +60,11 @@ describe("<FeaturedCase />", () => {
   });
 
   it("renders Act 3 outcome block with locked copy", () => {
-    const { getByText } = render(<FeaturedCase />);
+    const { getByText, container } = render(<FeaturedCase />);
     expect(getByText("The site's doing its job.")).toBeInTheDocument();
-    expect(getByText("Built to stay out of the way.")).toBeInTheDocument();
+    const act3 = container.querySelector("[data-case-act='3']");
+    expect(act3?.textContent ?? "").toContain("Built to stay out of the way.");
+    expect(act3?.textContent ?? "").toContain("Visit the live site");
   });
 
   it("tags the act regions with data hooks for the Client to target", () => {

@@ -36,7 +36,7 @@ export function FeaturedCase() {
           <source src="/assets/hero/nextup-live-hd.mp4" type="video/mp4" />
         </video>
 
-        {/* Act 3 backdrop — deep teal radial gradient with vignette, fades in as video fades out */}
+        {/* Act 3 backdrop — layered teal with warmer core highlight + edge vignette */}
         <div
           data-case-gradient
           aria-hidden="true"
@@ -44,8 +44,8 @@ export function FeaturedCase() {
           style={{
             opacity: 0,
             background:
-              "radial-gradient(ellipse at center, #0D544C 0%, #0B2422 80%), radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%)",
-            backgroundBlendMode: "normal, multiply",
+              "radial-gradient(ellipse 60% 45% at 50% 48%, rgba(200,165,92,0.10) 0%, rgba(200,165,92,0) 70%), radial-gradient(ellipse at center, #104F48 0%, #0A201E 85%), radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)",
+            backgroundBlendMode: "screen, normal, multiply",
           }}
         />
 
@@ -268,22 +268,56 @@ export function FeaturedCase() {
           className="relative z-10 mx-auto w-full max-w-[1400px] px-6 py-32 text-center md:px-10 md:py-40 lg:px-12"
         >
           <p
-            className="mb-6 font-[var(--font-comico)] text-[24px] md:text-[32px]"
+            className="mb-5 font-[var(--font-marker)] text-[12px] uppercase tracking-[0.28em] md:text-[13px]"
+            style={{ color: "var(--gold-accent)" }}
+          >
+            Nextup, 2026
+          </p>
+          <span
+            aria-hidden="true"
+            className="mx-auto mb-10 block h-[1px] w-[72px] md:w-[96px]"
+            style={{ backgroundColor: "var(--gold-accent)", opacity: 0.55 }}
+          />
+          <h3
+            className="mx-auto mb-6 max-w-[22ch] font-[var(--font-comico)] text-[40px] leading-[1.05] tracking-[-0.01em] md:text-[64px] lg:text-[80px]"
             style={{ color: "var(--text-primary)" }}
           >
             The site&apos;s doing its job.
-          </p>
+          </h3>
           <p
-            className="mx-auto mb-6 font-[var(--font-marker)] text-[15px] md:text-[16px]"
+            className="mx-auto mb-12 max-w-[36ch] font-[var(--font-marker)] text-[17px] leading-[1.55] md:text-[20px] lg:text-[22px]"
             style={{ color: "var(--text-secondary)" }}
           >
-            Built to stay out of the way.
+            Built to stay out of the way. Designed, shipped, and maintained by
+            one person.
           </p>
+          <a
+            href="https://nextupco.com"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="group relative inline-flex items-center gap-3 rounded-full border px-7 py-3 font-[var(--font-marker)] text-[14px] uppercase tracking-[0.14em] transition-all duration-300 hover:gap-4 md:text-[15px]"
+            style={{
+              borderColor: "var(--gold-accent)",
+              color: "var(--text-primary)",
+              backgroundColor: "rgba(200,165,92,0.04)",
+              boxShadow: "0 1px 20px rgba(200,165,92,0.12)",
+            }}
+          >
+            Visit the live site
+            <span
+              aria-hidden="true"
+              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
+              style={{ color: "var(--gold-accent)" }}
+            >
+              →
+            </span>
+          </a>
           <p
             data-case-arrow-float
-            className="font-[var(--font-marker)] text-[14px]"
+            className="mt-16 font-[var(--font-marker)] text-[13px] tracking-[0.08em] md:text-[14px]"
             style={{
               color: "var(--text-secondary)",
+              opacity: 0.75,
               animation: "case-arrow-float 1.2s ease-in-out infinite",
             }}
           >
