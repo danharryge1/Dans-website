@@ -109,10 +109,10 @@ export function FeaturedCase() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/hero/nextup-v2-poster.jpg"
+                poster="/assets/hero/intro-bg-poster.jpg"
                 className="h-full w-full object-cover"
               >
-                <source src="/assets/hero/nextup-v2.mp4" type="video/mp4" />
+                <source src="/assets/hero/intro-bg.mp4" type="video/mp4" />
               </video>
             </DecisionBeat>
 
