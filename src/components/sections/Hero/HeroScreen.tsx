@@ -1,41 +1,35 @@
 type HeroScreenProps = {
-  leftVideoMp4: string;
-  leftVideoPoster: string;
-  leftLabel: string;
-  rightVideoMp4: string;
-  rightVideoPoster: string;
-  rightLabel: string;
+  draftSrc: string;
+  draftAlt: string;
+  videoMp4: string;
+  videoPoster: string;
 };
 
 export function HeroScreen({
-  leftVideoMp4,
-  leftVideoPoster,
-  leftLabel,
-  rightVideoMp4,
-  rightVideoPoster,
-  rightLabel,
+  draftSrc,
+  draftAlt,
+  videoMp4,
+  videoPoster,
 }: HeroScreenProps) {
   return (
     <div data-hero-screen className="relative w-full h-full select-none">
       <p className="sr-only">
-        Animated reveal: drag the seam to compare the before and after of the
-        NextUp Co. redesign.
+        Animated reveal: drag the seam to compare the original NextUp Co. site
+        on the left with the redesign on the right.
       </p>
 
-      {/* Left side — full frame underneath */}
+      {/* Draft side — original static image underneath */}
       <div data-hero-draft className="absolute inset-0">
-        <video
-          aria-hidden="true"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={leftVideoPoster}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={draftSrc}
+          alt={draftAlt}
+          width={1120}
+          height={700}
           className="w-full h-full object-cover"
-        >
-          <source src={leftVideoMp4} type="video/mp4" />
-        </video>
+          loading="eager"
+          decoding="async"
+        />
         <span
           data-hero-side-label
           aria-hidden="true"
@@ -47,11 +41,11 @@ export function HeroScreen({
             border: "1px solid rgba(11,36,34,0.4)",
           }}
         >
-          {leftLabel}
+          Draft
         </span>
       </div>
 
-      {/* Right side — clipped from the right by the seam */}
+      {/* Reality side — new video, clipped by the seam */}
       <div
         data-hero-reality
         className="absolute inset-0"
@@ -67,10 +61,10 @@ export function HeroScreen({
           loop
           playsInline
           preload="metadata"
-          poster={rightVideoPoster}
+          poster={videoPoster}
           className="w-full h-full object-cover"
         >
-          <source src={rightVideoMp4} type="video/mp4" />
+          <source src={videoMp4} type="video/mp4" />
         </video>
         <span
           data-hero-side-label
@@ -85,7 +79,7 @@ export function HeroScreen({
             WebkitBackdropFilter: "blur(4px)",
           }}
         >
-          {rightLabel}
+          Reality
         </span>
       </div>
 
@@ -105,7 +99,7 @@ export function HeroScreen({
         <button
           type="button"
           data-hero-knob
-          aria-label="Drag to compare before and after"
+          aria-label="Drag to compare the draft and the live site"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[32px] h-[32px] rounded-full p-0 flex items-center justify-center gap-[2.5px] cursor-ew-resize pointer-events-auto touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-accent)] focus-visible:ring-offset-2"
           style={{
             backgroundColor: "var(--text-primary)",

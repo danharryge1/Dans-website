@@ -41,12 +41,10 @@ export function Hero() {
       <div className="relative z-10 mt-10 md:mt-12">
         <HeroLaptop>
           <HeroScreen
-            leftVideoMp4="/assets/hero/intro-bg.mp4"
-            leftVideoPoster="/assets/hero/intro-bg-poster.jpg"
-            leftLabel="Before"
-            rightVideoMp4="/assets/hero/nextup-v2.mp4"
-            rightVideoPoster="/assets/hero/nextup-v2-poster.jpg"
-            rightLabel="After"
+            draftSrc="/assets/hero/nextup-old.webp"
+            draftAlt="NextUp Co. homepage, pre-redesign"
+            videoMp4="/assets/hero/nextup-v2.mp4"
+            videoPoster="/assets/hero/nextup-v2-poster.jpg"
           />
         </HeroLaptop>
       </div>
