@@ -37,6 +37,21 @@ describe("<WorkCard /> — real project", () => {
     expect(root.getAttribute("data-work-card")).toBe("");
     expect(root.getAttribute("data-card-id")).toBe("nextup");
   });
+
+  it("wraps content in an anchor when href is provided, opening in a new tab", () => {
+    const entryWithHref = { ...entry, href: "https://nextupco.com" };
+    const { container } = render(<WorkCard entry={entryWithHref} />);
+    const anchor = container.querySelector("a") as HTMLAnchorElement;
+    expect(anchor).not.toBeNull();
+    expect(anchor.getAttribute("href")).toBe("https://nextupco.com");
+    expect(anchor.getAttribute("target")).toBe("_blank");
+    expect(anchor.getAttribute("rel")).toBe("noopener noreferrer");
+  });
+
+  it("omits the anchor when href is absent", () => {
+    const { container } = render(<WorkCard entry={entry} />);
+    expect(container.querySelector("a")).toBeNull();
+  });
 });
 
 describe("<WorkCard /> — placeholder", () => {

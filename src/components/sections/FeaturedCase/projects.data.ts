@@ -5,6 +5,7 @@ export type ProjectEntry = {
   readonly descriptor: string;
   readonly thumbnailSrc: string;
   readonly thumbnailAlt: string;
+  readonly href?: string;
   readonly featured: boolean;
 };
 
@@ -16,6 +17,7 @@ export const PROJECTS = [
     descriptor: "Built on trust, for a modern service company.",
     thumbnailSrc: "/assets/hero/nextup-live-poster.webp",
     thumbnailAlt: "NextUp, live homepage",
+    href: "https://nextupco.com",
     featured: true,
   },
 ] as const satisfies readonly ProjectEntry[];

@@ -32,6 +32,7 @@ export function SelectedWorks() {
                   descriptor: entry.descriptor,
                   thumbnailSrc: entry.thumbnailSrc,
                   thumbnailAlt: entry.thumbnailAlt,
+                  href: entry.href,
                 }}
               />
             </div>
