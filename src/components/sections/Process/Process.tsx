@@ -9,7 +9,6 @@ export function Process() {
       id="process"
       aria-labelledby="process-heading"
       className="relative w-full py-32 md:py-40"
-      style={{ backgroundColor: "var(--bg-primary)" }}
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="relative mx-auto max-w-[1100px]">

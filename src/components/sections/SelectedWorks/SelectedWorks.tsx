@@ -8,7 +8,6 @@ export function SelectedWorks() {
       id="selected-works"
       aria-labelledby="selected-works-heading"
       className="relative w-full py-24 md:py-32"
-      style={{ background: "var(--bg-primary)" }}
     >
       <SelectedWorksClient />
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">

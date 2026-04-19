@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COUNT = 6_000;
+const COUNT = 4_000;
 
 export function startScene(canvas: HTMLCanvasElement): () => void {
   let disposed = false;
@@ -15,7 +15,7 @@ export function startScene(canvas: HTMLCanvasElement): () => void {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: false });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.setClearColor(0x000000, 1);
+  renderer.setClearColor(0x0d544c, 1); // --bg-primary
 
   const cam = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 10);
   cam.position.z = 1;
@@ -32,7 +32,7 @@ export function startScene(canvas: HTMLCanvasElement): () => void {
     positions[i * 3 + 2] = 0;
     // tiny constant velocity per particle — varied directions
     const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() * 0.00045 + 0.00008;
+    const speed = Math.random() * 0.0009 + 0.0002;
     vx[i] = Math.cos(angle) * speed;
     vy[i] = Math.sin(angle) * speed;
   }
@@ -60,8 +60,8 @@ export function startScene(canvas: HTMLCanvasElement): () => void {
     t += 0.016;
 
     // Two trig calls total — global wind that shifts slowly
-    const windX = Math.sin(t * 0.09) * 0.00012;
-    const windY = Math.cos(t * 0.07) * 0.00008;
+    const windX = Math.sin(t * 0.09) * 0.00025;
+    const windY = Math.cos(t * 0.07) * 0.00018;
 
     for (let i = 0; i < COUNT; i++) {
       const px = i * 3;

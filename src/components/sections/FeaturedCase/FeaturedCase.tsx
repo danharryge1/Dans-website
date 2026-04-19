@@ -9,7 +9,6 @@ export function FeaturedCase() {
       id="case-study-nextup"
       aria-labelledby="case-study-heading"
       className="relative w-full"
-      style={{ background: "var(--bg-primary)" }}
     >
       <h2 id="case-study-heading" className="sr-only">
         NextUp, featured case study
