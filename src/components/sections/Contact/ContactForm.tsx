@@ -100,6 +100,8 @@ export function ContactForm() {
     requestAnimationFrame(() => {
       inputRef.current?.focus();
     });
+    const section = document.getElementById("contact") as HTMLElement | null;
+    if (section) section.setAttribute("data-contact-step", String(step));
   }, [step]);
 
   useEffect(() => {

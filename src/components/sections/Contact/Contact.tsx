@@ -29,19 +29,38 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
+      data-contact-step="0"
       className="relative w-full py-32 md:py-40 overflow-hidden"
       style={{
         background:
-          "linear-gradient(160deg, #061c19 0%, #0d544c 30%, #0b4840 70%, #071a17 100%)",
+          "linear-gradient(160deg, #040d0b 0%, #071612 35%, #0a2018 70%, #040c09 100%)",
       }}
     >
+      {/* Step 1 overlay — mid-teal warmth bleeds in */}
+      <div
+        aria-hidden="true"
+        className="contact-bg-step contact-bg-step-1 pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(145deg, transparent 0%, rgba(11,72,58,0.55) 55%, rgba(13,84,76,0.38) 100%)",
+        }}
+      />
+      {/* Step 2 overlay — warm gold undertone */}
+      <div
+        aria-hidden="true"
+        className="contact-bg-step contact-bg-step-2 pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(145deg, rgba(200,165,92,0.10) 0%, transparent 45%, rgba(130,95,20,0.13) 100%)",
+        }}
+      />
       {/* Radial glow top-left */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-0 top-0 w-[500px] h-[500px]"
         style={{
           background:
-            "radial-gradient(ellipse 60% 60% at 0% 0%, rgba(200,165,92,0.07) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 60% at 0% 0%, rgba(200,165,92,0.09) 0%, transparent 70%)",
         }}
       />
 

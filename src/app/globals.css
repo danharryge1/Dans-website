@@ -265,6 +265,15 @@ nav :is(a, button):focus-visible,
 /* ---------- CONTACT (Phase 7) ---------- */
 /* No new design tokens — reuses --bg-primary / --text-primary / --gold-accent /
    --border-input / --font-comico / --font-marker. Block below is motion-fallback only. */
+
+/* Step-reactive background overlays */
+.contact-bg-step {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+[data-contact-step="1"] .contact-bg-step-1,
+[data-contact-step="2"] .contact-bg-step-1 { opacity: 1; }
+[data-contact-step="2"] .contact-bg-step-2 { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   [data-contact-thread] { transform: scaleY(1) !important; }
   [data-contact-headline],
