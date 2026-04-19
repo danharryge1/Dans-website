@@ -21,7 +21,6 @@ export function FeaturedCaseClient() {
     if (prefersReducedMotion || !isDesktop) return;
 
     const pin = section.querySelector<HTMLElement>("[data-case-pin]");
-    const video = section.querySelector<HTMLElement>("[data-case-video]");
     const gradient = section.querySelector<HTMLElement>(
       "[data-case-gradient]",
     );
@@ -54,6 +53,7 @@ export function FeaturedCaseClient() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        pointerEvents: "none",
       });
       beats.forEach((beat) => {
         gsap.set(beat, {
@@ -66,6 +66,7 @@ export function FeaturedCaseClient() {
           opacity: 0,
           y: 40,
           alignContent: "center",
+          pointerEvents: "none",
         });
       });
       if (act3)
@@ -76,7 +77,6 @@ export function FeaturedCaseClient() {
           pointerEvents: "none",
         });
       if (act1) gsap.set(act1, { opacity: 1 });
-      if (video) gsap.set(video, { opacity: 1 });
       if (gradient) gsap.set(gradient, { opacity: 0 });
 
       const tl = gsap.timeline({
@@ -92,7 +92,6 @@ export function FeaturedCaseClient() {
 
       tl.addLabel("act-1-end", 0.1);
       if (act1) tl.to(act1, { opacity: 0, duration: 0.08 }, "act-1-end");
-      if (video) tl.to(video, { opacity: 0, duration: 0.12 }, "act-1-end");
 
       tl.addLabel("beat-01", 0.2);
       tl.to(beats[0], { opacity: 1, y: 0, duration: 0.12 }, "beat-01");

@@ -129,7 +129,7 @@ nav :is(a, button):focus-visible,
 
   /* scroll-driven animation state (0 → 1 across the hero) */
   --hero-progress: 0;
-  --seam-x: 12%;
+  --seam-x: 0%;
 }
 
 /* ---------- HERO KEYFRAMES ---------- */

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Act1Overlay } from "./Act1Overlay";
 import { DecisionBeat } from "./DecisionBeat";
 import { FeaturedCaseClient } from "./FeaturedCaseClient";
 
@@ -19,22 +20,16 @@ export function FeaturedCase() {
         className="relative w-full"
         style={{ minHeight: "100vh" }}
       >
-        {/* Single backdrop video — Client fades it out across Acts, gradient layer takes over by Act 3 */}
-        <video
-          data-case-video
+        {/* Default backdrop — deep navy gradient shared across Acts 1 and 2. Act 3 gradient fades in on top later. */}
+        <div
           aria-hidden="true"
-          muted
-          autoPlay
-          loop
-          playsInline
-          preload="metadata"
-          poster="/assets/hero/nextup-live-hd-poster.webp"
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-          style={{ filter: "saturate(var(--case-video-desat))" }}
-        >
-          <source src="/assets/hero/nextup-live-hd.webm" type="video/webm" />
-          <source src="/assets/hero/nextup-live-hd.mp4" type="video/mp4" />
-        </video>
+          data-case-bg-default
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 85% 65% at 50% 38%, rgba(60,125,230,0.32) 0%, rgba(28,90,197,0) 65%), radial-gradient(ellipse at center, #0B3D8C 0%, #04265E 55%, #020E26 100%)",
+          }}
+        />
 
         {/* Act 3 backdrop — layered teal with warmer core highlight + edge vignette */}
         <div
@@ -49,75 +44,8 @@ export function FeaturedCase() {
           }}
         />
 
-        {/* Act 1 — setup */}
-        <div data-case-act="1" className="absolute inset-0 z-10">
-          <div className="absolute bottom-10 left-6 md:bottom-16 md:left-12">
-            <p
-              className="mb-2 font-[var(--font-comico)] text-[28px] uppercase tracking-[0.05em] md:text-[40px]"
-              style={{ color: "var(--text-primary)" }}
-            >
-              NEXTUP 2026
-            </p>
-            <p
-              className="font-[var(--font-marker)] text-[15px] leading-[1.5] md:text-[18px]"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              My company. I designed it, built it, ship to it.
-            </p>
-          </div>
-
-          {/* micro-comparison chip — hidden on mobile */}
-          <div className="absolute right-12 top-16 hidden items-center gap-4 md:flex">
-            <div className="flex flex-col items-center gap-1">
-              <div
-                className="h-[40px] w-[60px] overflow-hidden border"
-                style={{ borderColor: "var(--gold-accent)" }}
-              >
-                <Image
-                  src="/assets/hero/nextup-old.webp"
-                  alt=""
-                  aria-hidden={true}
-                  width={60}
-                  height={40}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <span
-                className="font-[var(--font-marker)] text-[11px] tracking-[0.1em]"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                DRAFT
-              </span>
-            </div>
-            <span
-              className="font-[var(--font-marker)] text-[14px]"
-              style={{ color: "var(--gold-accent)" }}
-            >
-              →
-            </span>
-            <div className="flex flex-col items-center gap-1">
-              <div
-                className="h-[40px] w-[60px] overflow-hidden border"
-                style={{ borderColor: "var(--gold-accent)" }}
-              >
-                <Image
-                  src="/assets/hero/nextup-live-poster.webp"
-                  alt=""
-                  aria-hidden={true}
-                  width={60}
-                  height={40}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <span
-                className="font-[var(--font-marker)] text-[11px] tracking-[0.1em]"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                REALITY
-              </span>
-            </div>
-          </div>
-        </div>
+        {/* Act 1 — setup (interactive chip swap) */}
+        <Act1Overlay />
 
         {/* Act 2 — thinking */}
         <div
@@ -130,45 +58,43 @@ export function FeaturedCase() {
               title="WHY BLUE"
               body="Our competition is loud. I chose blue because trust is the moat. Trust looks calm, not flashy. The whole palette defers to the work instead of shouting over it."
             >
-              <div className="flex h-full items-stretch">
-                <div className="flex w-[40%] flex-col">
-                  {[
-                    { hex: "#04265E", onDark: true },
-                    { hex: "#0B3D8C", onDark: true },
-                    { hex: "#1C5AC5", onDark: true },
-                    { hex: "#3B7BE0", onDark: true },
-                    { hex: "#6C9FEB", onDark: false },
-                    { hex: "#A8C4F2", onDark: false },
-                  ].map(({ hex, onDark }) => (
-                    <div
-                      key={hex}
-                      className="flex flex-1 items-center justify-between px-3"
-                      style={{ background: hex, minHeight: "44px" }}
-                      aria-hidden="true"
+              <div className="flex h-full w-full flex-col">
+                {[
+                  { hex: "#04265E", role: "deepest", onDark: true },
+                  { hex: "#0B3D8C", role: "anchor", onDark: true },
+                  { hex: "#1C5AC5", role: "primary", onDark: true },
+                  { hex: "#3B7BE0", role: "accent", onDark: true },
+                  { hex: "#6C9FEB", role: "support", onDark: false },
+                  { hex: "#A8C4F2", role: "lightest", onDark: false },
+                ].map(({ hex, role, onDark }) => (
+                  <div
+                    key={hex}
+                    className="flex flex-1 items-center justify-between px-5 md:px-8"
+                    style={{ background: hex, minHeight: "56px" }}
+                    aria-hidden="true"
+                  >
+                    <span
+                      className="font-[var(--font-marker)] text-[13px] tracking-[0.1em] md:text-[15px]"
+                      style={{
+                        color: onDark
+                          ? "rgba(255,255,255,0.92)"
+                          : "rgba(11,36,34,0.78)",
+                      }}
                     >
-                      <span
-                        className="font-[var(--font-marker)] text-[11px] tracking-[0.08em]"
-                        style={{
-                          color: onDark
-                            ? "rgba(255,255,255,0.88)"
-                            : "rgba(11,36,34,0.72)",
-                        }}
-                      >
-                        {hex}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="relative w-[60%] overflow-hidden">
-                  <Image
-                    src="/assets/case-study/nextup/beat-01-hero-crop.webp"
-                    alt=""
-                    aria-hidden={true}
-                    fill
-                    sizes="(max-width: 768px) 80vw, 500px"
-                    className="object-cover"
-                  />
-                </div>
+                      {hex}
+                    </span>
+                    <span
+                      className="font-[var(--font-marker)] text-[10px] uppercase tracking-[0.18em] md:text-[11px]"
+                      style={{
+                        color: onDark
+                          ? "rgba(255,255,255,0.6)"
+                          : "rgba(11,36,34,0.55)",
+                      }}
+                    >
+                      {role}
+                    </span>
+                  </div>
+                ))}
               </div>
             </DecisionBeat>
 

@@ -22,26 +22,14 @@ describe("<FeaturedCase />", () => {
     expect(h2.className).toContain("sr-only");
   });
 
-  it("renders ONE video element with both webm and mp4 sources + poster", () => {
+  it("renders a default backdrop gradient instead of a video", () => {
     const { container } = render(<FeaturedCase />);
-    const videos = container.querySelectorAll("video");
-    // Act 1/3 share ONE backdrop video, Act 2 beat 02 + beat 03 have their own videos (3 total).
-    // Spec §6.1: "ONE single <video> DOM node rendered once at the top of the pinned region" is the backdrop.
-    // The test targets the backdrop video specifically via data-case-video.
-    const backdrop = container.querySelector("[data-case-video]") as HTMLVideoElement;
-    expect(backdrop).toBeTruthy();
-    expect(backdrop.tagName).toBe("VIDEO");
-    expect(backdrop.getAttribute("aria-hidden")).toBe("true");
-    expect(backdrop.hasAttribute("muted") || backdrop.muted).toBe(true);
-    expect(backdrop.hasAttribute("autoplay") || backdrop.autoplay).toBe(true);
-    expect(backdrop.hasAttribute("loop") || backdrop.loop).toBe(true);
-    expect(backdrop.getAttribute("poster")).toContain("nextup-live-hd-poster.webp");
-    const sources = backdrop.querySelectorAll("source");
-    expect(sources.length).toBe(2);
-    expect(Array.from(sources).some((s) => s.getAttribute("type") === "video/webm")).toBe(true);
-    expect(Array.from(sources).some((s) => s.getAttribute("type") === "video/mp4")).toBe(true);
-    // Silence unused 'videos' ref — the count assertion stays flexible (backdrop + 2 beat videos)
-    expect(videos.length).toBeGreaterThanOrEqual(1);
+    // Backdrop video has been replaced with a static gradient layer.
+    expect(container.querySelector("[data-case-video]")).toBeNull();
+    const bg = container.querySelector("[data-case-bg-default]") as HTMLElement;
+    expect(bg).toBeTruthy();
+    expect(bg.getAttribute("aria-hidden")).toBe("true");
+    expect(bg.style.background).toContain("gradient");
   });
 
   it("renders Act 1 overlay copy", () => {
@@ -72,7 +60,7 @@ describe("<FeaturedCase />", () => {
     expect(container.querySelector("[data-case-act='1']")).toBeTruthy();
     expect(container.querySelector("[data-case-act='2']")).toBeTruthy();
     expect(container.querySelector("[data-case-act='3']")).toBeTruthy();
-    expect(container.querySelector("[data-case-video]")).toBeTruthy();
+    expect(container.querySelector("[data-case-bg-default]")).toBeTruthy();
     expect(container.querySelector("[data-case-pin]")).toBeTruthy();
   });
 });
