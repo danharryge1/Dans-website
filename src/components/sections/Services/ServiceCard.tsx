@@ -11,7 +11,7 @@ type Props = {
   className?: string;
 };
 
-const TILT_MAX = 3;
+const TILT_MAX = 9;
 
 // useSyncExternalStore-backed gate: tilt is enabled only when the user has a
 // fine pointer AND has not requested reduced motion. Computed client-side
@@ -89,7 +89,7 @@ export function ServiceCard({ entry, index, className }: Props) {
       data-card-id={entry.id}
       data-card-index={index}
       className={[
-        "group relative overflow-hidden rounded-[12px] border transition-[border-color,transform] duration-200 ease-out hover:-translate-y-[2px]",
+        "group relative overflow-hidden rounded-[12px] border transition-[border-color,box-shadow] duration-300 ease-out",
         className,
       ]
         .filter(Boolean)
@@ -102,10 +102,20 @@ export function ServiceCard({ entry, index, className }: Props) {
         rotateX: tiltEnabled ? rotateX : 0,
         rotateY: tiltEnabled ? rotateY : 0,
         transformStyle: "preserve-3d",
+        willChange: tiltEnabled ? "transform" : undefined,
       }}
-      whileHover={{
-        borderColor: "var(--services-card-border-hover)",
-      }}
+      whileHover={
+        tiltEnabled
+          ? {
+              y: -8,
+              scale: 1.025,
+              borderColor: "var(--services-card-border-hover)",
+              boxShadow:
+                "0 24px 48px -16px rgba(0,0,0,0.45), 0 0 32px -4px rgba(200,165,92,0.28)",
+              transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+            }
+          : { borderColor: "var(--services-card-border-hover)" }
+      }
     >
       {/* card-image panel — holds arc, sweep, label */}
       <div
