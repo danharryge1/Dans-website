@@ -28,14 +28,12 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — 16:9 box, full image visible */}
+      {/* Draft — box sized to actual image dimensions */}
       {active === "draft" && (
         <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
           <div
-            className="relative w-full overflow-hidden"
+            className="relative overflow-hidden"
             style={{
-              aspectRatio: "16/9",
-              maxHeight: "100%",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -44,10 +42,16 @@ export function Act1Overlay() {
               src="/assets/hero/nextup-old.webp"
               alt=""
               aria-hidden
-              fill
-              sizes="90vw"
-              className="object-contain"
+              width={1820}
+              height={1024}
               priority
+              style={{
+                display: "block",
+                width: "auto",
+                height: "auto",
+                maxWidth: "100%",
+                maxHeight: "calc(100vh - 160px)",
+              }}
             />
             <div
               className="absolute inset-0"
@@ -60,14 +64,12 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — 16:9 box, full video visible */}
+      {/* Reality — box sized to actual video dimensions */}
       {active === "reality" && (
         <div className="pointer-events-none absolute bottom-8 left-5 right-[185px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[245px] md:top-[104px]">
           <div
-            className="relative w-full overflow-hidden"
+            className="relative overflow-hidden"
             style={{
-              aspectRatio: "16/9",
-              maxHeight: "100%",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -171,7 +173,7 @@ function RealityVideo() {
       playsInline
       preload="auto"
       poster="/assets/hero/nextup-intro-poster.jpg"
-      className="absolute inset-0 h-full w-full object-contain"
+      style={{ display: "block", width: "auto", height: "auto", maxWidth: "100%", maxHeight: "calc(100vh - 160px)" }}
     >
       <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
     </video>
