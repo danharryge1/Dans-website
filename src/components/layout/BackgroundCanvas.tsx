@@ -20,6 +20,7 @@ export function BackgroundCanvas() {
     let ex = window.innerWidth  * 0.80, ey = window.innerHeight * 0.55;
 
     let t = 0;
+    let firstTick = true;
 
     const onMouse = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; };
     window.addEventListener("mousemove", onMouse, { passive: true });
@@ -47,12 +48,19 @@ export function BackgroundCanvas() {
       ex += (eTx - ex) * 0.018;
       ey += (eTy - ey) * 0.018;
 
-      if (goldRef.current)
-        goldRef.current.style.transform  = `translate3d(${gx - 350}px, ${gy - 350}px, 0)`;
-      if (tealRef.current)
-        tealRef.current.style.transform  = `translate3d(${tx - 380}px, ${ty - 380}px, 0)`;
-      if (greenRef.current)
+      if (goldRef.current) {
+        goldRef.current.style.transform = `translate3d(${gx - 350}px, ${gy - 350}px, 0)`;
+        if (firstTick) goldRef.current.style.opacity = "1";
+      }
+      if (tealRef.current) {
+        tealRef.current.style.transform = `translate3d(${tx - 380}px, ${ty - 380}px, 0)`;
+        if (firstTick) tealRef.current.style.opacity = "1";
+      }
+      if (greenRef.current) {
         greenRef.current.style.transform = `translate3d(${ex - 320}px, ${ey - 320}px, 0)`;
+        if (firstTick) greenRef.current.style.opacity = "1";
+      }
+      firstTick = false;
     }
 
     rafId = requestAnimationFrame(tick);
@@ -68,45 +76,9 @@ export function BackgroundCanvas() {
       style={{ zIndex: -1, backgroundColor: "#070d0b" }}
       aria-hidden="true"
     >
-      {/* Gold orb — initial transform matches JS starting position so no flash */}
-      <div
-        ref={goldRef}
-        className="absolute top-0 left-0"
-        style={{
-          width: 700,
-          height: 700,
-          borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(200,165,92,0.20) 0%, transparent 70%)",
-          filter: "blur(100px)",
-          willChange: "transform",
-        }}
-      />
-      {/* Teal orb */}
-      <div
-        ref={tealRef}
-        className="absolute top-0 left-0"
-        style={{
-          width: 760,
-          height: 760,
-          borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(18,120,105,0.36) 0%, transparent 70%)",
-          filter: "blur(110px)",
-          willChange: "transform",
-        }}
-      />
-      {/* Deep green orb */}
-      <div
-        ref={greenRef}
-        className="absolute top-0 left-0"
-        style={{
-          width: 640,
-          height: 640,
-          borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(14,95,62,0.34) 0%, transparent 70%)",
-          filter: "blur(95px)",
-          willChange: "transform",
-        }}
-      />
+      <div ref={goldRef} className="absolute top-0 left-0" style={{ width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(200,165,92,0.20) 0%, transparent 70%)", filter: "blur(100px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
+      <div ref={tealRef} className="absolute top-0 left-0" style={{ width: 760, height: 760, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(18,120,105,0.36) 0%, transparent 70%)", filter: "blur(110px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
+      <div ref={greenRef} className="absolute top-0 left-0" style={{ width: 640, height: 640, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(14,95,62,0.34) 0%, transparent 70%)", filter: "blur(95px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
     </div>
   );
 }

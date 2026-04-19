@@ -95,12 +95,13 @@ export function ContactForm() {
   const [emailError, setEmailError] = useState("");
 
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
+  const mountedRef = useRef(false);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
-      inputRef.current?.focus();
-    });
     window.dispatchEvent(new CustomEvent("contact-step", { detail: { step } }));
+    // Skip focus on initial mount — would hijack scroll position on page load
+    if (!mountedRef.current) { mountedRef.current = true; return; }
+    requestAnimationFrame(() => { inputRef.current?.focus(); });
   }, [step]);
 
   useEffect(() => {
