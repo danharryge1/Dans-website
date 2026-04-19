@@ -28,15 +28,21 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft full-screen — static image */}
+      {/* Draft — framed box, clears fixed nav */}
       {active === "draft" && (
-        <div className="pointer-events-none absolute inset-0">
+        <div
+          className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] overflow-hidden rounded-2xl md:inset-x-12 md:bottom-12 md:top-[104px]"
+          style={{
+            boxShadow:
+              "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
+          }}
+        >
           <Image
             src="/assets/hero/nextup-old.webp"
             alt=""
             aria-hidden
             fill
-            sizes="100vw"
+            sizes="90vw"
             className="object-cover object-top"
             priority
           />
@@ -44,15 +50,21 @@ export function Act1Overlay() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.38) 100%)",
             }}
           />
         </div>
       )}
 
-      {/* Reality full-screen — video */}
+      {/* Reality — framed box, clears fixed nav */}
       {active === "reality" && (
-        <div className="pointer-events-none absolute inset-0">
+        <div
+          className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] overflow-hidden rounded-2xl md:inset-x-12 md:bottom-12 md:top-[104px]"
+          style={{
+            boxShadow:
+              "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
+          }}
+        >
           <video
             key="reality-video"
             aria-hidden
@@ -70,7 +82,7 @@ export function Act1Overlay() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.4) 100%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.35) 100%)",
             }}
           />
         </div>
