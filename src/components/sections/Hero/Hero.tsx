@@ -10,7 +10,7 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative w-full min-h-screen flex flex-col items-center justify-center pt-32 pb-24 overflow-hidden"
+      className="relative w-full h-[100dvh] flex flex-col items-center justify-center pt-[88px] pb-8 overflow-hidden"
     >
       <PerspectiveGrid />
       <HeroSparkles />
@@ -38,7 +38,7 @@ export function Hero() {
         </p>
       </div>
 
-      <div className="relative z-10 mt-10 md:mt-12">
+      <div className="relative z-10 mt-6 md:mt-8">
         <HeroLaptop>
           <HeroScreen
             draftSrc="/assets/hero/nextup-old.webp"
@@ -50,7 +50,7 @@ export function Hero() {
       </div>
 
       <p
-        className="relative z-10 mt-6 text-[13px] uppercase tracking-[0.15em]"
+        className="relative z-10 mt-3 text-[13px] uppercase tracking-[0.15em]"
         style={{
           fontFamily: "var(--font-marker)",
           color: "var(--text-secondary)",
