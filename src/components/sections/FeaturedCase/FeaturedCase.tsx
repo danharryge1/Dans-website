@@ -140,8 +140,29 @@ export function FeaturedCase() {
         {/* Act 3 — outcome */}
         <div
           data-case-act="3"
-          className="relative z-10 mx-auto w-full max-w-[1400px] px-6 py-32 text-center md:px-10 md:py-40 lg:px-12"
+          className="relative z-10 w-full overflow-hidden text-center"
+          style={{ minHeight: "100vh" }}
         >
+          {/* Full-bleed background video */}
+          <video
+            aria-hidden="true"
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload="metadata"
+            poster="/assets/hero/sites-doing-job-poster.jpg"
+            className="absolute inset-0 h-full w-full object-cover"
+          >
+            <source src="/assets/hero/sites-doing-job.mp4" type="video/mp4" />
+          </video>
+          {/* Overlay so text stays readable */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.6) 100%)" }}
+          />
+          <div className="relative mx-auto w-full max-w-[1400px] px-6 py-32 md:px-10 md:py-40 lg:px-12">
           <p
             className="mb-5 font-[var(--font-marker)] text-[12px] uppercase tracking-[0.28em] md:text-[13px]"
             style={{ color: "var(--gold-accent)" }}
@@ -166,28 +187,6 @@ export function FeaturedCase() {
             Built to stay out of the way. Designed, shipped, and maintained by
             one person.
           </p>
-          {/* Site preview video */}
-          <div
-            className="mx-auto mb-12 mt-10 w-full max-w-[900px] overflow-hidden rounded-2xl"
-            style={{
-              boxShadow:
-                "0 0 0 1px rgba(200,165,92,0.2), 0 40px 80px -20px rgba(0,0,0,0.7)",
-            }}
-          >
-            <video
-              aria-hidden="true"
-              muted
-              autoPlay
-              loop
-              playsInline
-              preload="metadata"
-              poster="/assets/hero/sites-doing-job-poster.jpg"
-              className="w-full object-cover"
-            >
-              <source src="/assets/hero/sites-doing-job.mp4" type="video/mp4" />
-            </video>
-          </div>
-
           <MagneticButton
             href="https://nextupco.com"
             target="_blank"
@@ -209,6 +208,7 @@ export function FeaturedCase() {
           >
             Selected works ↓
           </p>
+        </div>
         </div>
       </div>
 
