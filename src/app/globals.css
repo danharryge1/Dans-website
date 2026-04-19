@@ -245,3 +245,17 @@ nav :is(a, button):focus-visible,
     transform: none !important;
   }
 }
+
+/* ---------- CONTACT (Phase 7) ---------- */
+/* No new design tokens — reuses --bg-primary / --text-primary / --gold-accent /
+   --border-input / --font-comico / --font-marker. Block below is motion-fallback only. */
+@media (prefers-reduced-motion: reduce) {
+  [data-contact-thread] { transform: scaleY(1) !important; }
+  [data-contact-headline],
+  [data-contact-paragraph],
+  [data-contact-field],
+  [data-contact-submit] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
