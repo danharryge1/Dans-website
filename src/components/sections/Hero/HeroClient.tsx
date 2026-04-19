@@ -62,13 +62,10 @@ export function HeroClient() {
       return;
     }
 
-    // Belt-and-braces force-play: some browsers (iOS Safari low-power, strict
-    // autoplay policies) ignore the video's `autoplay` attribute. We call
-    // play() manually on mount, and again on visibility change.
-    const heroVideo = section.querySelector<HTMLVideoElement>("video");
-    const tryPlayVideo = () => {
-      if (heroVideo) heroVideo.play().catch(() => {});
-    };
+    // Force-play every video in the hero — clip-path can trick browsers into
+    // skipping playback for occluded elements.
+    const heroVideos = Array.from(section.querySelectorAll<HTMLVideoElement>("video"));
+    const tryPlayVideo = () => heroVideos.forEach((v) => v.play().catch(() => {}));
     tryPlayVideo();
     const visibilityHandler = () => {
       if (!document.hidden) tryPlayVideo();
@@ -176,47 +173,54 @@ export function HeroClient() {
       knob.addEventListener("pointercancel", onKnobUp);
     }
 
-    const ctx = gsap.context(() => {
+    // Declared before gsap.context so onComplete can call ctx.add().
+    let ctx: gsap.Context;
+    ctx = gsap.context(() => {
       if (desktop) {
-        // Desktop: scrubbed ScrollTrigger timeline — all tweens share one master trigger.
-        // Pin for one viewport of scroll so the scrub has full runway to sweep the seam
-        // across the width, regardless of total page length.
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=100%",
-            scrub: 0.6,
-            pin: true,
-            pinSpacing: true,
+        // Step 1 — auto-play intro: seam sweeps 0% → 55% immediately on load.
+        // Sparkles + side labels fire during this window (no scroll needed).
+        const introTl = gsap.timeline({
+          onComplete: () => {
+            // Step 2 — after intro completes, hand off to scroll scrub.
+            // ctx.add() registers tweens created here for cleanup by ctx.revert().
+            ctx.add(() => {
+              gsap.timeline({
+                scrollTrigger: {
+                  trigger: section,
+                  start: "top top",
+                  end: "+=100%",
+                  scrub: 0.6,
+                  pin: true,
+                  pinSpacing: true,
+                },
+              }).fromTo(
+                section,
+                { "--hero-progress": 0.55, "--seam-x": "55%" } as CSSVarTweenVars,
+                { "--hero-progress": 1, "--seam-x": "100%", ease: "none" } as CSSVarTweenVars,
+              );
+            });
           },
         });
 
-        tl.to(
+        introTl.to(
           section,
-          {
-            "--hero-progress": 1,
-            "--seam-x": "100%",
-            ease: "none",
-          } as CSSVarTweenVars,
+          { "--hero-progress": 0.55, "--seam-x": "55%", duration: 1.8, ease: "power3.out" } as CSSVarTweenVars,
           0,
         );
 
-        // Sparkle stagger keyed off --sparkle-delay set by HeroSparkles.
         sparkles.forEach((sparkle, i) => {
           const delay = Number(
             getComputedStyle(sparkle).getPropertyValue("--sparkle-delay") ||
               i * 0.04,
           );
-          tl.to(
+          introTl.to(
             sparkle,
             { opacity: 1, duration: 0.4, ease: "power2.out" },
-            0.4 + delay,
+            0.9 + delay,
           );
         });
 
-        // Side labels fade out as scroll approaches the end (progress ≥ 0.9).
-        tl.to(sideLabels, { opacity: 0, ease: "none" }, 0.9);
+        introTl.to(sideLabels, { opacity: 0, duration: 0.3 }, 1.5);
       } else {
         // Mobile: one-shot IntersectionObserver reveal — no scroll coupling.
         io = new IntersectionObserver(
