@@ -89,6 +89,24 @@ export function HeroClient() {
         repeat: -1,
       });
 
+    // Mouse parallax on the laptop — x-only so it doesn't conflict with
+    // the float tween which owns y.
+    let quickX: ((val: number) => void) | null = null;
+    const onHeroMouseMove = desktop && laptop
+      ? (e: MouseEvent) => {
+          if (!quickX) {
+            quickX = gsap.quickTo(laptop, "x", { duration: 0.7, ease: "power2.out" });
+          }
+          const rect = section.getBoundingClientRect();
+          const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+          quickX(nx * -10);
+        }
+      : null;
+
+    if (onHeroMouseMove) {
+      section.addEventListener("mousemove", onHeroMouseMove);
+    }
+
     // Lenis + GSAP ticker coordination (desktop only).
     // Mobile uses native scroll — Lenis causes jank on touch devices.
     let lenis: Lenis | null = null;
@@ -242,9 +260,9 @@ export function HeroClient() {
       if (floatTween) floatTween.kill();
       if (rafHandler) gsap.ticker.remove(rafHandler);
       if (lenis) lenis.destroy();
-      // Idempotent — safe if the observer already self-disconnected.
       if (io) io.disconnect();
       document.removeEventListener("visibilitychange", visibilityHandler);
+      if (onHeroMouseMove) section.removeEventListener("mousemove", onHeroMouseMove);
       if (knob) {
         knob.removeEventListener("pointerdown", onKnobDown);
         knob.removeEventListener("pointermove", onKnobMove);

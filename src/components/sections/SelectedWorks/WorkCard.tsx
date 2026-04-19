@@ -64,7 +64,15 @@ export function WorkCard(props: Props) {
           alt={entry.thumbnailAlt}
           fill
           sizes="(max-width: 768px) 100vw, 320px"
-          className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.06]"
+          className="object-cover transition-transform duration-[600ms] ease-out group-hover:scale-[1.08]"
+        />
+        <div
+          aria-hidden="true"
+          className="work-shimmer pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(200,165,92,0.22) 50%, transparent 100%)",
+          }}
         />
         <span
           aria-hidden="true"

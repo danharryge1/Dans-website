@@ -1,10 +1,23 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useMagnetic } from "@/lib/motion/useMagnetic";
+
+function NavMagLink({ href, label }: { href: string; label: string }) {
+  const { ref, innerRef } = useMagnetic<HTMLAnchorElement>({
+    strength: 7,
+    writeFillVars: false,
+  });
+  return (
+    <a ref={ref} href={href}>
+      <span ref={(el) => { innerRef.current = el; }}>{label}</span>
+    </a>
+  );
+}
 
 const LINKS = [
-  { label: "PORTFOLIO", href: "#selected-works" },
   { label: "SERVICES", href: "#services" },
+  { label: "PORTFOLIO", href: "#selected-works" },
   { label: "ABOUT", href: "#philosophy" },
   { label: "CONTACT", href: "#contact" },
 ] as const;
@@ -51,7 +64,7 @@ export function Nav() {
         >
           {LINKS.map((l) => (
             <li key={l.label}>
-              <a href={l.href}>{l.label}</a>
+              <NavMagLink href={l.href} label={l.label} />
             </li>
           ))}
         </ul>

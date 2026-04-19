@@ -76,9 +76,10 @@ export function BackgroundCanvas() {
       style={{ zIndex: -1, backgroundColor: "#070d0b" }}
       aria-hidden="true"
     >
-      <div ref={goldRef} className="absolute top-0 left-0" style={{ width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(200,165,92,0.20) 0%, transparent 70%)", filter: "blur(100px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
-      <div ref={tealRef} className="absolute top-0 left-0" style={{ width: 760, height: 760, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(18,120,105,0.36) 0%, transparent 70%)", filter: "blur(110px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
-      <div ref={greenRef} className="absolute top-0 left-0" style={{ width: 640, height: 640, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(14,95,62,0.34) 0%, transparent 70%)", filter: "blur(95px)", willChange: "transform", opacity: 0, transition: "opacity 0.6s ease" }} />
+      {/* Initial transforms pre-position orbs at their JS home so they're visible on first paint */}
+      <div ref={goldRef} className="absolute top-0 left-0" style={{ width: 700, height: 700, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(200,165,92,0.20) 0%, transparent 70%)", filter: "blur(100px)", willChange: "transform", transform: "translate3d(calc(55vw - 350px), calc(72vh - 350px), 0)" }} />
+      <div ref={tealRef} className="absolute top-0 left-0" style={{ width: 760, height: 760, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(18,120,105,0.36) 0%, transparent 70%)", filter: "blur(110px)", willChange: "transform", transform: "translate3d(calc(18vw - 380px), calc(32vh - 380px), 0)" }} />
+      <div ref={greenRef} className="absolute top-0 left-0" style={{ width: 640, height: 640, borderRadius: "50%", background: "radial-gradient(circle at center, rgba(14,95,62,0.34) 0%, transparent 70%)", filter: "blur(95px)", willChange: "transform", transform: "translate3d(calc(80vw - 320px), calc(55vh - 320px), 0)" }} />
     </div>
   );
 }
