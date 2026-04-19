@@ -87,6 +87,12 @@ export function Act1Overlay() {
 
       <div className="absolute inset-y-0 left-6 flex flex-col justify-center md:left-12">
         <p
+          className="mb-2 font-[var(--font-marker)] text-[11px] uppercase tracking-[0.2em] md:text-[12px]"
+          style={{ color: "var(--gold-accent)", opacity: 0.8 }}
+        >
+          Case Study
+        </p>
+        <p
           className="mb-2 font-[var(--font-comico)] text-[28px] uppercase tracking-[0.05em] md:text-[40px]"
           style={{ color: "var(--text-primary)" }}
         >
