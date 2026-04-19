@@ -76,7 +76,7 @@ export function BackgroundCanvas() {
           width: 700,
           height: 700,
           borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(200,165,92,0.38) 0%, transparent 70%)",
+          background: "radial-gradient(circle at center, rgba(200,165,92,0.20) 0%, transparent 70%)",
           filter: "blur(100px)",
           willChange: "transform",
         }}
@@ -89,7 +89,7 @@ export function BackgroundCanvas() {
           width: 760,
           height: 760,
           borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(13,84,76,0.42) 0%, transparent 70%)",
+          background: "radial-gradient(circle at center, rgba(18,120,105,0.36) 0%, transparent 70%)",
           filter: "blur(110px)",
           willChange: "transform",
         }}
@@ -102,7 +102,7 @@ export function BackgroundCanvas() {
           width: 640,
           height: 640,
           borderRadius: "50%",
-          background: "radial-gradient(circle at center, rgba(8,55,38,0.48) 0%, transparent 70%)",
+          background: "radial-gradient(circle at center, rgba(14,95,62,0.34) 0%, transparent 70%)",
           filter: "blur(95px)",
           willChange: "transform",
         }}
