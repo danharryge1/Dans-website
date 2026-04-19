@@ -1,3 +1,4 @@
+import { Contact } from "@/components/sections/Contact";
 import { FeaturedCase } from "@/components/sections/FeaturedCase";
 import { Hero } from "@/components/sections/Hero/Hero";
 import { Philosophy } from "@/components/sections/Philosophy";
@@ -14,6 +15,7 @@ export default function Home() {
       <SelectedWorks />
       <Philosophy />
       <Process />
+      <Contact />
     </>
   );
 }
