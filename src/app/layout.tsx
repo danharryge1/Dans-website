@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { SeamRevealClient } from "@/components/layout/SeamRevealClient";
+import { BackgroundCanvas } from "@/components/layout/BackgroundCanvas";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
+        <BackgroundCanvas />
         <Nav />
         <SeamRevealClient />
         <main className="flex-1">{children}</main>
