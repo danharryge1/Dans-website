@@ -28,14 +28,14 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — square box */}
+      {/* Draft — square box, leaving room for chips on right */}
       {active === "draft" && (
-        <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center justify-center md:inset-x-12 md:bottom-12 md:top-[104px]">
+        <div className="pointer-events-none absolute bottom-8 left-5 right-[180px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[240px] md:top-[104px]">
           <div
             className="relative overflow-hidden"
             style={{
-              width: "min(calc(100vh - 160px), calc(100vw - 60px))",
-              height: "min(calc(100vh - 160px), calc(100vw - 60px))",
+              width: "min(calc(100vh - 160px), calc(100vw - 280px))",
+              height: "min(calc(100vh - 160px), calc(100vw - 280px))",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -60,14 +60,14 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — square box */}
+      {/* Reality — square box, leaving room for chips on right */}
       {active === "reality" && (
-        <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center justify-center md:inset-x-12 md:bottom-12 md:top-[104px]">
+        <div className="pointer-events-none absolute bottom-8 left-5 right-[180px] top-[96px] flex items-center justify-center md:bottom-12 md:left-12 md:right-[240px] md:top-[104px]">
           <div
             className="relative overflow-hidden"
             style={{
-              width: "min(calc(100vh - 160px), calc(100vw - 60px))",
-              height: "min(calc(100vh - 160px), calc(100vw - 60px))",
+              width: "min(calc(100vh - 160px), calc(100vw - 280px))",
+              height: "min(calc(100vh - 160px), calc(100vw - 280px))",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
