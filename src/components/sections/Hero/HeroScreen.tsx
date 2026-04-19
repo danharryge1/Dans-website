@@ -33,12 +33,14 @@ export function HeroScreen({
         <span
           data-hero-side-label
           aria-hidden="true"
-          className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-[0.15em]"
+          className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.18em]"
           style={{
             fontFamily: "var(--font-marker)",
-            color: "var(--text-primary)",
-            backgroundColor: "rgba(11,36,34,0.8)",
-            border: "1px solid rgba(11,36,34,0.4)",
+            color: "rgba(245,245,240,0.9)",
+            backgroundColor: "rgba(11,36,34,0.85)",
+            border: "1px solid rgba(245,245,240,0.2)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
           }}
         >
           Draft
@@ -69,14 +71,15 @@ export function HeroScreen({
         <span
           data-hero-side-label
           aria-hidden="true"
-          className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-[0.15em]"
+          className="absolute bottom-2.5 right-2.5 px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.18em]"
           style={{
             fontFamily: "var(--font-marker)",
-            color: "var(--text-primary)",
-            backgroundColor: "rgba(245,245,240,0.15)",
-            border: "1px solid rgba(245,245,240,0.3)",
-            backdropFilter: "blur(4px)",
-            WebkitBackdropFilter: "blur(4px)",
+            color: "rgba(245,245,240,0.95)",
+            backgroundColor: "rgba(200,165,92,0.2)",
+            border: "1px solid rgba(200,165,92,0.5)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
+            boxShadow: "0 0 12px rgba(200,165,92,0.2)",
           }}
         >
           Reality
