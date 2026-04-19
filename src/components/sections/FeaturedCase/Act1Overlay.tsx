@@ -28,63 +28,71 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — framed box, clears fixed nav */}
+      {/* Draft — 16:9 box centred in available space so full image is always visible */}
       {active === "draft" && (
-        <div
-          className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] overflow-hidden rounded-2xl md:inset-x-12 md:bottom-12 md:top-[104px]"
-          style={{
-            boxShadow:
-              "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
-          }}
-        >
-          <Image
-            src="/assets/hero/nextup-old.webp"
-            alt=""
-            aria-hidden
-            fill
-            sizes="90vw"
-            className="object-cover object-top"
-            priority
-          />
+        <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="absolute inset-0"
+            className="relative w-full overflow-hidden rounded-2xl bg-black"
             style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.38) 100%)",
+              aspectRatio: "16/9",
+              maxHeight: "100%",
+              boxShadow:
+                "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
-          />
+          >
+            <Image
+              src="/assets/hero/nextup-old.webp"
+              alt=""
+              aria-hidden
+              fill
+              sizes="90vw"
+              className="object-contain"
+              priority
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.38) 100%)",
+              }}
+            />
+          </div>
         </div>
       )}
 
-      {/* Reality — framed box, clears fixed nav */}
+      {/* Reality — 16:9 box centred so full video is always visible */}
       {active === "reality" && (
-        <div
-          className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] overflow-hidden rounded-2xl md:inset-x-12 md:bottom-12 md:top-[104px]"
-          style={{
-            boxShadow:
-              "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
-          }}
-        >
-          <video
-            key="reality-video"
-            aria-hidden
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/assets/hero/nextup-intro-poster.jpg"
-            className="absolute inset-0 h-full w-full object-cover object-top"
-          >
-            <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
-          </video>
+        <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="absolute inset-0"
+            className="relative w-full overflow-hidden rounded-2xl bg-black"
             style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.35) 100%)",
+              aspectRatio: "16/9",
+              maxHeight: "100%",
+              boxShadow:
+                "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
-          />
+          >
+            <video
+              key="reality-video"
+              aria-hidden
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/assets/hero/nextup-intro-poster.jpg"
+              className="absolute inset-0 h-full w-full object-contain"
+            >
+              <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
+            </video>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.35) 100%)",
+              }}
+            />
+          </div>
         </div>
       )}
 
