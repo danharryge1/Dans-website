@@ -24,9 +24,9 @@ export function HeroScreen({
         <img
           src={draftSrc}
           alt={draftAlt}
-          width={1120}
-          height={700}
-          className="w-full h-full object-cover"
+          width={1820}
+          height={1024}
+          className="w-full h-full object-cover object-top"
           loading="eager"
           decoding="async"
         />
@@ -62,7 +62,7 @@ export function HeroScreen({
           playsInline
           preload="metadata"
           poster={videoPoster}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         >
           <source src={videoMp4} type="video/mp4" />
         </video>
