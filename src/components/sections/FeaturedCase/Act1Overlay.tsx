@@ -28,14 +28,14 @@ export function Act1Overlay() {
 
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {/* Draft — square box, sized from available height */}
+      {/* Draft — square box */}
       {active === "draft" && (
         <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center justify-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="relative h-full overflow-hidden"
+            className="relative overflow-hidden"
             style={{
-              aspectRatio: "1",
-              maxWidth: "100%",
+              width: "min(calc(100vh - 160px), calc(100vw - 60px))",
+              height: "min(calc(100vh - 160px), calc(100vw - 60px))",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
@@ -60,14 +60,14 @@ export function Act1Overlay() {
         </div>
       )}
 
-      {/* Reality — square box, sized from available height */}
+      {/* Reality — square box */}
       {active === "reality" && (
         <div className="pointer-events-none absolute inset-x-5 bottom-8 top-[96px] flex items-center justify-center md:inset-x-12 md:bottom-12 md:top-[104px]">
           <div
-            className="relative h-full overflow-hidden"
+            className="relative overflow-hidden"
             style={{
-              aspectRatio: "1",
-              maxWidth: "100%",
+              width: "min(calc(100vh - 160px), calc(100vw - 60px))",
+              height: "min(calc(100vh - 160px), calc(100vw - 60px))",
               boxShadow:
                 "0 0 0 1px rgba(200,165,92,0.3), 0 40px 80px -16px rgba(0,0,0,0.75)",
             }}
