@@ -1,41 +1,41 @@
 type HeroScreenProps = {
-  draftSrc: string;
-  draftAlt: string;
-  videoMp4: string;
-  videoWebm: string;
-  videoPoster: string;
+  leftVideoMp4: string;
+  leftVideoPoster: string;
+  leftLabel: string;
+  rightVideoMp4: string;
+  rightVideoPoster: string;
+  rightLabel: string;
 };
 
 export function HeroScreen({
-  draftSrc,
-  draftAlt,
-  videoMp4,
-  videoWebm,
-  videoPoster,
+  leftVideoMp4,
+  leftVideoPoster,
+  leftLabel,
+  rightVideoMp4,
+  rightVideoPoster,
+  rightLabel,
 }: HeroScreenProps) {
   return (
     <div data-hero-screen className="relative w-full h-full select-none">
-      {/* screen-reader description of the transformation */}
       <p className="sr-only">
-        Animated reveal: NextUp Co.&rsquo;s original site on the left transitions
-        to its new site on the right as you scroll (Draft to Reality).
+        Animated reveal: drag the seam to compare the before and after of the
+        NextUp Co. redesign.
       </p>
 
-      {/* Draft side — full frame underneath */}
+      {/* Left side — full frame underneath */}
       <div data-hero-draft className="absolute inset-0">
-        {/* Intrinsic dims match the 1120×700 source file — tells the browser
-            the aspect ratio up-front and avoids CLS even if the ancestor
-            aspect-ratio box fails to size in time. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={draftSrc}
-          alt={draftAlt}
-          width={1120}
-          height={700}
+        <video
+          aria-hidden="true"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster={leftVideoPoster}
           className="w-full h-full object-cover"
-          loading="eager"
-          decoding="async"
-        />
+        >
+          <source src={leftVideoMp4} type="video/mp4" />
+        </video>
         <span
           data-hero-side-label
           aria-hidden="true"
@@ -47,11 +47,11 @@ export function HeroScreen({
             border: "1px solid rgba(11,36,34,0.4)",
           }}
         >
-          Draft
+          {leftLabel}
         </span>
       </div>
 
-      {/* Reality side — clipped from the right by the seam */}
+      {/* Right side — clipped from the right by the seam */}
       <div
         data-hero-reality
         className="absolute inset-0"
@@ -67,11 +67,10 @@ export function HeroScreen({
           loop
           playsInline
           preload="metadata"
-          poster={videoPoster}
+          poster={rightVideoPoster}
           className="w-full h-full object-cover"
         >
-          <source src={videoWebm} type="video/webm" />
-          <source src={videoMp4} type="video/mp4" />
+          <source src={rightVideoMp4} type="video/mp4" />
         </video>
         <span
           data-hero-side-label
@@ -86,7 +85,7 @@ export function HeroScreen({
             WebkitBackdropFilter: "blur(4px)",
           }}
         >
-          Reality
+          {rightLabel}
         </span>
       </div>
 
@@ -106,7 +105,7 @@ export function HeroScreen({
         <button
           type="button"
           data-hero-knob
-          aria-label="Drag to compare the draft and the live site"
+          aria-label="Drag to compare before and after"
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[32px] h-[32px] rounded-full p-0 flex items-center justify-center gap-[2.5px] cursor-ew-resize pointer-events-auto touch-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold-accent)] focus-visible:ring-offset-2"
           style={{
             backgroundColor: "var(--text-primary)",

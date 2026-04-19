@@ -3,45 +3,53 @@ import { describe, expect, it } from "vitest";
 import { HeroScreen } from "./HeroScreen";
 
 const DEFAULT_PROPS = {
-  draftSrc: "/assets/hero/nextup-old.webp",
-  draftAlt: "NextUp Co. homepage, pre-redesign",
-  videoMp4: "/assets/hero/nextup-live.mp4",
-  videoWebm: "/assets/hero/nextup-live.webm",
-  videoPoster: "/assets/hero/nextup-live-poster.webp",
+  leftVideoMp4: "/assets/hero/intro-bg.mp4",
+  leftVideoPoster: "/assets/hero/intro-bg-poster.jpg",
+  leftLabel: "Before",
+  rightVideoMp4: "/assets/hero/nextup-v2.mp4",
+  rightVideoPoster: "/assets/hero/nextup-v2-poster.jpg",
+  rightLabel: "After",
 };
 
 describe("<HeroScreen />", () => {
-  it("renders the draft image with correct src and alt", () => {
-    render(<HeroScreen {...DEFAULT_PROPS} />);
-    const img = screen.getByAltText(DEFAULT_PROPS.draftAlt) as HTMLImageElement;
-    expect(img.src).toContain("nextup-old.webp");
-  });
-
-  it("renders a <video> with webm + mp4 sources in that order (webm first for VP9 savings)", () => {
+  it("renders two <video> elements (left and right)", () => {
     const { container } = render(<HeroScreen {...DEFAULT_PROPS} />);
-    const video = container.querySelector("video") as HTMLVideoElement;
-    expect(video).not.toBeNull();
-    expect(video.getAttribute("poster")).toContain("nextup-live-poster.webp");
-    expect(video.getAttribute("aria-hidden")).toBe("true");
-    expect(video.hasAttribute("autoplay")).toBe(true);
-    expect(video.muted).toBe(true);
-    expect(video.hasAttribute("loop")).toBe(true);
-    expect(video.hasAttribute("playsinline")).toBe(true);
-    const sources = video.querySelectorAll("source");
-    expect(sources[0].getAttribute("type")).toBe("video/webm");
-    expect(sources[1].getAttribute("type")).toBe("video/mp4");
+    const videos = container.querySelectorAll("video");
+    expect(videos.length).toBe(2);
   });
 
-  it("renders Draft and Reality side labels with the data attribute", () => {
+  it("left video has correct poster and mp4 source", () => {
+    const { container } = render(<HeroScreen {...DEFAULT_PROPS} />);
+    const leftVideo = container.querySelector("[data-hero-draft] video") as HTMLVideoElement;
+    expect(leftVideo).not.toBeNull();
+    expect(leftVideo.getAttribute("poster")).toContain("intro-bg-poster.jpg");
+    const source = leftVideo.querySelector("source");
+    expect(source?.getAttribute("src")).toContain("intro-bg.mp4");
+    expect(source?.getAttribute("type")).toBe("video/mp4");
+  });
+
+  it("right video has correct poster, is autoplaying, muted, looping", () => {
+    const { container } = render(<HeroScreen {...DEFAULT_PROPS} />);
+    const rightVideo = container.querySelector("[data-hero-reality] video") as HTMLVideoElement;
+    expect(rightVideo).not.toBeNull();
+    expect(rightVideo.getAttribute("poster")).toContain("nextup-v2-poster.jpg");
+    expect(rightVideo.getAttribute("aria-hidden")).toBe("true");
+    expect(rightVideo.hasAttribute("autoplay")).toBe(true);
+    expect(rightVideo.muted).toBe(true);
+    expect(rightVideo.hasAttribute("loop")).toBe(true);
+    expect(rightVideo.hasAttribute("playsinline")).toBe(true);
+  });
+
+  it("renders Before and After side labels with the data attribute", () => {
     const { container } = render(<HeroScreen {...DEFAULT_PROPS} />);
     const labels = container.querySelectorAll("[data-hero-side-label]");
     expect(labels.length).toBe(2);
     const texts = Array.from(labels).map((l) => l.textContent);
-    expect(texts).toContain("Draft");
-    expect(texts).toContain("Reality");
+    expect(texts).toContain("Before");
+    expect(texts).toContain("After");
   });
 
-  it("renders a seam element at CSS var --seam-x", () => {
+  it("renders a seam element referencing --seam-x", () => {
     const { container } = render(<HeroScreen {...DEFAULT_PROPS} />);
     const seam = container.querySelector("[data-hero-seam]") as HTMLElement;
     expect(seam).not.toBeNull();
@@ -56,10 +64,10 @@ describe("<HeroScreen />", () => {
     expect(reality.getAttribute("style") ?? "").toContain("clip-path");
   });
 
-  it("provides a screen-reader sentence describing the transformation", () => {
+  it("provides a screen-reader sentence describing the comparison", () => {
     render(<HeroScreen {...DEFAULT_PROPS} />);
     expect(
-      screen.getByText(/draft.*reality/i, { selector: ".sr-only" }),
+      screen.getByText(/compare.*before.*after|before.*after.*redesign/i, { selector: ".sr-only" }),
     ).toBeInTheDocument();
   });
 });
