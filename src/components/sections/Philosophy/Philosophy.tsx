@@ -15,13 +15,13 @@ export function Philosophy() {
           <h2
             id="philosophy-heading"
             data-philosophy-eyebrow=""
-            className="text-[13px] md:text-[14px] uppercase tracking-[0.12em]"
+            className="text-[42px] md:text-[64px] lg:text-[80px] uppercase leading-[0.95] tracking-[-0.01em]"
             style={{
-              fontFamily: "var(--font-marker)",
+              fontFamily: "var(--font-comico)",
               color: "var(--gold-accent)",
             }}
           >
-            OUR PHILOSOPHY
+            THE WAY I BUILD
           </h2>
 
           <span

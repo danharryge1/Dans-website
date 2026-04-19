@@ -7,6 +7,7 @@ describe("<ServiceCard />", () => {
     id: "ui-ux" as const,
     title: "UI / UX DESIGN",
     body: "Design that behaves. Every click predictable, every edge considered.",
+    deliverables: ["Wireframes and interactive prototypes"],
   };
 
   it("renders title and body copy", () => {
@@ -53,6 +54,7 @@ describe("<ServiceCard /> — hover tilt", () => {
     id: "ui-ux" as const,
     title: "UI / UX DESIGN",
     body: "Design that behaves. Every click predictable, every edge considered.",
+    deliverables: ["Wireframes and interactive prototypes"],
   };
 
   beforeEach(() => {
