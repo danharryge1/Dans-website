@@ -26,9 +26,10 @@ export const beliefs = [
     body: "NextUp, the case study above, is my own company. I built the site, the brand, the product. It's proof of capability, not the ceiling of it.",
     scale: "xl",
     media: {
-      kind: "image",
-      src: "/assets/hero/nextup-live-poster.webp",
-      alt: "NextUp live homepage.",
+      kind: "proof",
+      figure: "100",
+      unit: "%",
+      caption: "designed. built. launched.",
     },
   },
   {
