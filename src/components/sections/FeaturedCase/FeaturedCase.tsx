@@ -19,7 +19,7 @@ export function FeaturedCase() {
         className="relative w-full"
         style={{ minHeight: "100vh" }}
       >
-        {/* Single backdrop video — one DOM node, Client toggles opacity across acts */}
+        {/* Single backdrop video — Client fades it out across Acts, gradient layer takes over by Act 3 */}
         <video
           data-case-video
           aria-hidden="true"
@@ -28,13 +28,26 @@ export function FeaturedCase() {
           loop
           playsInline
           preload="metadata"
-          poster="/assets/hero/nextup-live-poster.webp"
+          poster="/assets/hero/nextup-live-hd-poster.webp"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover"
           style={{ filter: "saturate(var(--case-video-desat))" }}
         >
-          <source src="/assets/hero/nextup-live.webm" type="video/webm" />
-          <source src="/assets/hero/nextup-live.mp4" type="video/mp4" />
+          <source src="/assets/hero/nextup-live-hd.webm" type="video/webm" />
+          <source src="/assets/hero/nextup-live-hd.mp4" type="video/mp4" />
         </video>
+
+        {/* Act 3 backdrop — deep teal radial gradient with vignette, fades in as video fades out */}
+        <div
+          data-case-gradient
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            opacity: 0,
+            background:
+              "radial-gradient(ellipse at center, #0D544C 0%, #0B2422 80%), radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%)",
+            backgroundBlendMode: "normal, multiply",
+          }}
+        />
 
         {/* Act 1 — setup */}
         <div data-case-act="1" className="absolute inset-0 z-10">

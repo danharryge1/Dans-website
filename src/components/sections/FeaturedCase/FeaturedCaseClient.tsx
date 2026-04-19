@@ -22,6 +22,9 @@ export function FeaturedCaseClient() {
 
     const pin = section.querySelector<HTMLElement>("[data-case-pin]");
     const video = section.querySelector<HTMLElement>("[data-case-video]");
+    const gradient = section.querySelector<HTMLElement>(
+      "[data-case-gradient]",
+    );
     const act1 = section.querySelector<HTMLElement>('[data-case-act="1"]');
     const act2 = section.querySelector<HTMLElement>('[data-case-act="2"]');
     const act3 = section.querySelector<HTMLElement>('[data-case-act="3"]');
@@ -65,6 +68,7 @@ export function FeaturedCaseClient() {
         });
       if (act1) gsap.set(act1, { opacity: 1 });
       if (video) gsap.set(video, { opacity: 1 });
+      if (gradient) gsap.set(gradient, { opacity: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -104,7 +108,8 @@ export function FeaturedCaseClient() {
       tl.to(beats[2], { opacity: 0, y: -40, duration: 0.08 }, "beat-03+=0.2");
 
       tl.addLabel("act-3-start", 0.85);
-      if (video) tl.to(video, { opacity: 1, duration: 0.08 }, "act-3-start");
+      if (gradient)
+        tl.to(gradient, { opacity: 1, duration: 0.12 }, "act-3-start");
       if (act3)
         tl.to(
           act3,

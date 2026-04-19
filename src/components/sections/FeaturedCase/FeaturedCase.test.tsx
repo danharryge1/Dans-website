@@ -35,7 +35,7 @@ describe("<FeaturedCase />", () => {
     expect(backdrop.hasAttribute("muted") || backdrop.muted).toBe(true);
     expect(backdrop.hasAttribute("autoplay") || backdrop.autoplay).toBe(true);
     expect(backdrop.hasAttribute("loop") || backdrop.loop).toBe(true);
-    expect(backdrop.getAttribute("poster")).toContain("nextup-live-poster.webp");
+    expect(backdrop.getAttribute("poster")).toContain("nextup-live-hd-poster.webp");
     const sources = backdrop.querySelectorAll("source");
     expect(sources.length).toBe(2);
     expect(Array.from(sources).some((s) => s.getAttribute("type") === "video/webm")).toBe(true);
