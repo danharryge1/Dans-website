@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Act1Overlay } from "./Act1Overlay";
 import { DecisionBeat } from "./DecisionBeat";
 import { FeaturedCaseClient } from "./FeaturedCaseClient";
+import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 export function FeaturedCase() {
   return (
@@ -216,27 +217,16 @@ export function FeaturedCase() {
             Built to stay out of the way. Designed, shipped, and maintained by
             one person.
           </p>
-          <a
+          <MagneticButton
             href="https://nextupco.com"
             target="_blank"
             rel="noreferrer noopener"
-            className="group relative inline-flex items-center gap-3 rounded-full border px-7 py-3 font-[var(--font-marker)] text-[14px] uppercase tracking-[0.14em] transition-all duration-300 hover:gap-4 md:text-[15px]"
-            style={{
-              borderColor: "var(--gold-accent)",
-              color: "var(--text-primary)",
-              backgroundColor: "rgba(200,165,92,0.04)",
-              boxShadow: "0 1px 20px rgba(200,165,92,0.12)",
-            }}
+            variant="outline"
+            arrow
+            strength={16}
           >
             Visit the live site
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-              style={{ color: "var(--gold-accent)" }}
-            >
-              →
-            </span>
-          </a>
+          </MagneticButton>
           <p
             data-case-arrow-float
             className="mt-16 font-[var(--font-marker)] text-[13px] tracking-[0.08em] md:text-[14px]"

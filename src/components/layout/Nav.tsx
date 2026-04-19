@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const LINKS = [
-  { label: "PORTFOLIO", href: "#portfolio" },
+  { label: "PORTFOLIO", href: "#selected-works" },
   { label: "SERVICES", href: "#services" },
-  { label: "ABOUT", href: "#about" },
+  { label: "ABOUT", href: "#philosophy" },
   { label: "CONTACT", href: "#contact" },
 ] as const;
 
