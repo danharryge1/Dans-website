@@ -3,43 +3,28 @@
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContact, type ContactState } from "@/lib/contact-action";
+import { MagneticButton } from "@/lib/motion/MagneticButton";
 import { contactCopy } from "./contact.data";
 
 const initialState: ContactState = { status: "idle" };
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  // Sign-the-Page: MagneticButton solid variant + underline-on-hover
+  // animation defined in globals.css under [data-contact-submit].
   return (
-    <button
-      type="submit"
-      disabled={pending}
-      data-contact-submit=""
-      className="w-full rounded-xl border-2 px-6 py-4 text-center uppercase tracking-[0.08em] text-[16px] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:text-[var(--bg-primary)]"
-      style={{
-        borderColor: "var(--border-input)",
-        fontFamily: "var(--font-marker)",
-        color: "var(--text-primary)",
-        backgroundColor: "transparent",
-      }}
-      onMouseEnter={(e) => {
-        if (!pending) {
-          e.currentTarget.style.backgroundColor = "var(--gold-accent)";
-        }
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "transparent";
-      }}
-      onFocus={(e) => {
-        e.currentTarget.style.outline = "none";
-        e.currentTarget.style.boxShadow =
-          "0 0 0 2px color-mix(in oklch, var(--gold-accent) 60%, transparent)";
-      }}
-      onBlur={(e) => {
-        e.currentTarget.style.boxShadow = "";
-      }}
-    >
-      {pending ? contactCopy.submit.pending : contactCopy.submit.idle}
-    </button>
+    <div data-contact-submit="" className="w-full">
+      <MagneticButton
+        type="submit"
+        variant="solid"
+        arrow
+        strength={14}
+        disabled={pending}
+        className="w-full !rounded-xl !py-4"
+      >
+        {pending ? contactCopy.submit.pending : contactCopy.submit.idle}
+      </MagneticButton>
+    </div>
   );
 }
 

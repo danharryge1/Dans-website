@@ -76,6 +76,10 @@ export function ServicesClient() {
             "[data-services-arc-dot]",
           );
           let arcDrawn = false;
+          // Ledger stamp — fires once when the card enters the viewport.
+          // Toggling [data-reveal=1] drives the `ledger-stamp` keyframe in
+          // globals.css. Independent of scrub so the stamp feels decisive.
+          let stamped = false;
 
           ScrollTrigger.create({
             trigger: card,
@@ -86,6 +90,11 @@ export function ServicesClient() {
               gsap.set(card, {
                 "--sweep-x": self.progress,
               } as CSSVarTweenVars);
+
+              if (!stamped && self.progress > 0) {
+                stamped = true;
+                card.dataset.reveal = "1";
+              }
 
               if (!arcDrawn && self.progress >= 0.6) {
                 arcDrawn = true;
@@ -145,6 +154,15 @@ export function ServicesClient() {
             );
 
             const cardStart = 0.2 + i * 0.2; // 200ms stagger
+
+            // Ledger stamp — mobile one-shot mirrors the desktop behaviour.
+            tl.call(
+              () => {
+                card.dataset.reveal = "1";
+              },
+              [],
+              cardStart,
+            );
 
             tl.to(
               card,

@@ -70,6 +70,10 @@ export function PhilosophyClient() {
           start: "top 80%",
           once: true,
           onEnter: () => {
+            // Tap-to-Sink stamp — drives the `philosophy-sink` keyframe on
+            // the h3. The y-tween below stays for layout parity with the
+            // other elements, but the sink animation takes visual lead.
+            block.dataset.reveal = "1";
             if (headline) {
               gsap.to(headline, {
                 opacity: 1,

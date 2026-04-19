@@ -21,6 +21,10 @@ vi.mock("gsap", () => {
       if (typeof fn === "function") fn();
       return tl;
     };
+    tl.call = (fn?: () => void) => {
+      if (typeof fn === "function") fn();
+      return tl;
+    };
     return tl;
   };
   const gsap = {

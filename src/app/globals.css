@@ -275,3 +275,236 @@ nav :is(a, button):focus-visible,
     transform: none !important;
   }
 }
+
+/* ---------- MOTION SYSTEM (Phase 8) ---------- */
+/* Shared easings + timings for the magnetic CTA engine and the three
+   signature moments (Ledger, Tap to Sink, Sign the Page). Tokenised so
+   the whole system can be retuned from one place. */
+:root {
+  --ease-snap: cubic-bezier(.22, 1, .36, 1);
+  --ease-soft: cubic-bezier(.4, 0, .2, 1);
+  --dur-quick: 220ms;
+  --dur-base: 320ms;
+  --dur-slow: 480ms;
+
+  /* shared reveal channel (0 → 1) set by useInViewReveal */
+  --reveal: 1;
+}
+
+/* ---------- MAGNETIC BUTTON ---------- */
+.magb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  font-family: var(--font-marker);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1.5px solid var(--text-primary);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  isolation: isolate;
+  transition:
+    border-color var(--dur-base) var(--ease-soft),
+    color var(--dur-base) var(--ease-soft),
+    background var(--dur-base) var(--ease-soft),
+    box-shadow var(--dur-base) var(--ease-soft);
+  will-change: transform;
+}
+
+.magb:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.magb:focus-visible {
+  outline: 2px solid var(--gold-accent);
+  outline-offset: 3px;
+}
+
+.magb-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  will-change: transform;
+}
+
+.magb-arr {
+  display: inline-block;
+  transition: transform var(--dur-base) var(--ease-snap);
+}
+.magb:hover:not(:disabled) .magb-arr {
+  transform: translateX(4px);
+}
+
+/* Gold radial fill for outline variant — seeded at cursor via --fx/--fy */
+.magb-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 260ms var(--ease-soft);
+  pointer-events: none;
+}
+.magb-fill::before {
+  content: "";
+  position: absolute;
+  width: 160%;
+  aspect-ratio: 1 / 1;
+  left: var(--fx, 50%);
+  top: var(--fy, 50%);
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(
+    circle at center,
+    var(--gold-accent) 0%,
+    var(--gold-accent) 58%,
+    transparent 70%
+  );
+  transition: transform 420ms var(--ease-snap);
+}
+
+/* Outline variant — transparent, gold radial fills from cursor */
+.magb--outline:hover:not(:disabled) {
+  border-color: var(--gold-accent);
+  color: var(--bg-darker);
+}
+.magb--outline:hover:not(:disabled) .magb-fill {
+  opacity: 1;
+}
+.magb--outline:hover:not(:disabled) .magb-fill::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Solid variant — gold bg, glows on hover */
+.magb--solid {
+  background: var(--gold-accent);
+  color: var(--bg-darker);
+  border-color: var(--gold-accent);
+}
+.magb--solid .magb-fill {
+  display: none;
+}
+.magb--solid:hover:not(:disabled) {
+  box-shadow: 0 10px 28px rgba(200, 165, 92, 0.35);
+}
+
+/* Ghost variant — muted, smaller. Secondary footer / inline prompts */
+.magb--ghost {
+  border-color: rgba(245, 245, 240, 0.35);
+  color: var(--text-secondary);
+  padding: 12px 22px;
+  font-size: 12px;
+}
+.magb--ghost:hover:not(:disabled) {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+.magb--ghost .magb-fill {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magb,
+  .magb-inner,
+  .magb-arr,
+  .magb-fill,
+  .magb-fill::before {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- LEDGER REVEAL (Services) ---------- */
+/* Stamp fires once per card on scroll-in; consumes --reveal written by
+   ServicesClient. The sweep + label systems already there are untouched. */
+@keyframes ledger-stamp {
+  0% {
+    transform: translateY(6px) scale(0.98);
+    opacity: 0;
+  }
+  55% {
+    transform: translateY(-1px) scale(1.005);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+[data-services-card][data-reveal="1"] {
+  animation: ledger-stamp 520ms var(--ease-snap) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-services-card] {
+    animation: none !important;
+  }
+}
+
+/* ---------- TAP TO SINK (Philosophy) ---------- */
+/* Headline headlines settle as if struck into the page. Each belief block
+   runs its own sink on entry. Reveal channel set by PhilosophyClient. */
+@keyframes philosophy-sink {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+    letter-spacing: 0.02em;
+  }
+  60% {
+    transform: translateY(2px);
+    opacity: 1;
+    letter-spacing: -0.005em;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    letter-spacing: -0.01em;
+  }
+}
+
+[data-philosophy-block][data-reveal="1"] h3 {
+  animation: philosophy-sink 640ms var(--ease-snap) both;
+}
+
+/* ---------- SIGN THE PAGE (Contact) ---------- */
+/* Underline the submit label on focus/hover — like signing with a pen.
+   Pairs with MagneticButton variant="solid". */
+[data-contact-submit][data-magnetic]:hover:not(:disabled) .magb-inner,
+[data-contact-submit][data-magnetic]:focus-visible .magb-inner {
+  position: relative;
+}
+[data-contact-submit][data-magnetic] .magb-inner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -3px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: 0.6;
+  transition:
+    right var(--dur-slow) var(--ease-snap),
+    opacity var(--dur-base) var(--ease-soft);
+}
+[data-contact-submit][data-magnetic]:hover:not(:disabled) .magb-inner::after,
+[data-contact-submit][data-magnetic]:focus-visible .magb-inner::after {
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-services-card][data-reveal="1"],
+  [data-philosophy-block][data-reveal="1"] h3 {
+    animation: none !important;
+  }
+  [data-contact-submit][data-magnetic] .magb-inner::after {
+    transition: none !important;
+  }
+}
