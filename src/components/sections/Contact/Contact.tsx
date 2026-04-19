@@ -1,3 +1,4 @@
+import { ContactBg } from "./ContactBg";
 import { ContactClient } from "./ContactClient";
 import { ContactForm } from "./ContactForm";
 import { contactCopy } from "./contact.data";
@@ -29,31 +30,13 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      data-contact-step="0"
       className="relative w-full py-32 md:py-40 overflow-hidden"
       style={{
         background:
           "linear-gradient(160deg, #040d0b 0%, #071612 35%, #0a2018 70%, #040c09 100%)",
       }}
     >
-      {/* Step 1 overlay — mid-teal warmth bleeds in */}
-      <div
-        aria-hidden="true"
-        className="contact-bg-step contact-bg-step-1 pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(145deg, transparent 0%, rgba(11,72,58,0.55) 55%, rgba(13,84,76,0.38) 100%)",
-        }}
-      />
-      {/* Step 2 overlay — warm gold undertone */}
-      <div
-        aria-hidden="true"
-        className="contact-bg-step contact-bg-step-2 pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(145deg, rgba(200,165,92,0.10) 0%, transparent 45%, rgba(130,95,20,0.13) 100%)",
-        }}
-      />
+      <ContactBg />
       {/* Radial glow top-left */}
       <div
         aria-hidden="true"
