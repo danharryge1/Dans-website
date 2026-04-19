@@ -48,8 +48,11 @@ export function FluidCanvas() {
         SUNRAYS: false,
       });
 
-      const section = document.getElementById("selected-works");
-      if (section) {
+      // Auto-discover the nearest section or footer so this component
+      // works anywhere without a hardcoded ID.
+      const container =
+        canvas.closest("section") ?? canvas.closest("footer");
+      if (container) {
         const forward = (e: MouseEvent) => {
           if (!canvasRef.current) return;
           const rect = canvasRef.current.getBoundingClientRect();
@@ -66,9 +69,9 @@ export function FluidCanvas() {
           Object.defineProperty(synth, "offsetY", { get: () => oy });
           canvasRef.current.dispatchEvent(synth);
         };
-        section.addEventListener("mousemove", forward);
+        container.addEventListener("mousemove", forward);
         sectionCleanup = () =>
-          section.removeEventListener("mousemove", forward);
+          container.removeEventListener("mousemove", forward);
       }
     });
 
