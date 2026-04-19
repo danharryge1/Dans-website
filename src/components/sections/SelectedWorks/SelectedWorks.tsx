@@ -1,4 +1,5 @@
 import { PROJECTS } from "../FeaturedCase/projects.data";
+import { SelectedWorksClient } from "./SelectedWorksClient";
 import { WorkCard } from "./WorkCard";
 
 export function SelectedWorks() {
@@ -9,9 +10,11 @@ export function SelectedWorks() {
       className="relative w-full py-24 md:py-32"
       style={{ background: "var(--bg-primary)" }}
     >
+      <SelectedWorksClient />
       <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">
         <h2
           id="selected-works-heading"
+          data-works-heading=""
           className="mb-8 font-[var(--font-comico)] text-[24px] uppercase tracking-[0.05em] md:text-[32px]"
           style={{ color: "var(--text-primary)" }}
         >
