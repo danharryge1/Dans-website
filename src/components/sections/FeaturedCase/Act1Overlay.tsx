@@ -26,35 +26,55 @@ export function Act1Overlay() {
     return () => window.removeEventListener("scroll", check);
   }, [active]);
 
-  const fullImage =
-    active === "draft"
-      ? "/assets/hero/nextup-old.webp"
-      : active === "reality"
-        ? "/assets/hero/nextup-live-poster.webp"
-        : null;
-
   return (
     <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
-      {fullImage ? (
+      {/* Draft full-screen — static image */}
+      {active === "draft" && (
         <div className="pointer-events-none absolute inset-0">
           <Image
-            src={fullImage}
+            src="/assets/hero/nextup-old.webp"
             alt=""
-            aria-hidden={true}
+            aria-hidden
             fill
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-top"
             priority
           />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.55) 100%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.5) 100%)",
             }}
           />
         </div>
-      ) : null}
+      )}
+
+      {/* Reality full-screen — video */}
+      {active === "reality" && (
+        <div className="pointer-events-none absolute inset-0">
+          <video
+            key="reality-video"
+            aria-hidden
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            poster="/assets/hero/nextup-intro-poster.jpg"
+            className="absolute inset-0 h-full w-full object-cover object-top"
+          >
+            <source src="/assets/hero/nextup-intro.mp4" type="video/mp4" />
+          </video>
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.4) 100%)",
+            }}
+          />
+        </div>
+      )}
 
       <div className="absolute inset-y-0 left-6 flex flex-col justify-center md:left-12">
         <p
@@ -88,7 +108,7 @@ export function Act1Overlay() {
           </span>
           <ChipButton
             label="REALITY"
-            thumb="/assets/hero/nextup-live-poster.webp"
+            thumb="/assets/hero/nextup-intro-poster.jpg"
             active={active === "reality"}
             onClick={() => setActive(active === "reality" ? null : "reality")}
           />

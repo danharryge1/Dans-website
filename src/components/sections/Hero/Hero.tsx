@@ -43,8 +43,8 @@ export function Hero() {
           <HeroScreen
             draftSrc="/assets/hero/nextup-old.webp"
             draftAlt="NextUp Co. homepage, pre-redesign"
-            videoMp4="/assets/hero/nextup-v2.mp4"
-            videoPoster="/assets/hero/nextup-v2-poster.jpg"
+            videoMp4="/assets/hero/nextup-intro.mp4"
+            videoPoster="/assets/hero/nextup-intro-poster.jpg"
           />
         </HeroLaptop>
       </div>
