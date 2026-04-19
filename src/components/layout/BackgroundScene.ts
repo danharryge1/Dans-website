@@ -1,177 +1,112 @@
-import * as THREE from "three/webgpu";
-import {
-  Fn,
-  uniform,
-  float,
-  vec3,
-  color,
-  instancedArray,
-  instanceIndex,
-  hash,
-  time,
-  uv,
-  sin,
-  cos,
-  smoothstep,
-  fract,
-} from "three/tsl";
+import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const COUNT = 30_000;
+const COUNT = 6_000;
 
 export function startScene(canvas: HTMLCanvasElement): () => void {
   let disposed = false;
-  const cleanupFns: Array<() => void> = [];
+  let rafId: number | null = null;
 
-  // Shared uniforms created once so compute shaders can reference them
-  const aspectUniform = uniform(window.innerWidth / window.innerHeight);
-  const scrollUniform = uniform(0);
+  let aspect = window.innerWidth / window.innerHeight;
 
-  // GPU storage buffers for particle state
-  const pos2 = instancedArray(COUNT, "vec2");
-  const phase2 = instancedArray(COUNT, "vec2");
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: false });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setClearColor(0x000000, 1);
 
-  // Kick off async init — errors are swallowed so a bad GPU doesn't crash the page
-  initAsync().catch((err) => console.warn("[bg]", err));
+  const cam = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 10);
+  cam.position.z = 1;
+  const scene = new THREE.Scene();
 
-  async function initAsync() {
-    const renderer = new THREE.WebGPURenderer({
-      canvas,
-      alpha: true,
-      antialias: false,
-    });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-    renderer.setClearColor(0x000000, 0);
+  // Per-particle state
+  const positions = new Float32Array(COUNT * 3);
+  const vx = new Float32Array(COUNT);
+  const vy = new Float32Array(COUNT);
 
-    await renderer.init();
-    if (disposed) { renderer.dispose(); return; }
+  for (let i = 0; i < COUNT; i++) {
+    positions[i * 3]     = (Math.random() * 2 - 1) * aspect;
+    positions[i * 3 + 1] = Math.random() * 2 - 1;
+    positions[i * 3 + 2] = 0;
+    // tiny constant velocity per particle — varied directions
+    const angle = Math.random() * Math.PI * 2;
+    const speed = Math.random() * 0.00045 + 0.00008;
+    vx[i] = Math.cos(angle) * speed;
+    vy[i] = Math.sin(angle) * speed;
+  }
 
-    const aspect = window.innerWidth / window.innerHeight;
-    const cam = new THREE.OrthographicCamera(-aspect, aspect, 1, -1, 0.1, 10);
-    cam.position.z = 1;
-    const scene = new THREE.Scene();
+  const geo = new THREE.BufferGeometry();
+  const posAttr = new THREE.BufferAttribute(positions, 3);
+  posAttr.setUsage(THREE.DynamicDrawUsage);
+  geo.setAttribute("position", posAttr);
 
-    // ---------- Compute: init ----------
-    const computeInit = Fn(() => {
-      const p = pos2.element(instanceIndex);
-      const ph = phase2.element(instanceIndex);
-      p.x.assign(hash(instanceIndex).mul(aspectUniform.mul(2)).sub(aspectUniform));
-      p.y.assign(hash(instanceIndex.add(1)).mul(2).sub(1));
-      ph.x.assign(hash(instanceIndex.add(2)).mul(float(Math.PI * 2)));
-      ph.y.assign(hash(instanceIndex.add(3)).mul(float(Math.PI * 2)));
-    })().compute(COUNT);
+  const mat = new THREE.PointsMaterial({
+    size: 2,
+    sizeAttenuation: false,
+    color: 0xc8a55c,
+    transparent: true,
+    opacity: 0.65,
+  });
 
-    renderer.compute(computeInit);
+  scene.add(new THREE.Points(geo, mat));
 
-    // ---------- Compute: update ----------
-    const computeUpdate = Fn(() => {
-      const p = pos2.element(instanceIndex);
-      const ph = phase2.element(instanceIndex);
-      const freq = hash(instanceIndex.add(4)).mul(0.4).add(0.1);
-      const spd = hash(instanceIndex.add(5)).mul(0.0008).add(0.0003);
+  let t = 0;
 
-      // Gentle curl-like drift via per-particle sin/cos
-      p.x.addAssign(sin(time.mul(freq).add(ph.x)).mul(spd));
-      p.y.addAssign(cos(time.mul(freq).add(ph.y)).mul(spd));
+  function animate() {
+    if (disposed) return;
+    rafId = requestAnimationFrame(animate);
+    t += 0.016;
 
-      // Wrap X: map to [0,1], fract, map back to [-aspect, aspect]
-      p.x.assign(fract(p.x.add(aspectUniform).div(aspectUniform.mul(2))).mul(aspectUniform.mul(2)).sub(aspectUniform));
-      // Wrap Y: map to [0,1], fract, map back to [-1, 1]
-      p.y.assign(fract(p.y.add(1).div(2)).mul(2).sub(1));
-    })().compute(COUNT);
+    // Two trig calls total — global wind that shifts slowly
+    const windX = Math.sin(t * 0.09) * 0.00012;
+    const windY = Math.cos(t * 0.07) * 0.00008;
 
-    // ---------- Particles ----------
-    const particleGeo = new THREE.BufferGeometry();
-    particleGeo.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(new Float32Array(COUNT * 3), 3),
-    );
+    for (let i = 0; i < COUNT; i++) {
+      const px = i * 3;
+      positions[px]     += vx[i] + windX;
+      positions[px + 1] += vy[i] + windY;
 
-    const particleMat = new THREE.PointsNodeMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-    particleMat.positionNode = vec3(pos2.element(instanceIndex), 0);
-    const variation = hash(instanceIndex).mul(0.3).add(0.7);
-    particleMat.colorNode = color(0xc8a55c).mul(variation).mul(0.6);
-    particleMat.sizeNode = float(2.2);
-    const pulse = sin(time.mul(0.5).add(hash(instanceIndex).mul(float(Math.PI * 2)))).mul(0.12).add(0.88);
-    particleMat.opacityNode = float(0.28).mul(pulse);
-
-    scene.add(new THREE.Points(particleGeo, particleMat));
-
-    // ---------- Cursor glow ----------
-    const glowGeo = new THREE.PlaneGeometry(0.45, 0.45);
-    const glowMat = new THREE.MeshBasicNodeMaterial({
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    });
-    const d = uv().mul(2).sub(1).length();
-    glowMat.colorNode = vec3(0.28, 0.72, 0.62).mul(smoothstep(float(1.0), float(0.0), d).mul(0.2));
-    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    glowMesh.position.z = -0.1;
-    scene.add(glowMesh);
-
-    // ---------- Event handlers ----------
-    const onResize = () => {
-      const nW = window.innerWidth;
-      const nH = window.innerHeight;
-      const nA = nW / nH;
-      aspectUniform.value = nA;
-      cam.left = -nA;
-      cam.right = nA;
-      cam.updateProjectionMatrix();
-      renderer.setSize(nW, nH);
-    };
-
-    const onMouse = (e: MouseEvent) => {
-      const nx = (e.clientX / window.innerWidth) * 2 - 1;
-      const ny = -((e.clientY / window.innerHeight) * 2 - 1);
-      glowMesh.position.x = nx * (window.innerWidth / window.innerHeight);
-      glowMesh.position.y = ny;
-    };
-
-    const onVisibility = () => {
-      if (document.hidden) renderer.setAnimationLoop(null);
-      else renderer.setAnimationLoop(animate);
-    };
-
-    ScrollTrigger.create({
-      trigger: document.body,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (st) => { scrollUniform.value = st.progress; },
-    });
-
-    window.addEventListener("resize", onResize);
-    window.addEventListener("mousemove", onMouse);
-    document.addEventListener("visibilitychange", onVisibility);
-
-    // ---------- Animation loop ----------
-    function animate() {
-      renderer.compute(computeUpdate);
-      renderer.render(scene, cam);
+      // Wrap
+      if (positions[px] > aspect)    positions[px]     -= aspect * 2;
+      else if (positions[px] < -aspect) positions[px]  += aspect * 2;
+      if (positions[px + 1] > 1)     positions[px + 1] -= 2;
+      else if (positions[px + 1] < -1) positions[px + 1] += 2;
     }
 
-    renderer.setAnimationLoop(animate);
-
-    cleanupFns.push(() => {
-      renderer.setAnimationLoop(null);
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("mousemove", onMouse);
-      document.removeEventListener("visibilitychange", onVisibility);
-      renderer.dispose();
-    });
+    posAttr.needsUpdate = true;
+    renderer.render(scene, cam);
   }
+
+  const onResize = () => {
+    const nW = window.innerWidth;
+    const nH = window.innerHeight;
+    aspect = nW / nH;
+    cam.left = -aspect;
+    cam.right = aspect;
+    cam.updateProjectionMatrix();
+    renderer.setSize(nW, nH);
+  };
+
+  const onVisibility = () => {
+    if (document.hidden) {
+      if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+    } else if (!disposed) {
+      rafId = requestAnimationFrame(animate);
+    }
+  };
+
+  window.addEventListener("resize", onResize);
+  document.addEventListener("visibilitychange", onVisibility);
+
+  rafId = requestAnimationFrame(animate);
 
   return () => {
     disposed = true;
-    cleanupFns.forEach((fn) => fn());
+    if (rafId !== null) cancelAnimationFrame(rafId);
+    window.removeEventListener("resize", onResize);
+    document.removeEventListener("visibilitychange", onVisibility);
+    renderer.dispose();
   };
 }
