@@ -1,4 +1,5 @@
 import { PROJECTS } from "../FeaturedCase/projects.data";
+import { FluidCanvas } from "./FluidCanvas";
 import { SelectedWorksClient } from "./SelectedWorksClient";
 import { WorkCard } from "./WorkCard";
 
@@ -8,9 +9,12 @@ export function SelectedWorks() {
       id="selected-works"
       aria-labelledby="selected-works-heading"
       className="relative w-full py-24 md:py-32"
+      style={{ background: "#030e0c" }}
     >
-      <SelectedWorksClient />
-      <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">
+      <FluidCanvas />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">
+        <SelectedWorksClient />
         <h2
           id="selected-works-heading"
           data-works-heading=""
