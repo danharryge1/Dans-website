@@ -71,52 +71,54 @@ export function Act1Overlay() {
         </p>
       </div>
 
-      <div className="absolute right-4 top-[80px] flex items-center gap-2 md:right-12 md:top-[84px] md:gap-4">
-        <ChipButton
-          label="DRAFT"
-          thumb="/assets/hero/nextup-old.webp"
-          active={active === "draft"}
-          onClick={() => setActive(active === "draft" ? null : "draft")}
-        />
-        <span
-          aria-hidden="true"
-          className="font-[var(--font-marker)] text-[14px]"
-          style={{ color: "var(--gold-accent)" }}
-        >
-          →
-        </span>
-        <ChipButton
-          label="REALITY"
-          thumb="/assets/hero/nextup-live-poster.webp"
-          active={active === "reality"}
-          onClick={() => setActive(active === "reality" ? null : "reality")}
-        />
-        {active ? (
-          <button
-            type="button"
-            onClick={() => setActive(null)}
-            aria-label="Return to default backdrop"
-            className="ml-1 flex h-7 w-7 items-center justify-center rounded-full border font-[var(--font-marker)] text-[16px] leading-none transition-transform hover:scale-110 md:ml-2"
-            style={{
-              borderColor: "var(--gold-accent)",
-              color: "var(--text-primary)",
-              backgroundColor: "rgba(200,165,92,0.10)",
-            }}
+      <div className="absolute inset-y-0 right-4 flex flex-col items-end justify-center md:right-12">
+        <div className="flex items-center gap-2 md:gap-4">
+          <ChipButton
+            label="DRAFT"
+            thumb="/assets/hero/nextup-old.webp"
+            active={active === "draft"}
+            onClick={() => setActive(active === "draft" ? null : "draft")}
+          />
+          <span
+            aria-hidden="true"
+            className="font-[var(--font-marker)] text-[14px]"
+            style={{ color: "var(--gold-accent)" }}
           >
-            ×
-          </button>
+            →
+          </span>
+          <ChipButton
+            label="REALITY"
+            thumb="/assets/hero/nextup-live-poster.webp"
+            active={active === "reality"}
+            onClick={() => setActive(active === "reality" ? null : "reality")}
+          />
+          {active ? (
+            <button
+              type="button"
+              onClick={() => setActive(null)}
+              aria-label="Return to default backdrop"
+              className="ml-1 flex h-7 w-7 items-center justify-center rounded-full border font-[var(--font-marker)] text-[16px] leading-none transition-transform hover:scale-110 md:ml-2"
+              style={{
+                borderColor: "var(--gold-accent)",
+                color: "var(--text-primary)",
+                backgroundColor: "rgba(200,165,92,0.10)",
+              }}
+            >
+              ×
+            </button>
+          ) : null}
+        </div>
+
+        {!active ? (
+          <p
+            aria-hidden="true"
+            className="mt-3 font-[var(--font-marker)] text-[10px] tracking-[0.18em] md:text-[11px]"
+            style={{ color: "var(--gold-accent)", opacity: 0.75 }}
+          >
+            ← tap to compare
+          </p>
         ) : null}
       </div>
-
-      {!active ? (
-        <p
-          aria-hidden="true"
-          className="absolute right-4 top-[154px] font-[var(--font-marker)] text-[10px] tracking-[0.18em] md:right-12 md:top-[158px] md:text-[11px]"
-          style={{ color: "var(--gold-accent)", opacity: 0.75 }}
-        >
-          ← tap to compare
-        </p>
-      ) : null}
     </div>
   );
 }
