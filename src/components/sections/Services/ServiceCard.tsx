@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import type React from "react";
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { ServiceEntry } from "./services.data";
 
 type Props = {
@@ -11,11 +11,8 @@ type Props = {
   className?: string;
 };
 
-const TILT_MAX = 9;
+const TILT_MAX = 8.4;
 
-// useSyncExternalStore-backed gate: tilt is enabled only when the user has a
-// fine pointer AND has not requested reduced motion. Computed client-side
-// (server snapshot is always `false`) so SSR is stable.
 function subscribeMedia(callback: () => void): () => void {
   if (typeof window === "undefined") return () => {};
   const coarse = window.matchMedia("(pointer: coarse)");
@@ -40,6 +37,10 @@ function getTiltEnabledServerSnapshot(): boolean {
 
 export function ServiceCard({ entry, index, className }: Props) {
   const ref = useRef<HTMLElement | null>(null);
+  const [popped, setPopped] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const showDeliverables = hovered || popped;
+
   const tiltEnabled = useSyncExternalStore(
     subscribeMedia,
     getTiltEnabledSnapshot,
@@ -88,24 +89,44 @@ export function ServiceCard({ entry, index, className }: Props) {
       data-services-card=""
       data-card-id={entry.id}
       data-card-index={index}
+      onClick={() => setPopped((p) => !p)}
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
       className={[
-        "group relative overflow-hidden rounded-[12px] border transition-[border-color,box-shadow] duration-300 ease-out",
+        "group relative overflow-hidden rounded-[12px] border cursor-pointer transition-[border-color] duration-300 ease-out",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
       style={{
         background: "var(--services-card-bg)",
-        borderColor: "var(--services-card-border)",
+        borderColor: popped
+          ? "color-mix(in oklch, var(--gold-accent) 60%, transparent)"
+          : "var(--services-card-border)",
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         rotateX: tiltEnabled ? rotateX : 0,
         rotateY: tiltEnabled ? rotateY : 0,
         transformStyle: "preserve-3d",
+        transformPerspective: 700,
         willChange: tiltEnabled ? "transform" : undefined,
       }}
+      animate={
+        popped
+          ? {
+              y: -20,
+              scale: 1.04,
+              boxShadow:
+                "0 40px 80px -20px rgba(0,0,0,0.6), 0 0 48px -6px rgba(200,165,92,0.4)",
+            }
+          : {
+              y: 0,
+              scale: 1,
+              boxShadow: "0 4px 16px -4px rgba(0,0,0,0.3)",
+            }
+      }
       whileHover={
-        tiltEnabled
+        !popped
           ? {
               y: -8,
               scale: 1.025,
@@ -114,8 +135,20 @@ export function ServiceCard({ entry, index, className }: Props) {
                 "0 24px 48px -16px rgba(0,0,0,0.45), 0 0 32px -4px rgba(200,165,92,0.28)",
               transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
             }
-          : { borderColor: "var(--services-card-border-hover)" }
+          : undefined
       }
+      whileTap={
+        !popped
+          ? {
+              y: -4,
+              scale: 1.015,
+              boxShadow:
+                "0 16px 32px -12px rgba(0,0,0,0.4), 0 0 24px -4px rgba(200,165,92,0.2)",
+              transition: { duration: 0.12 },
+            }
+          : undefined
+      }
+      transition={{ type: "spring", stiffness: 280, damping: 18, mass: 0.45 }}
     >
       {/* card-image panel — holds arc, sweep, label */}
       <div
@@ -171,7 +204,7 @@ export function ServiceCard({ entry, index, className }: Props) {
           }
         />
 
-        {/* label — unlock keyed to --sweep-x */}
+        {/* label — revealed by --sweep-x scroll animation */}
         <div
           className="relative"
           data-services-label
@@ -195,6 +228,40 @@ export function ServiceCard({ entry, index, className }: Props) {
           </p>
         </div>
       </div>
+
+      {/* Deliverables — slides up on hover or click */}
+      <AnimatePresence initial={false}>
+        {showDeliverables && (
+          <motion.div
+            key="deliverables"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <ul className="flex flex-col gap-2 px-8 pb-7 pt-5">
+              {entry.deliverables.map((item, i) => (
+                <motion.li
+                  key={item}
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.045, duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                  className="flex items-start gap-3 text-[13px] leading-[1.5]"
+                  style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
+                >
+                  <span
+                    className="mt-[5px] block h-1 w-1 shrink-0 rounded-full"
+                    style={{ backgroundColor: "var(--gold-accent)", opacity: 0.65 }}
+                    aria-hidden="true"
+                  />
+                  {item}
+                </motion.li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.article>
   );
 }

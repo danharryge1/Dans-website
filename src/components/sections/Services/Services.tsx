@@ -34,6 +34,12 @@ export function Services() {
 
       <div className="relative mx-auto w-full max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="mx-auto max-w-[1200px]">
+          <p
+            className="mb-3 text-center text-[11px] uppercase tracking-[0.2em]"
+            style={{ fontFamily: "var(--font-marker)", color: "var(--gold-accent)", opacity: 0.7 }}
+          >
+            WHAT YOU GET
+          </p>
           <h2
             id="services-heading"
             className="mb-8 text-center font-[var(--font-comico)] text-[36px] uppercase tracking-[0.05em] md:mb-12 md:text-[48px]"
@@ -63,63 +69,6 @@ export function Services() {
             ))}
           </div>
 
-          {/* What you get — deliverables grid */}
-          <div className="mt-20 md:mt-28">
-            <p
-              className="mb-10 text-center text-[11px] uppercase tracking-[0.18em]"
-              style={{
-                fontFamily: "var(--font-marker)",
-                color: "var(--gold-accent)",
-                opacity: 0.7,
-              }}
-            >
-              WHAT YOU GET
-            </p>
-
-            <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-              {SERVICES.map((entry) => (
-                <div key={entry.id}>
-                  <h3
-                    className="mb-4 text-[13px] uppercase tracking-[0.1em]"
-                    style={{
-                      fontFamily: "var(--font-marker)",
-                      color: "var(--gold-accent)",
-                    }}
-                  >
-                    {entry.title}
-                  </h3>
-                  <ul className="space-y-2.5">
-                    {entry.deliverables.map((item) => (
-                      <li
-                        key={item}
-                        className="flex items-start gap-3 text-[14px] leading-[1.5]"
-                        style={{
-                          fontFamily: "var(--font-marker)",
-                          color: "var(--text-secondary)",
-                        }}
-                      >
-                        <span
-                          className="mt-[6px] block h-1 w-1 shrink-0 rounded-full"
-                          style={{ backgroundColor: "var(--gold-accent)", opacity: 0.6 }}
-                          aria-hidden="true"
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            <div
-              aria-hidden="true"
-              className="mt-14 h-px w-full"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent 0%, rgba(200,165,92,0.3) 50%, transparent 100%)",
-              }}
-            />
-          </div>
         </div>
       </div>
 
