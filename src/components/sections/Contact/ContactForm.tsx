@@ -256,7 +256,7 @@ export function ContactForm() {
                 key={chip}
                 type="button"
                 onClick={() => setChips(active ? chips.filter((c) => c !== chip) : [...chips, chip])}
-                className="rounded-full border px-4 py-1.5 text-[13px] transition-all duration-200"
+                className="rounded-full border px-4 py-1.5 text-[13px] transition-all duration-200 hover:-translate-y-1 active:-translate-y-1"
                 style={{
                   fontFamily: "var(--font-marker)",
                   borderColor: active ? "var(--gold-accent)" : "var(--border-input)",
