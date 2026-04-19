@@ -173,54 +173,53 @@ export function HeroClient() {
       knob.addEventListener("pointercancel", onKnobUp);
     }
 
-    // Declared before gsap.context so onComplete can call ctx.add().
-    let ctx: gsap.Context;
-    ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       if (desktop) {
-        // Step 1 — auto-play intro: seam sweeps 0% → 55% immediately on load.
-        // Sparkles + side labels fire during this window (no scroll needed).
-        const introTl = gsap.timeline({
-          onComplete: () => {
-            // Step 2 — after intro completes, hand off to scroll scrub.
-            // ctx.add() registers tweens created here for cleanup by ctx.revert().
-            ctx.add(() => {
-              gsap.timeline({
-                scrollTrigger: {
-                  trigger: section,
-                  start: "top top",
-                  end: "+=100%",
-                  scrub: 0.6,
-                  pin: true,
-                  pinSpacing: true,
-                },
-              }).fromTo(
-                section,
-                { "--hero-progress": 0.55, "--seam-x": "55%" } as CSSVarTweenVars,
-                { "--hero-progress": 1, "--seam-x": "100%", ease: "none" } as CSSVarTweenVars,
-              );
-            });
-          },
-        });
-
-        introTl.to(
-          section,
-          { "--hero-progress": 0.55, "--seam-x": "55%", duration: 1.8, ease: "power3.out" } as CSSVarTweenVars,
-          0,
-        );
-
+        // Sparkles fade in on mount (autonomous — not scroll-driven) so motion
+        // is visible immediately without waiting for scroll.
         sparkles.forEach((sparkle, i) => {
           const delay = Number(
             getComputedStyle(sparkle).getPropertyValue("--sparkle-delay") ||
               i * 0.04,
           );
-          introTl.to(
-            sparkle,
-            { opacity: 1, duration: 0.4, ease: "power2.out" },
-            0.9 + delay,
-          );
+          gsap.to(sparkle, {
+            opacity: 1,
+            duration: 0.6,
+            delay: 0.5 + delay * 2,
+            ease: "power2.out",
+          });
         });
 
-        introTl.to(sideLabels, { opacity: 0, duration: 0.3 }, 1.5);
+        // Scroll scrub — created synchronously so document height is stable
+        // from mount and other ScrollTriggers (services, case-study) can cache
+        // correct positions on first refresh.
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=100%",
+            scrub: 0.6,
+            pin: true,
+            pinSpacing: true,
+          },
+        });
+
+        // Seam opens from its CSS initial 55% to fully revealed.
+        tl.fromTo(
+          section,
+          { "--seam-x": "55%" } as CSSVarTweenVars,
+          { "--seam-x": "100%", ease: "none" } as CSSVarTweenVars,
+          0,
+        );
+        // --hero-progress drives scroll hint fade + other scroll-linked bits.
+        tl.fromTo(
+          section,
+          { "--hero-progress": 0 } as CSSVarTweenVars,
+          { "--hero-progress": 1, ease: "none" } as CSSVarTweenVars,
+          0,
+        );
+        // Labels fade out once the comparison is nearly fully revealed.
+        tl.to(sideLabels, { opacity: 0, ease: "none" }, 0.9);
       } else {
         // Mobile: one-shot IntersectionObserver reveal — no scroll coupling.
         io = new IntersectionObserver(

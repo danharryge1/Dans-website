@@ -127,9 +127,11 @@ nav :is(a, button):focus-visible,
   --laptop-tilt-z: -1.5deg;
   --laptop-perspective: 1200px;
 
-  /* scroll-driven animation state (0 → 1 across the hero) */
+  /* scroll-driven animation state (0 → 1 across the hero).
+     --seam-x starts at 55% so the Reality video is visible on first paint —
+     otherwise the clip-path hides it until scroll. */
   --hero-progress: 0;
-  --seam-x: 0%;
+  --seam-x: 55%;
 }
 
 /* ---------- HERO KEYFRAMES ---------- */
