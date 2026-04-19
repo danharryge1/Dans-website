@@ -1,6 +1,5 @@
 import { ContactClient } from "./ContactClient";
 import { ContactForm } from "./ContactForm";
-import { ContactThread } from "./ContactThread";
 import { contactCopy } from "./contact.data";
 
 export function Contact() {
@@ -55,8 +54,6 @@ export function Contact() {
               <ContactForm />
             </div>
           </div>
-
-          <ContactThread />
         </div>
       </div>
 

@@ -33,12 +33,6 @@ describe("<Contact />", () => {
     expect(paragraph?.textContent).toContain("I come back with the shape of it");
   });
 
-  it("renders the ContactThread overlay", () => {
-    const { container } = render(<Contact />);
-    const thread = container.querySelector("[data-contact-thread-container]");
-    expect(thread).not.toBeNull();
-  });
-
   it("renders the form (Name, Email, Message fields)", () => {
     render(<Contact />);
     expect(screen.getByLabelText("Your Name")).toBeInTheDocument();

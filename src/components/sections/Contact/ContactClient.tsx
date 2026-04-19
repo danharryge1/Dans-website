@@ -6,8 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const RESIZE_DEBOUNCE_MS = 150;
-
 export function ContactClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -27,52 +25,13 @@ export function ContactClient() {
     const paragraph = section.querySelector<HTMLElement>(
       "[data-contact-paragraph]",
     );
-    const threadContainer = section.querySelector<HTMLElement>(
-      "[data-contact-thread-container]",
-    );
-    const threadLine = section.querySelector<HTMLElement>(
-      "[data-contact-thread]",
-    );
     const form = section.querySelector<HTMLElement>("form");
     const fields = Array.from(
       section.querySelectorAll<HTMLElement>("[data-contact-field]"),
     );
     const submit = section.querySelector<HTMLElement>("[data-contact-submit]");
 
-    const positionThread = () => {
-      if (!threadContainer || !threadLine) return;
-      const offsetParent = threadContainer.offsetParent as HTMLElement | null;
-      if (!offsetParent) return;
-
-      const parentRect = offsetParent.getBoundingClientRect();
-      const containerRect = threadContainer.getBoundingClientRect();
-
-      threadContainer.style.top = `${containerRect.top - parentRect.top}px`;
-      threadContainer.style.bottom = "auto";
-      threadContainer.style.height = `${containerRect.height}px`;
-    };
-
-    requestAnimationFrame(positionThread);
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const observer = new ResizeObserver(() => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(positionThread, RESIZE_DEBOUNCE_MS);
-    });
-    observer.observe(section);
-
     const ctx = gsap.context(() => {
-      if (threadLine) {
-        gsap.set(threadLine, { scaleY: 0, transformOrigin: "top" });
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 80%",
-          end: "bottom 60%",
-          scrub: 0.5,
-          animation: gsap.to(threadLine, { scaleY: 1, ease: "none" }),
-        });
-      }
-
       if (headline) {
         gsap.set(headline, { opacity: 0, y: 16 });
         ScrollTrigger.create({
@@ -134,8 +93,6 @@ export function ContactClient() {
 
     return () => {
       ctx.revert();
-      observer.disconnect();
-      if (resizeTimer) clearTimeout(resizeTimer);
     };
   }, []);
 
