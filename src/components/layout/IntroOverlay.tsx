@@ -66,7 +66,7 @@ function IntroOverlayInner() {
 
   const enter = () => {
     sessionStorage.setItem(SEEN_KEY, "1");
-    document.documentElement.style.background = "";
+    document.documentElement.classList.add("intro-ready");
     document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
       v.play().catch(() => {});
     });

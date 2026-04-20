@@ -61,6 +61,20 @@
   --font-sans: var(--font-marker);
 }
 
+/* ---------- INTRO PAINT BLOCK ---------- */
+/* body::before covers everything until the intro is dismissed.
+   z-index sits just below the overlay (9999) so the overlay renders on top.
+   Removed instantly when html gains .intro-ready — no transition needed
+   because the overlay itself fades out, masking the removal. */
+html:not(.intro-ready) body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: #070d0b;
+  z-index: 9998;
+  pointer-events: none;
+}
+
 /* ---------- BASE ---------- */
 html, body { height: 100%; }
 

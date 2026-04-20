@@ -33,7 +33,9 @@ export default function RootLayout({
         />
         {/* Runs synchronously before first paint — prevents the hero flashing
             through before the intro portal mounts. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(!sessionStorage.getItem('intro-seen'))document.documentElement.style.background='#070d0b';}catch(e){}` }} />
+        {/* If intro already seen this session, add .intro-ready immediately so
+            body::before paint-block is not applied — site paints normally. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem('intro-seen'))document.documentElement.classList.add('intro-ready');}catch(e){}` }} />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ScrollProgress />
