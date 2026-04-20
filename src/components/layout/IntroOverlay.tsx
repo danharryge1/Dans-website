@@ -31,14 +31,14 @@ export function IntroOverlay() {
           blinkInterval = setInterval(() => {
             setCursorOn((v) => !v);
             blinks++;
-            if (blinks >= 6) {
+            if (blinks >= 2) {
               clearInterval(blinkInterval);
               setCursorOn(false);
-              buttonTimer = setTimeout(() => setShowButton(true), 300);
+              buttonTimer = setTimeout(() => setShowButton(true), 100);
             }
           }, 300);
         }
-      }, 60);
+      }, 90);
     }, 800);
 
     return () => {
