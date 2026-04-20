@@ -57,43 +57,30 @@ export function FeaturedCase() {
               title="WHY BLUE"
               body="Our competition is loud. I chose blue because trust is the moat. Trust looks calm, not flashy. The whole palette defers to the work instead of shouting over it."
             >
-              <div className="flex h-full w-full flex-col">
-                {[
-                  { hex: "#04265E", role: "deepest", onDark: true },
-                  { hex: "#0B3D8C", role: "anchor", onDark: true },
-                  { hex: "#1C5AC5", role: "primary", onDark: true },
-                  { hex: "#3B7BE0", role: "accent", onDark: true },
-                  { hex: "#6C9FEB", role: "support", onDark: false },
-                  { hex: "#A8C4F2", role: "lightest", onDark: false },
-                ].map(({ hex, role, onDark }) => (
-                  <div
-                    key={hex}
-                    className="flex flex-1 items-center justify-between px-5 md:px-8"
-                    style={{ background: hex, minHeight: "56px" }}
-                    aria-hidden="true"
-                  >
-                    <span
-                      className="font-[var(--font-marker)] text-[13px] tracking-[0.1em] md:text-[15px]"
+              <div
+                aria-hidden="true"
+                className="relative flex h-full w-full items-center justify-center"
+                style={{ background: "#04265E" }}
+              >
+                <div className="relative flex items-center justify-center" style={{ width: "80%", aspectRatio: "1" }}>
+                  {[
+                    { hex: "#A8C4F2", size: "85%", z: 1 },
+                    { hex: "#3B7BE0", size: "68%", z: 2 },
+                    { hex: "#1C5AC5", size: "52%", z: 3 },
+                    { hex: "#0B3D8C", size: "36%", z: 4 },
+                  ].map(({ hex, size, z }) => (
+                    <div
+                      key={hex}
+                      className="absolute rounded-full"
                       style={{
-                        color: onDark
-                          ? "rgba(255,255,255,0.92)"
-                          : "rgba(11,36,34,0.78)",
+                        width: size,
+                        height: size,
+                        backgroundColor: hex,
+                        zIndex: z,
                       }}
-                    >
-                      {hex}
-                    </span>
-                    <span
-                      className="font-[var(--font-marker)] text-[10px] uppercase tracking-[0.18em] md:text-[11px]"
-                      style={{
-                        color: onDark
-                          ? "rgba(255,255,255,0.6)"
-                          : "rgba(11,36,34,0.55)",
-                      }}
-                    >
-                      {role}
-                    </span>
-                  </div>
-                ))}
+                    />
+                  ))}
+                </div>
               </div>
             </DecisionBeat>
 
@@ -210,7 +197,7 @@ export function FeaturedCase() {
               animation: "case-arrow-float 1.2s ease-in-out infinite",
             }}
           >
-            Selected works ↓
+            Keep scrolling ↓
           </p>
         </div>
         </div>

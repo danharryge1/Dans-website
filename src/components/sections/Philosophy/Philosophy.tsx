@@ -1,6 +1,7 @@
 import { BeliefBlock } from "./BeliefBlock";
 import { beliefs } from "./beliefs.data";
 import { PhilosophyClient } from "./PhilosophyClient";
+import { FluidCanvas } from "@/components/sections/SelectedWorks/FluidCanvas";
 
 export function Philosophy() {
   return (
@@ -13,6 +14,8 @@ export function Philosophy() {
           "linear-gradient(175deg, #020d0b 0%, #041a14 18%, #071f18 38%, #030e0b 62%, #051510 80%, #020d0b 100%)",
       }}
     >
+      <FluidCanvas />
+
       {/* Radial warm glow — centre depth */}
       <div
         aria-hidden="true"
@@ -47,9 +50,18 @@ export function Philosophy() {
             }}
           />
 
-          <div className="mt-16 md:mt-24 space-y-20 md:space-y-24 lg:space-y-32">
-            {beliefs.map((belief) => (
-              <BeliefBlock key={belief.id} belief={belief} />
+          <div className="mt-16 md:mt-20">
+            {beliefs.map((belief, i) => (
+              <div key={belief.id}>
+                {i > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="my-16 md:my-20 block h-px w-full"
+                    style={{ backgroundColor: "var(--gold-accent)", opacity: 0.2 }}
+                  />
+                )}
+                <BeliefBlock belief={belief} />
+              </div>
             ))}
           </div>
 

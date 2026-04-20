@@ -7,7 +7,7 @@ import { submitContact, type ContactState } from "@/lib/contact-action";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 import { contactCopy } from "./contact.data";
 
-const PROMPT_CHIPS = ["New website", "Redesign", "E-commerce", "Web app", "Need advice"] as const;
+const PROMPT_CHIPS = ["New build", "Redesign", "Landing page", "Brand + web", "Just curious"] as const;
 
 const initialState: ContactState = { status: "idle" };
 
@@ -303,7 +303,7 @@ export function ContactForm() {
           className="text-[13px] uppercase tracking-[0.12em]"
           style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
         >
-          {step === 0 ? "Want to get in touch?" : step === 1 ? "Almost there" : "One last thing"}
+          {step === 0 ? "Want to get in touch?" : step === 1 ? "Nice one." : "One last thing"}
         </p>
       </div>
 

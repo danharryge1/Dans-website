@@ -9,15 +9,6 @@ export function HeroScrollHint() {
       } as React.CSSProperties}
     >
       <span
-        className="text-[12px] uppercase tracking-[0.15em]"
-        style={{
-          fontFamily: "var(--font-marker)",
-          color: "var(--text-secondary)",
-        }}
-      >
-        Scroll to reveal
-      </span>
-      <span
         className="block text-[18px] leading-none"
         style={{ color: "var(--text-secondary)" }}
       >

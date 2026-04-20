@@ -61,7 +61,7 @@ export function Hero() {
             color: "var(--text-secondary)",
           }}
         >
-          Where ideas become interfaces.
+          Premium websites. Built by one person.
         </p>
       </div>
 

@@ -42,7 +42,7 @@ export function Services() {
           </p>
           <h2
             id="services-heading"
-            className="mb-8 text-center font-[var(--font-comico)] text-[36px] uppercase tracking-[0.05em] md:mb-12 md:text-[48px]"
+            className="mb-8 text-center font-[var(--font-comico)] text-[clamp(1.6rem,7vw,3rem)] uppercase tracking-[0.05em] md:mb-12 md:text-[48px]"
             style={{ color: "var(--text-primary)" }}
             data-services-heading
           >

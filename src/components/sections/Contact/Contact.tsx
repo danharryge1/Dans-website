@@ -21,7 +21,7 @@ function LinkedInIcon() {
 
 const STATS = [
   { value: "48h", label: "Response time" },
-  { value: "2–3", label: "Active projects" },
+  { value: "1", label: "Point of contact" },
   { value: "100%", label: "Custom builds" },
 ] as const;
 
@@ -89,21 +89,21 @@ export function Contact() {
 
               {/* Availability badge */}
               <div className="flex items-center gap-3">
-                <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
                   <span
-                    className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                    className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-60"
                     style={{ backgroundColor: "#4ade80" }}
                   />
                   <span
-                    className="relative inline-flex h-2.5 w-2.5 rounded-full"
-                    style={{ backgroundColor: "#4ade80" }}
+                    className="relative inline-flex h-3 w-3 rounded-full"
+                    style={{ backgroundColor: "#4ade80", boxShadow: "0 0 8px rgba(74,222,128,0.5)" }}
                   />
                 </span>
                 <span
                   className="text-[13px] uppercase tracking-[0.1em]"
                   style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
                 >
-                  Available for new projects
+                  AVAILABLE FOR NEW PROJECTS
                 </span>
               </div>
 

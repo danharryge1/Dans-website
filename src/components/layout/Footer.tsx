@@ -18,16 +18,18 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer
-      className="border-t py-5 px-6"
+      className="border-t py-8 px-6"
       style={{ borderColor: "var(--grid-line)" }}
     >
-      <div className="mx-auto max-w-[1400px] flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-        <p
-          className="text-[12px] uppercase tracking-[0.05em]"
-          style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
+      <div className="mx-auto max-w-[1400px] flex flex-col items-center gap-5">
+        <a
+          href="#contact"
+          className="text-[22px] md:text-[28px] uppercase tracking-[0.03em] transition-opacity hover:opacity-70 flex items-center gap-3"
+          style={{ fontFamily: "var(--font-comico)", color: "var(--gold-accent)" }}
         >
-          © {year} DanGeorge.studio. Every pixel considered.
-        </p>
+          Ready to build? <span aria-hidden="true">→</span>
+        </a>
+
         <div className="flex items-center gap-5">
           <a
             href="https://x.com/dangeorge_studio"
@@ -50,6 +52,13 @@ export function Footer() {
             <LinkedInIcon />
           </a>
         </div>
+
+        <p
+          className="text-[11px] uppercase tracking-[0.05em]"
+          style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)", opacity: 0.5 }}
+        >
+          © {year} DanGeorge.studio. Every pixel considered.
+        </p>
       </div>
     </footer>
   );
