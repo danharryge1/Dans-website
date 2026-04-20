@@ -30,7 +30,7 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="relative w-full py-32 md:py-40 overflow-hidden"
+      className="relative w-full pt-32 pb-48 md:pt-40 md:pb-56 overflow-hidden"
       style={{
         background:
           "linear-gradient(160deg, #040d0b 0%, #071612 35%, #0a2018 70%, #040c09 100%)",

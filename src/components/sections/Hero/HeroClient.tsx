@@ -126,9 +126,14 @@ export function HeroClient() {
     // Mobile uses native scroll — Lenis causes jank on touch devices.
     let lenis: Lenis | null = null;
     let rafHandler: ((time: number) => void) | null = null;
+    const onSTRefresh = () => lenis?.resize();
     if (desktop) {
       lenis = new Lenis();
       lenis.on("scroll", ScrollTrigger.update);
+      // Recalculate scroll limit whenever GSAP adds/removes pin-spacers so
+      // Lenis doesn't stop short before the footer.
+      ScrollTrigger.addEventListener("refresh", onSTRefresh);
+      ScrollTrigger.addEventListener("refresh", onSTRefresh);
       rafHandler = (time: number) => {
         lenis?.raf(time * 1000);
       };
@@ -280,6 +285,7 @@ export function HeroClient() {
       ctx.revert();
       if (floatTween) floatTween.kill();
       if (rafHandler) gsap.ticker.remove(rafHandler);
+      ScrollTrigger.removeEventListener("refresh", onSTRefresh);
       if (lenis) lenis.destroy();
       if (io) io.disconnect();
       document.removeEventListener("visibilitychange", visibilityHandler);
