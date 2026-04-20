@@ -31,13 +31,21 @@ export default function RootLayout({
           type="font/ttf"
           crossOrigin="anonymous"
         />
-        {/* Runs synchronously before first paint — prevents the hero flashing
-            through before the intro portal mounts. */}
-        {/* If intro already seen this session, add .intro-ready immediately so
-            body::before paint-block is not applied — site paints normally. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem('intro-seen'))document.documentElement.classList.add('intro-ready');}catch(e){}` }} />
+        {/* Paint block: covers the page from the very first byte until the
+            intro is dismissed. Styled here (not in globals.css) so it survives
+            Tailwind's compiler without modification. */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          #intro-paint-block{position:fixed;inset:0;background:#070d0b;z-index:9998;pointer-events:none;}
+          html.intro-ready #intro-paint-block{display:none;}
+        ` }} />
+        {/* Runs synchronously before first paint. For returning visitors
+            (intro-seen in sessionStorage), adds intro-ready immediately so the
+            paint block div is hidden before any paint. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem('intro-seen'))document.documentElement.classList.add('intro-ready');history.scrollRestoration='manual';}catch(e){}` }} />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {/* SSR'd paint blocker — visible from first byte, hidden once intro-ready. */}
+        <div id="intro-paint-block" aria-hidden="true" />
         <ScrollProgress />
         <BackgroundCanvas />
         <Nav />

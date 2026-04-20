@@ -67,6 +67,7 @@ function IntroOverlayInner() {
   const enter = () => {
     sessionStorage.setItem(SEEN_KEY, "1");
     document.documentElement.classList.add("intro-ready");
+    document.getElementById("intro-paint-block")?.remove();
     document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
       v.play().catch(() => {});
     });
