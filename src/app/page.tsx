@@ -5,19 +5,12 @@ import { Philosophy } from "@/components/sections/Philosophy";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services/Services";
 import { SectionSeam } from "@/components/layout/SectionSeam";
-import dynamic from "next/dynamic";
-
-// Never SSR the overlay — skips it instantly on refresh via sessionStorage
-// without the server-render flash.
-const IntroOverlay = dynamic(
-  () => import("@/components/layout/IntroOverlay").then((m) => m.IntroOverlay),
-  { ssr: false },
-);
+import { IntroOverlayLoader } from "@/components/layout/IntroOverlayLoader";
 
 export default function Home() {
   return (
     <>
-      <IntroOverlay />
+      <IntroOverlayLoader />
       <Hero />
       <Services />
       <SectionSeam />
