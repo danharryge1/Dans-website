@@ -144,7 +144,7 @@ export function FeaturedCase() {
             className="absolute inset-0"
             style={{
               background: [
-                "linear-gradient(to bottom, #0f5a52 0%, #093d37 40%, #041e1b 70%, #020d0b 100%)",
+                "linear-gradient(to bottom, #0f5a52 0%, #093d37 40%, #071f18 70%, #051510 100%)",
                 "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(20,120,105,0.4) 0%, transparent 60%)",
                 "radial-gradient(ellipse 100% 40% at 50% 100%, rgba(200,165,92,0.18) 0%, transparent 60%)",
               ].join(","),
