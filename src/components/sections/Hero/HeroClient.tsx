@@ -227,10 +227,10 @@ export function HeroClient() {
           },
         });
 
-        // Seam opens from its CSS initial 55% to fully revealed.
+        // Seam opens from fully closed to fully revealed.
         tl.fromTo(
           section,
-          { "--seam-x": "55%" } as CSSVarTweenVars,
+          { "--seam-x": "0%" } as CSSVarTweenVars,
           { "--seam-x": "100%", ease: "none" } as CSSVarTweenVars,
           0,
         );
@@ -250,11 +250,12 @@ export function HeroClient() {
             if (entries.some((e) => e.isIntersecting)) {
               const tl = gsap.timeline();
 
-              tl.to(
+              tl.fromTo(
                 section,
+                { "--seam-x": "0%", "--hero-progress": 0 } as CSSVarTweenVars,
                 {
-                  "--hero-progress": 1,
                   "--seam-x": "100%",
+                  "--hero-progress": 1,
                   duration: 1.8,
                   ease: "power3.out",
                 } as CSSVarTweenVars,
