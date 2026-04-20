@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 const TEXT = "average is invisible.";
 const SEEN_KEY = "intro-seen";
 
-// Portals into document.body after hydration — avoids the insertBefore
-// reconciliation crash that occurs when inserting before an SSR sibling.
 export function IntroOverlay() {
   const [mounted, setMounted] = useState(false);
   const [seen, setSeen] = useState(false);
@@ -67,6 +66,7 @@ function IntroOverlayInner() {
 
   const enter = () => {
     sessionStorage.setItem(SEEN_KEY, "1");
+    document.documentElement.style.background = "";
     document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
       v.play().catch(() => {});
     });
@@ -101,26 +101,27 @@ function IntroOverlayInner() {
         <span style={{ opacity: cursorOn ? 1 : 0, marginLeft: "2px" }}>|</span>
       </p>
 
-      <button
-        onClick={enter}
-        aria-label="Enter site"
-        className="flex items-center gap-2.5 rounded-sm px-7 py-3 text-[13px] uppercase tracking-[0.28em] hover:translate-x-0.5"
+      {/* Opacity wrapper — MagneticButton doesn't accept a style prop */}
+      <div
         style={{
-          fontFamily: "var(--font-marker)",
-          color: "var(--gold-accent)",
-          border: "1px solid rgba(200,165,92,0.35)",
-          background: "none",
-          cursor: "pointer",
           opacity: showButton ? 1 : 0,
           pointerEvents: showButton ? undefined : "none",
-          transition: "opacity 0.4s ease, transform 0.2s ease",
+          transition: "opacity 0.4s ease",
         }}
       >
-        <svg width="9" height="11" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true">
-          <path d="M0 0 L9 5.5 L0 11 Z" />
-        </svg>
-        ENTER
-      </button>
+        <MagneticButton
+          onClick={enter}
+          variant="outline"
+          arrow={false}
+          strength={16}
+          aria-label="Enter site"
+        >
+          <svg width="9" height="11" viewBox="0 0 9 11" fill="currentColor" aria-hidden="true">
+            <path d="M0 0 L9 5.5 L0 11 Z" />
+          </svg>
+          ENTER
+        </MagneticButton>
+      </div>
     </div>
   );
 }
