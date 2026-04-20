@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 const TEXT = "average is invisible.";
+const SEEN_KEY = "intro-seen";
 
 export function IntroOverlay() {
   const [displayed, setDisplayed] = useState("");
@@ -11,11 +12,14 @@ export function IntroOverlay() {
   const [phase, setPhase] = useState<"in" | "fading" | "gone">("in");
 
   useEffect(() => {
-    document.body.classList.add("overflow-hidden");
-    return () => document.body.classList.remove("overflow-hidden");
-  }, []);
+    // Skip on every visit after the first in this browser session.
+    if (sessionStorage.getItem(SEEN_KEY)) {
+      setPhase("gone");
+      return;
+    }
 
-  useEffect(() => {
+    document.body.classList.add("overflow-hidden");
+
     let charIndex = 0;
     let typeInterval: ReturnType<typeof setInterval>;
     let blinkInterval: ReturnType<typeof setInterval>;
@@ -42,6 +46,7 @@ export function IntroOverlay() {
     }, 800);
 
     return () => {
+      document.body.classList.remove("overflow-hidden");
       clearTimeout(startTimer);
       clearInterval(typeInterval!);
       clearInterval(blinkInterval!);
@@ -50,6 +55,7 @@ export function IntroOverlay() {
   }, []);
 
   const enter = () => {
+    sessionStorage.setItem(SEEN_KEY, "1");
     document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
       v.play().catch(() => {});
     });
