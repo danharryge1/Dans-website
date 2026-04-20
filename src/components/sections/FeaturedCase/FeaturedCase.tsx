@@ -138,18 +138,15 @@ export function FeaturedCase() {
           className="relative z-10 w-full overflow-hidden text-center"
           style={{ minHeight: "100vh" }}
         >
-          {/* Background — layered gradients */}
+          {/* Background — light teal top fading to near-black at bottom */}
           <div
             aria-hidden="true"
             className="absolute inset-0"
             style={{
-              backgroundColor: "#060d0b",
-              backgroundImage: [
-                "radial-gradient(ellipse 100% 60% at 50% 100%, rgba(200,165,92,0.22) 0%, transparent 65%)",
-                "radial-gradient(ellipse 60% 50% at 50% 55%, rgba(200,165,92,0.07) 0%, transparent 60%)",
-                "radial-gradient(ellipse 70% 90% at 0% 50%, rgba(13,84,76,0.35) 0%, transparent 55%)",
-                "radial-gradient(ellipse 70% 90% at 100% 50%, rgba(11,36,34,0.5) 0%, transparent 55%)",
-                "linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, transparent 28%, transparent 72%, rgba(0,0,0,0.48) 100%)",
+              background: [
+                "linear-gradient(to bottom, #0f5a52 0%, #093d37 40%, #041e1b 70%, #020d0b 100%)",
+                "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(20,120,105,0.4) 0%, transparent 60%)",
+                "radial-gradient(ellipse 100% 40% at 50% 100%, rgba(200,165,92,0.18) 0%, transparent 60%)",
               ].join(","),
             }}
           />
