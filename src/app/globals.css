@@ -385,6 +385,7 @@ nav :is(a, button):focus-visible,
   transform: translate(-50%, -50%) scale(1);
 }
 
+
 /* Solid variant — gold bg, glows on hover */
 .magb--solid {
   background: var(--gold-accent);

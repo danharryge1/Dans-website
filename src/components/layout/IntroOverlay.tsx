@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 
@@ -85,8 +85,8 @@ function IntroOverlayInner() {
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
       style={{
         backgroundColor: "#070d0b",
-        opacity: phase === "fading" ? 0 : 1,
-        transition: "opacity 0.65s ease",
+        transform: phase === "fading" ? "translateY(100%)" : "translateY(0%)",
+        transition: "transform 0.75s cubic-bezier(0.4, 0, 0.2, 1)",
         pointerEvents: phase === "fading" ? "none" : undefined,
       }}
     >
@@ -102,13 +102,16 @@ function IntroOverlayInner() {
         <span style={{ opacity: cursorOn ? 1 : 0, marginLeft: "2px" }}>|</span>
       </p>
 
-      {/* Opacity wrapper — MagneticButton doesn't accept a style prop */}
+      {/* Opacity wrapper — overrides --gold-accent so the magnetic fill
+          and border turn green on hover instead of gold. CSS variables
+          cascade into pseudo-elements without needing custom CSS classes. */}
       <div
         style={{
           opacity: showButton ? 1 : 0,
           pointerEvents: showButton ? undefined : "none",
           transition: "opacity 0.4s ease",
-        }}
+          "--gold-accent": "#1a9478",
+        } as React.CSSProperties}
       >
         <MagneticButton
           onClick={enter}
