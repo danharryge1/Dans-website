@@ -5,19 +5,21 @@ import { useEffect, useState } from "react";
 const TEXT = "average is invisible.";
 const SEEN_KEY = "intro-seen";
 
+// Outer guard — safe because this component is never SSR'd (ssr: false in page.tsx).
+// Returning null here means zero hooks, zero timers, zero DOM side-effects on
+// returning visitors.
 export function IntroOverlay() {
+  if (sessionStorage.getItem(SEEN_KEY)) return null;
+  return <IntroOverlayInner />;
+}
+
+function IntroOverlayInner() {
   const [displayed, setDisplayed] = useState("");
   const [cursorOn, setCursorOn] = useState(true);
   const [showButton, setShowButton] = useState(false);
   const [phase, setPhase] = useState<"in" | "fading" | "gone">("in");
 
   useEffect(() => {
-    // Skip on every visit after the first in this browser session.
-    if (sessionStorage.getItem(SEEN_KEY)) {
-      setPhase("gone");
-      return;
-    }
-
     document.body.classList.add("overflow-hidden");
 
     let charIndex = 0;
@@ -78,7 +80,6 @@ export function IntroOverlay() {
         pointerEvents: phase === "fading" ? "none" : undefined,
       }}
     >
-      {/* Tagline */}
       <p
         className="mb-10 text-[clamp(14px,2vw,20px)] tracking-[0.05em]"
         style={{
@@ -91,7 +92,6 @@ export function IntroOverlay() {
         <span style={{ opacity: cursorOn ? 1 : 0, marginLeft: "2px" }}>|</span>
       </p>
 
-      {/* Enter button */}
       <button
         onClick={enter}
         aria-label="Enter site"
