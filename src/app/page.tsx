@@ -5,12 +5,12 @@ import { Philosophy } from "@/components/sections/Philosophy";
 import { Process } from "@/components/sections/Process";
 import { Services } from "@/components/sections/Services/Services";
 import { SectionSeam } from "@/components/layout/SectionSeam";
-import { IntroOverlayLoader } from "@/components/layout/IntroOverlayLoader";
+import { IntroOverlay } from "@/components/layout/IntroOverlay";
 
 export default function Home() {
   return (
     <>
-      <IntroOverlayLoader />
+      <IntroOverlay />
       <Hero />
       <Services />
       <SectionSeam />

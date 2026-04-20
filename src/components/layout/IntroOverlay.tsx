@@ -1,16 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const TEXT = "average is invisible.";
 const SEEN_KEY = "intro-seen";
 
-// Outer guard — safe because this component is never SSR'd (ssr: false in page.tsx).
-// Returning null here means zero hooks, zero timers, zero DOM side-effects on
-// returning visitors.
+// Portals into document.body after hydration — avoids the insertBefore
+// reconciliation crash that occurs when inserting before an SSR sibling.
 export function IntroOverlay() {
-  if (sessionStorage.getItem(SEEN_KEY)) return null;
-  return <IntroOverlayInner />;
+  const [mounted, setMounted] = useState(false);
+  const [seen, setSeen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (sessionStorage.getItem(SEEN_KEY)) setSeen(true);
+  }, []);
+
+  if (!mounted || seen) return null;
+
+  return createPortal(<IntroOverlayInner />, document.body);
 }
 
 function IntroOverlayInner() {
