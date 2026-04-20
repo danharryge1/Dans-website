@@ -95,7 +95,7 @@ export function FeaturedCase() {
                 autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 poster="/assets/hero/intro-bg-poster.jpg"
                 disablePictureInPicture
                 disableRemotePlayback
@@ -118,7 +118,7 @@ export function FeaturedCase() {
                 autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 poster="/assets/hero/nextup-v2-poster.jpg"
                 disablePictureInPicture
                 disableRemotePlayback

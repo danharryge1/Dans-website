@@ -14,8 +14,12 @@ export function FluidCanvas() {
 
     let cancelled = false;
     let sectionCleanup: (() => void) | null = null;
+    let io: IntersectionObserver | null = null;
 
-    import("webgl-fluid").then(({ default: WebGLFluid }) => {
+    const initFluid = () => {
+      if (cancelled || !canvasRef.current) return;
+
+      import("webgl-fluid").then(({ default: WebGLFluid }) => {
       if (cancelled || !canvasRef.current) return;
 
       WebGLFluid(canvas, {
@@ -23,12 +27,12 @@ export function FluidCanvas() {
         IMMEDIATE: true,
         AUTO: true,
         INTERVAL: 4000,
-        SIM_RESOLUTION: 128,
-        DYE_RESOLUTION: 1024,
-        DENSITY_DISSIPATION: 1.8,   // ~1.5s per splat, no accumulation at 4s interval
+        SIM_RESOLUTION: 64,
+        DYE_RESOLUTION: 512,
+        DENSITY_DISSIPATION: 1.8,
         VELOCITY_DISSIPATION: 0.45,
         PRESSURE: 0.6,
-        PRESSURE_ITERATIONS: 20,
+        PRESSURE_ITERATIONS: 12,
         CURL: 4,
         SPLAT_RADIUS: 0.24,
         SPLAT_FORCE: 3500,
@@ -40,7 +44,7 @@ export function FluidCanvas() {
         BACK_COLOR: { r: 3, g: 14, b: 12 },
         TRANSPARENT: false,
         BLOOM: true,
-        BLOOM_ITERATIONS: 8,
+        BLOOM_ITERATIONS: 4,
         BLOOM_RESOLUTION: 256,
         BLOOM_INTENSITY: 0.4,
         BLOOM_THRESHOLD: 0.5,
@@ -73,10 +77,26 @@ export function FluidCanvas() {
         sectionCleanup = () =>
           container.removeEventListener("mousemove", forward);
       }
-    });
+      });
+    };
+
+    // Defer WebGL init until canvas is near the viewport — avoids burning
+    // GPU resources while the user is still on the hero.
+    io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io?.disconnect();
+          io = null;
+          initFluid();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(canvas);
 
     return () => {
       cancelled = true;
+      io?.disconnect();
       sectionCleanup?.();
       try {
         const gl =
