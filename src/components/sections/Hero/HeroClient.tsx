@@ -304,8 +304,10 @@ export function HeroClient() {
         if (desktop && lenis) {
           lenis.resize();
           lenis.scrollTo(y, { immediate: true });
+          ScrollTrigger.refresh();
         } else {
           window.scrollTo(0, y);
+          ScrollTrigger.refresh();
         }
       }, 0);
     }
