@@ -5,25 +5,25 @@ import { createPortal } from "react-dom";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 const TEXT = "average is invisible.";
-const SEEN_KEY = "intro-seen";
+// intro-visited: set when user clicks Enter; persists through refreshes
+// (sessionStorage stays alive until tab closes). Drives quick mode only —
+// the intro always shows on every page load.
+const VISITED_KEY = "intro-visited";
 const QUICK_KEY = "intro-quick";
 
 export function IntroOverlay() {
   const [mounted, setMounted] = useState(false);
-  const [seen, setSeen] = useState(false);
   const [quick, setQuick] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (sessionStorage.getItem(SEEN_KEY)) {
-      setSeen(true);
-    } else if (sessionStorage.getItem(QUICK_KEY)) {
+    if (sessionStorage.getItem(QUICK_KEY)) {
       sessionStorage.removeItem(QUICK_KEY);
       setQuick(true);
     }
   }, []);
 
-  if (!mounted || seen) return null;
+  if (!mounted) return null;
 
   return createPortal(<IntroOverlayInner quick={quick} />, document.body);
 }
@@ -76,7 +76,7 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
   }, []);
 
   const enter = () => {
-    sessionStorage.setItem(SEEN_KEY, "1");
+    sessionStorage.setItem(VISITED_KEY, "1");
     document.documentElement.classList.add("intro-ready");
     document.getElementById("intro-paint-block")?.remove();
     document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {

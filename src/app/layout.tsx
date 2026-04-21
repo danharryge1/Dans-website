@@ -41,7 +41,10 @@ export default function RootLayout({
         {/* Runs synchronously before first paint. For returning visitors
             (intro-seen in sessionStorage), adds intro-ready immediately so the
             paint block div is hidden before any paint. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{var r=performance.getEntriesByType('navigation')[0]?.type==='reload';if(r){sessionStorage.removeItem('intro-seen');sessionStorage.removeItem('scroll-y');sessionStorage.setItem('intro-quick','1');}else if(sessionStorage.getItem('intro-seen')){document.documentElement.classList.add('intro-ready');}history.scrollRestoration='manual';}catch(e){}` }} />
+        {/* intro-visited persists through refreshes (sessionStorage).
+            If set, show quick-enter screen instead of full typewriter.
+            intro-ready is never added here — intro always shows on load. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem('intro-visited'))sessionStorage.setItem('intro-quick','1');}catch(e){}` }} />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* SSR'd paint blocker — visible from first byte, hidden once intro-ready. */}

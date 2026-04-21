@@ -22,15 +22,6 @@ export function HeroClient() {
     ).matches;
     const desktop = window.matchMedia("(min-width: 768px)").matches;
 
-    // Save scroll on unload so we can restore it after GSAP adds pin spacers.
-    // history.scrollRestoration='manual' (set in layout <head>) stops the
-    // browser restoring scroll before the pin spacer is in the DOM, which
-    // would land ~1 viewport height off on desktop.
-    const saveScroll = () => {
-      try { sessionStorage.setItem("scroll-y", String(window.scrollY)); } catch { /* noop */ }
-    };
-    window.addEventListener("beforeunload", saveScroll);
-
     // Reduced motion: skip autoplay, snap reveal in 600ms, stop here.
     // No Lenis, no ScrollTrigger, no float tween. Sparkles + side-labels land
     // in the same end-state as scroll-complete so reduced-motion users are not
@@ -68,7 +59,7 @@ export function HeroClient() {
           ease: "power2.out",
         });
       }
-      return () => { window.removeEventListener("beforeunload", saveScroll); };
+      return;
     }
 
     // Force-play every video in the hero. Retries on canplay, visibilitychange,
@@ -290,28 +281,6 @@ export function HeroClient() {
       }
     }, section);
 
-    // Restore saved scroll position, deferred to the next event-loop tick.
-    // Doing this synchronously here would miss the FeaturedCase 500%-pin
-    // spacer — that component's useEffect runs AFTER this one, so its spacer
-    // isn't in the DOM yet. setTimeout(0) fires after ALL sibling useEffects
-    // have run and all pin spacers are settled.
-    let restoreTimer: ReturnType<typeof setTimeout> | null = null;
-    const savedScrollY = sessionStorage.getItem("scroll-y");
-    if (savedScrollY) {
-      sessionStorage.removeItem("scroll-y");
-      const y = parseInt(savedScrollY, 10);
-      restoreTimer = setTimeout(() => {
-        if (desktop && lenis) {
-          lenis.resize();
-          lenis.scrollTo(y, { immediate: true });
-          ScrollTrigger.refresh();
-        } else {
-          window.scrollTo(0, y);
-          ScrollTrigger.refresh();
-        }
-      }, 0);
-    }
-
     return () => {
       ctx.revert();
       if (floatTween) floatTween.kill();
@@ -335,8 +304,6 @@ export function HeroClient() {
         knob.removeEventListener("pointerup", onKnobUp);
         knob.removeEventListener("pointercancel", onKnobUp);
       }
-      window.removeEventListener("beforeunload", saveScroll);
-      if (restoreTimer !== null) clearTimeout(restoreTimer);
     };
   }, []);
 
