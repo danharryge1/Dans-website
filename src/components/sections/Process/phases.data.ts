@@ -3,6 +3,7 @@ export type Phase = {
   readonly number: "01" | "02" | "03";
   readonly title: string;
   readonly body: string;
+  readonly note?: string;
 };
 
 export const phases = [
@@ -17,11 +18,13 @@ export const phases = [
     number: "02",
     title: "THE BUILD",
     body: "We pick a direction. Could be one, could be a mix. I make it real: typography, motion, copy, every pixel. The floor is this site. Yours goes higher.",
+    note: "most projects are live within a week",
   },
   {
     id: "ship",
     number: "03",
     title: "THE SHIP",
     body: "You see it live before anyone else. When it's right, we push it to your domain.",
+    note: "you don't pay the full amount unless you're happy",
   },
 ] as const satisfies readonly Phase[];

@@ -49,6 +49,19 @@ export function PhaseBlock({ phase }: Props) {
             >
               {phase.body}
             </p>
+
+            {phase.note && (
+              <p
+                className="mt-3 text-[13px] leading-[1.5] tracking-[0.03em] uppercase"
+                style={{
+                  fontFamily: "var(--font-marker)",
+                  color: "var(--gold-accent)",
+                  opacity: 0.75,
+                }}
+              >
+                {phase.note}
+              </p>
+            )}
           </div>
         </div>
       </div>

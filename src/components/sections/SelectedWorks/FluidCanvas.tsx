@@ -16,27 +16,48 @@ export function FluidCanvas() {
     let sectionCleanup: (() => void) | null = null;
     let io: IntersectionObserver | null = null;
 
+    const supportsWebGL = (): boolean => {
+      try {
+        const testCanvas = document.createElement("canvas");
+        const gl =
+          testCanvas.getContext("webgl2") ??
+          testCanvas.getContext("webgl") ??
+          (testCanvas.getContext("experimental-webgl") as WebGLRenderingContext | null);
+        if (!gl) return false;
+        // webgl-fluid requires at least one of these to render properly.
+        // Safari WebGL1 often lacks EXT_color_buffer_half_float.
+        const hasHalfFloat =
+          gl.getExtension("OES_texture_half_float") !== null ||
+          (gl instanceof WebGL2RenderingContext);
+        gl.getExtension("WEBGL_lose_context")?.loseContext();
+        return hasHalfFloat;
+      } catch {
+        return false;
+      }
+    };
+
     const initFluid = () => {
       if (cancelled || !canvasRef.current) return;
+      if (!supportsWebGL()) return;
 
       import("webgl-fluid").then(({ default: WebGLFluid }) => {
       if (cancelled || !canvasRef.current) return;
 
-      WebGLFluid(canvas, {
+      try { WebGLFluid(canvas, {
         TRIGGER: "hover",
         IMMEDIATE: true,
         AUTO: true,
-        INTERVAL: 4000,
+        INTERVAL: 3500,
         SIM_RESOLUTION: 64,
         DYE_RESOLUTION: 512,
-        DENSITY_DISSIPATION: 1.8,
-        VELOCITY_DISSIPATION: 0.45,
-        PRESSURE: 0.6,
+        DENSITY_DISSIPATION: 1.2,
+        VELOCITY_DISSIPATION: 0.5,
+        PRESSURE: 0.5,
         PRESSURE_ITERATIONS: 12,
-        CURL: 4,
-        SPLAT_RADIUS: 0.24,
-        SPLAT_FORCE: 3500,
-        SPLAT_COUNT: 3,
+        CURL: 3,
+        SPLAT_RADIUS: 0.18,
+        SPLAT_FORCE: 2000,
+        SPLAT_COUNT: 2,
         SHADING: true,
         COLORFUL: true,
         COLOR_UPDATE_SPEED: 2,
@@ -51,6 +72,25 @@ export function FluidCanvas() {
         BLOOM_SOFT_KNEE: 0.7,
         SUNRAYS: false,
       });
+
+      // Dispatch a synthetic mousemove at a random position every 2s so the
+      // fluid keeps generating splats even when the user isn't hovering.
+      // This is a fallback in case the library's AUTO only fires on hover.
+      const autoSplatInterval = setInterval(() => {
+        if (!canvasRef.current) return;
+        const rect = canvasRef.current.getBoundingClientRect();
+        const rx = rect.left + Math.random() * rect.width;
+        const ry = rect.top  + Math.random() * rect.height;
+        const synth = new MouseEvent("mousemove", {
+          clientX: rx, clientY: ry,
+          movementX: (Math.random() - 0.5) * 20,
+          movementY: (Math.random() - 0.5) * 20,
+          bubbles: false,
+        });
+        Object.defineProperty(synth, "offsetX", { get: () => rx - rect.left });
+        Object.defineProperty(synth, "offsetY", { get: () => ry - rect.top });
+        canvasRef.current.dispatchEvent(synth);
+      }, 4000);
 
       // Auto-discover the nearest section or footer so this component
       // works anywhere without a hardcoded ID.
@@ -74,10 +114,15 @@ export function FluidCanvas() {
           canvasRef.current.dispatchEvent(synth);
         };
         container.addEventListener("mousemove", forward);
-        sectionCleanup = () =>
+        sectionCleanup = () => {
           container.removeEventListener("mousemove", forward);
+          clearInterval(autoSplatInterval);
+        };
+      } else {
+        sectionCleanup = () => clearInterval(autoSplatInterval);
       }
-      });
+      } catch { /* WebGL init failed — unsupported or context lost */ }
+      }).catch(() => {});
     };
 
     // Defer WebGL init until canvas is near the viewport — avoids burning
@@ -98,30 +143,23 @@ export function FluidCanvas() {
       cancelled = true;
       io?.disconnect();
       sectionCleanup?.();
-      try {
-        const gl =
-          canvas.getContext("webgl") ??
-          (canvas.getContext(
-            "experimental-webgl",
-          ) as WebGLRenderingContext | null);
-        gl?.getExtension("WEBGL_lose_context")?.loseContext();
-      } catch (_) {}
     };
   }, []);
 
+  // Filter applied to the wrapper div, NOT the canvas — Safari stops
+  // compositing WebGL canvas frames when a CSS filter is on the canvas itself.
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{
-        // sepia(0.65) collapses blues/purples into warm gold tones.
-        // hue-rotate(40deg) shifts the sepia base to amber-gold and
-        // nudges residual greens to teal. saturate(1.5) restores
-        // visibility lost from sepia. brightness(0.72) caps the ceiling.
-        filter:
-          "sepia(0.65) hue-rotate(40deg) saturate(1.5) brightness(0.72)",
+        filter: "sepia(0.75) hue-rotate(40deg) saturate(0.85) brightness(0.5)",
       }}
-    />
+    >
+      <canvas
+        ref={canvasRef}
+        className="block w-full h-full"
+      />
+    </div>
   );
 }
