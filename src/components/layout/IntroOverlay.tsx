@@ -6,29 +6,40 @@ import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 const TEXT = "average is invisible.";
 const SEEN_KEY = "intro-seen";
+const QUICK_KEY = "intro-quick";
 
 export function IntroOverlay() {
   const [mounted, setMounted] = useState(false);
   const [seen, setSeen] = useState(false);
+  const [quick, setQuick] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (sessionStorage.getItem(SEEN_KEY)) setSeen(true);
+    if (sessionStorage.getItem(SEEN_KEY)) {
+      setSeen(true);
+    } else if (sessionStorage.getItem(QUICK_KEY)) {
+      sessionStorage.removeItem(QUICK_KEY);
+      setQuick(true);
+    }
   }, []);
 
   if (!mounted || seen) return null;
 
-  return createPortal(<IntroOverlayInner />, document.body);
+  return createPortal(<IntroOverlayInner quick={quick} />, document.body);
 }
 
-function IntroOverlayInner() {
-  const [displayed, setDisplayed] = useState("");
-  const [cursorOn, setCursorOn] = useState(true);
-  const [showButton, setShowButton] = useState(false);
+function IntroOverlayInner({ quick }: { quick: boolean }) {
+  const [displayed, setDisplayed] = useState(quick ? TEXT : "");
+  const [cursorOn, setCursorOn] = useState(false);
+  const [showButton, setShowButton] = useState(quick);
   const [phase, setPhase] = useState<"in" | "fading" | "gone">("in");
 
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
+
+    if (quick) {
+      return () => { document.body.classList.remove("overflow-hidden"); };
+    }
 
     let charIndex = 0;
     let typeInterval: ReturnType<typeof setInterval>;
@@ -102,14 +113,12 @@ function IntroOverlayInner() {
         <span style={{ opacity: cursorOn ? 1 : 0, marginLeft: "2px" }}>|</span>
       </p>
 
-      {/* Opacity wrapper — overrides --gold-accent so the magnetic fill
-          and border turn green on hover instead of gold. CSS variables
-          cascade into pseudo-elements without needing custom CSS classes. */}
+      {/* Overrides --gold-accent so magnetic fill turns green on hover. */}
       <div
         style={{
           opacity: showButton ? 1 : 0,
           pointerEvents: showButton ? undefined : "none",
-          transition: "opacity 0.4s ease",
+          transition: quick ? "none" : "opacity 0.4s ease",
           "--gold-accent": "#1a9478",
         } as React.CSSProperties}
       >
