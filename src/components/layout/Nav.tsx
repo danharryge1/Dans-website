@@ -10,12 +10,16 @@ type NavLink = {
   readonly sectionId: string | null;
 };
 
-const LINKS: readonly NavLink[] = [
+const CENTER_LINKS: readonly NavLink[] = [
   { label: "SERVICES", href: "/#services", sectionId: "services" },
   { label: "WORK", href: "/#case-study-nextup", sectionId: "case-study-nextup" },
-  { label: "WHO I AM", href: "/about", sectionId: null },
+  { label: "THE PROCESS", href: "/#philosophy", sectionId: "philosophy" },
   { label: "CONTACT", href: "/#contact", sectionId: "contact" },
 ];
+
+const WHO_I_AM: NavLink = { label: "WHO I AM", href: "/about", sectionId: null };
+
+const ALL_LINKS: readonly NavLink[] = [...CENTER_LINKS, WHO_I_AM];
 
 function NavMagLink({
   href,
@@ -37,6 +41,23 @@ function NavMagLink({
   );
 }
 
+function NavBrand() {
+  const { ref, innerRef } = useMagnetic<HTMLAnchorElement>({
+    strength: 9,
+    writeFillVars: false,
+  });
+  return (
+    <a
+      ref={ref}
+      href="/"
+      className="text-[15px] uppercase tracking-[0.04em]"
+      style={{ fontFamily: "var(--font-comico)", color: "var(--text-primary)" }}
+    >
+      <span ref={(el) => { innerRef.current = el; }}>DAN GEORGE</span>
+    </a>
+  );
+}
+
 export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -45,9 +66,7 @@ export function Nav() {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
-  // Pathname-based active state is derived synchronously — no effect needed.
-  // Scroll-based state supplements this on the home page.
-  const pathnameActive = LINKS.find((l) => l.href === pathname)?.href ?? null;
+  const pathnameActive = ALL_LINKS.find((l) => l.href === pathname)?.href ?? null;
   const activeHref = pathnameActive ?? scrollActiveHref;
 
   // Scrolled background state
@@ -65,7 +84,7 @@ export function Nav() {
     const trackActive = () => {
       const mid = window.scrollY + window.innerHeight * 0.45;
       let next: string | null = null;
-      for (const link of LINKS) {
+      for (const link of ALL_LINKS) {
         if (!link.sectionId) continue;
         const el = document.getElementById(link.sectionId);
         if (el && el.offsetTop <= mid) next = link.href;
@@ -105,20 +124,36 @@ export function Nav() {
         data-scrolled={scrolled ? "true" : "false"}
         className="fixed top-0 inset-x-0 z-50 py-6 transition-[background-color] duration-[250ms] ease-out"
       >
-        <ul
-          className="hidden md:flex justify-center gap-10 text-[14px] uppercase tracking-[0.05em]"
-          style={{ fontFamily: "var(--font-marker)" }}
+        {/* Desktop: 3-column grid — brand left, links center, WHO I AM right */}
+        <div
+          className="hidden md:grid items-center px-8 lg:px-12"
+          style={{ gridTemplateColumns: "1fr auto 1fr" }}
         >
-          {LINKS.map((l) => (
-            <li key={l.label}>
-              <NavMagLink
-                href={l.href}
-                label={l.label}
-                active={activeHref === l.href}
-              />
-            </li>
-          ))}
-        </ul>
+          <NavBrand />
+
+          <ul
+            className="flex gap-8 lg:gap-10 text-[14px] uppercase tracking-[0.05em]"
+            style={{ fontFamily: "var(--font-marker)" }}
+          >
+            {CENTER_LINKS.map((l) => (
+              <li key={l.label}>
+                <NavMagLink
+                  href={l.href}
+                  label={l.label}
+                  active={activeHref === l.href}
+                />
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex justify-end" style={{ fontFamily: "var(--font-marker)" }}>
+            <NavMagLink
+              href={WHO_I_AM.href}
+              label={WHO_I_AM.label}
+              active={activeHref === WHO_I_AM.href}
+            />
+          </div>
+        </div>
 
         <button
           ref={triggerRef}
@@ -152,7 +187,7 @@ export function Nav() {
           </button>
 
           <div className="flex flex-col gap-6">
-            {LINKS.map((l, i) => (
+            {ALL_LINKS.map((l, i) => (
               <a
                 key={l.label}
                 ref={i === 0 ? firstLinkRef : undefined}

@@ -13,6 +13,7 @@ export function FluidCanvas() {
     if (!canvas) return;
 
     let cancelled = false;
+    let initDone = false;
     let sectionCleanup: (() => void) | null = null;
     let io: IntersectionObserver | null = null;
 
@@ -54,13 +55,13 @@ export function FluidCanvas() {
         VELOCITY_DISSIPATION: 0.5,
         PRESSURE: 0.5,
         PRESSURE_ITERATIONS: 12,
-        CURL: 3,
+        CURL: 5,
         SPLAT_RADIUS: 0.18,
         SPLAT_FORCE: 2000,
-        SPLAT_COUNT: 2,
+        SPLAT_COUNT: 3,
         SHADING: true,
         COLORFUL: true,
-        COLOR_UPDATE_SPEED: 2,
+        COLOR_UPDATE_SPEED: 4,
         PAUSED: false,
         BACK_COLOR: { r: 3, g: 14, b: 12 },
         TRANSPARENT: false,
@@ -90,7 +91,7 @@ export function FluidCanvas() {
         Object.defineProperty(synth, "offsetX", { get: () => rx - rect.left });
         Object.defineProperty(synth, "offsetY", { get: () => ry - rect.top });
         canvasRef.current.dispatchEvent(synth);
-      }, 4000);
+      }, 2000);
 
       // Auto-discover the nearest section or footer so this component
       // works anywhere without a hardcoded ID.
@@ -125,15 +126,21 @@ export function FluidCanvas() {
       }).catch(() => {});
     };
 
-    // Defer WebGL init until canvas is near the viewport — avoids burning
-    // GPU resources while the user is still on the hero.
+    const doInit = () => {
+      if (initDone) return;
+      initDone = true;
+      io?.disconnect();
+      io = null;
+      initFluid();
+    };
+
+    // Timer fallback — fires if the canvas is already in the viewport on mount
+    // (e.g. on /about where the section fills the full page height).
+    const fallbackTimer = setTimeout(doInit, 800);
+
     io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          io?.disconnect();
-          io = null;
-          initFluid();
-        }
+        if (entries.some((e) => e.isIntersecting)) doInit();
       },
       { rootMargin: "200px" },
     );
@@ -141,6 +148,7 @@ export function FluidCanvas() {
 
     return () => {
       cancelled = true;
+      clearTimeout(fallbackTimer);
       io?.disconnect();
       sectionCleanup?.();
     };
@@ -153,7 +161,7 @@ export function FluidCanvas() {
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{
-        filter: "sepia(0.75) hue-rotate(40deg) saturate(0.85) brightness(0.5)",
+        filter: "sepia(0.55) hue-rotate(40deg) saturate(1.0) brightness(0.58)",
       }}
     >
       <canvas

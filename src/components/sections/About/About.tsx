@@ -1,5 +1,6 @@
 import { about } from "./about.data";
 import { AboutClient } from "./AboutClient";
+import { AboutCta } from "./AboutCta";
 import { FluidCanvas } from "@/components/sections/SelectedWorks/FluidCanvas";
 
 export function About() {
@@ -137,18 +138,9 @@ export function About() {
               {about.closing}
             </p>
 
-            <a
-              data-about-cta=""
-              href={about.cta.href}
-              className="inline-flex items-center gap-3 border rounded-full px-8 py-4 text-[13px] uppercase tracking-[0.1em] transition-colors duration-200"
-              style={{
-                fontFamily: "var(--font-marker)",
-                borderColor: "var(--text-primary)",
-                color: "var(--text-primary)",
-              }}
-            >
-              {about.cta.label}
-            </a>
+            <div data-about-cta="">
+              <AboutCta label={about.cta.label} href={about.cta.href} />
+            </div>
           </div>
 
         </div>

@@ -9,9 +9,9 @@ vi.mock("next/navigation", () => ({
 import { Nav } from "./Nav";
 
 describe("<Nav /> — links", () => {
-  it("renders 4 named links", () => {
+  it("renders all desktop nav links", () => {
     render(<Nav />);
-    ["SERVICES", "WORK", "WHO I AM", "CONTACT"].forEach((label) => {
+    ["DAN GEORGE", "SERVICES", "WORK", "THE PROCESS", "CONTACT", "WHO I AM"].forEach((label) => {
       expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
     });
   });
@@ -33,7 +33,8 @@ describe("<Nav /> — mobile overlay", () => {
     fireEvent.click(btn);
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
-    expect(dialog.querySelectorAll("a[href]")).toHaveLength(6);
+    // 5 nav links + 2 social links
+    expect(dialog.querySelectorAll("a[href]")).toHaveLength(7);
   });
 
   it("close button inside the overlay dismisses it", () => {
@@ -76,7 +77,7 @@ describe("<Nav /> — active link on /about", () => {
     (usePathname as ReturnType<typeof vi.fn>).mockReturnValue("/about");
 
     const { container } = render(<Nav />);
-    const whoLink = Array.from(container.querySelectorAll("nav ul a")).find(
+    const whoLink = Array.from(container.querySelectorAll("nav a")).find(
       (a) => a.textContent?.trim() === "WHO I AM",
     );
     expect(whoLink?.getAttribute("aria-current")).toBe("page");

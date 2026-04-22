@@ -18,5 +18,5 @@ export const about = {
     { id: "solo", label: "ONE PERSON", caption: "every decision mine" },
   ] satisfies readonly AboutFact[],
   closing: "THE SITE IS THE PITCH.",
-  cta: { label: "START A PROJECT", href: "#contact" },
+  cta: { label: "START A PROJECT", href: "/#contact" },
 } as const;
