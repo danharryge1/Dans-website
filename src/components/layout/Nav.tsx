@@ -18,7 +18,7 @@ function NavMagLink({ href, label }: { href: string; label: string }) {
 const LINKS = [
   { label: "SERVICES", href: "#services" },
   { label: "WORK", href: "#case-study-nextup" },
-  { label: "ABOUT", href: "#philosophy" },
+  { label: "ABOUT", href: "/about" },
   { label: "CONTACT", href: "#contact" },
 ] as const;
 

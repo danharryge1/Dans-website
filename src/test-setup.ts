@@ -1,5 +1,19 @@
 import "@testing-library/jest-dom/vitest";
 
+// jsdom doesn't implement IntersectionObserver; provide a minimal stub so
+// components that use it (e.g. FluidCanvas) don't throw.
+if (typeof globalThis.IntersectionObserver === "undefined") {
+  globalThis.IntersectionObserver = class IntersectionObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() { return []; }
+    readonly root = null;
+    readonly rootMargin = "";
+    readonly thresholds = [];
+  };
+}
+
 // jsdom doesn't implement ResizeObserver; provide a minimal stub so
 // components that use it don't throw.
 if (typeof globalThis.ResizeObserver === "undefined") {
