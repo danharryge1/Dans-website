@@ -98,6 +98,20 @@ nav ul a:focus-visible,
   color: var(--text-accent);
 }
 
+/* Active section indicator — gold underline on the current nav link */
+nav ul a[aria-current="page"] {
+  color: var(--gold-accent);
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(200, 165, 92, 0.55);
+}
+
+nav ul a[aria-current="page"]:hover,
+nav ul a[aria-current="page"]:focus-visible {
+  color: var(--gold-accent);
+}
+
 /* Visible keyboard focus rings on every interactive element in the chrome */
 nav :is(a, button):focus-visible,
 [role="dialog"] :is(a, button):focus-visible {

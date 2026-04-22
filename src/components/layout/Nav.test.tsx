@@ -1,12 +1,17 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+vi.mock("next/navigation", () => ({
+  usePathname: vi.fn().mockReturnValue("/"),
+}));
+
 import { Nav } from "./Nav";
 
 describe("<Nav /> — links", () => {
   it("renders 4 named links", () => {
     render(<Nav />);
-    ["PORTFOLIO", "SERVICES", "ABOUT", "CONTACT"].forEach((label) => {
+    ["SERVICES", "WORK", "WHO I AM", "CONTACT"].forEach((label) => {
       expect(screen.getByRole("link", { name: label })).toBeInTheDocument();
     });
   });
@@ -24,13 +29,11 @@ describe("<Nav /> — mobile overlay", () => {
     render(<Nav />);
     const btn = screen.getByRole("button", { name: /open menu/i });
     expect(btn).toBeInTheDocument();
-    // overlay starts closed
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     fireEvent.click(btn);
     const dialog = screen.getByRole("dialog");
     expect(dialog).toBeInTheDocument();
-    // 4 links rendered again inside the overlay
-    expect(dialog.querySelectorAll("a")).toHaveLength(4);
+    expect(dialog.querySelectorAll("a[href]")).toHaveLength(6);
   });
 
   it("close button inside the overlay dismisses it", () => {
@@ -64,5 +67,20 @@ describe("<Nav /> — scroll state", () => {
       window.dispatchEvent(new Event("scroll"));
     });
     expect(container.querySelector("nav")!.getAttribute("data-scrolled")).toBe("true");
+  });
+});
+
+describe("<Nav /> — active link on /about", () => {
+  it("marks WHO I AM as aria-current when pathname is /about", async () => {
+    const { usePathname } = await import("next/navigation");
+    (usePathname as ReturnType<typeof vi.fn>).mockReturnValue("/about");
+
+    const { container } = render(<Nav />);
+    const whoLink = Array.from(container.querySelectorAll("nav ul a")).find(
+      (a) => a.textContent?.trim() === "WHO I AM",
+    );
+    expect(whoLink?.getAttribute("aria-current")).toBe("page");
+
+    (usePathname as ReturnType<typeof vi.fn>).mockReturnValue("/");
   });
 });

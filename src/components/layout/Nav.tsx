@@ -1,33 +1,56 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useMagnetic } from "@/lib/motion/useMagnetic";
 
-function NavMagLink({ href, label }: { href: string; label: string }) {
+type NavLink = {
+  readonly label: string;
+  readonly href: string;
+  readonly sectionId: string | null;
+};
+
+const LINKS: readonly NavLink[] = [
+  { label: "SERVICES", href: "/#services", sectionId: "services" },
+  { label: "WORK", href: "/#case-study-nextup", sectionId: "case-study-nextup" },
+  { label: "WHO I AM", href: "/about", sectionId: null },
+  { label: "CONTACT", href: "/#contact", sectionId: "contact" },
+];
+
+function NavMagLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active: boolean;
+}) {
   const { ref, innerRef } = useMagnetic<HTMLAnchorElement>({
     strength: 7,
     writeFillVars: false,
   });
   return (
-    <a ref={ref} href={href}>
+    <a ref={ref} href={href} aria-current={active ? "page" : undefined}>
       <span ref={(el) => { innerRef.current = el; }}>{label}</span>
     </a>
   );
 }
 
-const LINKS = [
-  { label: "SERVICES", href: "#services" },
-  { label: "WORK", href: "#case-study-nextup" },
-  { label: "ABOUT", href: "/about" },
-  { label: "CONTACT", href: "#contact" },
-] as const;
-
 export function Nav() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollActiveHref, setScrollActiveHref] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
+  // Pathname-based active state is derived synchronously — no effect needed.
+  // Scroll-based state supplements this on the home page.
+  const pathnameActive = LINKS.find((l) => l.href === pathname)?.href ?? null;
+  const activeHref = pathnameActive ?? scrollActiveHref;
+
+  // Scrolled background state
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
     onScroll();
@@ -35,6 +58,30 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Scroll-driven active section tracking (home page only)
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const trackActive = () => {
+      const mid = window.scrollY + window.innerHeight * 0.45;
+      let next: string | null = null;
+      for (const link of LINKS) {
+        if (!link.sectionId) continue;
+        const el = document.getElementById(link.sectionId);
+        if (el && el.offsetTop <= mid) next = link.href;
+      }
+      setScrollActiveHref(next);
+    };
+
+    const raf = requestAnimationFrame(trackActive);
+    window.addEventListener("scroll", trackActive, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", trackActive);
+    };
+  }, [pathname]);
+
+  // Mobile overlay: lock scroll + focus first link + Esc to close
   useEffect(() => {
     if (!open) return;
     const prevOverflow = document.body.style.overflow;
@@ -64,7 +111,11 @@ export function Nav() {
         >
           {LINKS.map((l) => (
             <li key={l.label}>
-              <NavMagLink href={l.href} label={l.label} />
+              <NavMagLink
+                href={l.href}
+                label={l.label}
+                active={activeHref === l.href}
+              />
             </li>
           ))}
         </ul>
@@ -108,7 +159,15 @@ export function Nav() {
                 href={l.href}
                 onClick={() => setOpen(false)}
                 className="text-[64px] leading-[1] uppercase"
-                style={{ fontFamily: "var(--font-comico)", color: "var(--text-primary)" }}
+                aria-current={activeHref === l.href ? "page" : undefined}
+                style={{
+                  fontFamily: "var(--font-comico)",
+                  color:
+                    activeHref === l.href
+                      ? "var(--gold-accent)"
+                      : "var(--text-primary)",
+                  transition: "color 200ms ease-out",
+                }}
               >
                 {l.label}
               </a>
