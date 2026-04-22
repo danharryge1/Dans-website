@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { about } from "./about.data";
 import { AboutClient } from "./AboutClient";
 import { AboutCta } from "./AboutCta";
@@ -86,37 +87,27 @@ export function About() {
               ))}
             </div>
 
-            {/* Right: photo placeholder */}
+            {/* Right: photo */}
             <div
               className="relative w-full overflow-hidden"
-              style={{
-                aspectRatio: "3/4",
-                border: "1px dashed",
-                borderColor: "rgba(200,165,92,0.28)",
-                background: "rgba(4,26,20,0.7)",
-              }}
+              style={{ aspectRatio: "3/4" }}
             >
+              <Image
+                src="/assets/images/dan-george.jpg"
+                alt="Dan George"
+                fill
+                style={{ objectFit: "cover", objectPosition: "center 12%" }}
+                sizes="(max-width: 768px) 100vw, 380px"
+                priority
+              />
+              {/* Bottom fade — blends photo base into section background */}
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center gap-5"
-                style={{ color: "rgba(200,165,92,0.35)" }}
-              >
-                <span
-                  aria-hidden="true"
-                  className="block w-12 h-px"
-                  style={{ backgroundColor: "rgba(200,165,92,0.22)" }}
-                />
-                <span
-                  className="text-[11px] uppercase tracking-[0.22em]"
-                  style={{ fontFamily: "var(--font-marker)" }}
-                >
-                  Dan George
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="block w-12 h-px"
-                  style={{ backgroundColor: "rgba(200,165,92,0.22)" }}
-                />
-              </div>
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
+                style={{
+                  background: "linear-gradient(to bottom, transparent, #020d0b)",
+                }}
+              />
             </div>
           </div>
 
