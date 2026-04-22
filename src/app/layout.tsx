@@ -44,7 +44,7 @@ export default function RootLayout({
         {/* intro-visited persists through refreshes (sessionStorage).
             If set, show quick-enter screen instead of full typewriter.
             intro-ready is never added here — intro always shows on load. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem('intro-visited'))sessionStorage.setItem('intro-quick','1');}catch(e){}` }} />
+        <script dangerouslySetInnerHTML={{ __html: `try{history.scrollRestoration='manual';if(sessionStorage.getItem('intro-visited'))sessionStorage.setItem('intro-quick','1');}catch(e){}` }} />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* SSR'd paint blocker — visible from first byte, hidden once intro-ready. */}
