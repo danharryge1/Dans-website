@@ -14,7 +14,7 @@ export function Philosophy() {
           "linear-gradient(175deg, #020d0b 0%, #041a14 18%, #071f18 38%, #030e0b 62%, #051510 80%, #020d0b 100%)",
       }}
     >
-      <FluidCanvas />
+      <FluidCanvas filter="sepia(0.35) hue-rotate(40deg) saturate(1.2) brightness(0.70)" />
 
       {/* Radial warm glow — centre depth */}
       <div

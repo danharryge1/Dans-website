@@ -69,8 +69,8 @@ export function About() {
             style={{ backgroundColor: "var(--gold-accent)", opacity: 0.18 }}
           />
 
-          {/* Two-column body: left copy, right numbered facts */}
-          <div className="mt-16 md:mt-24 grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_320px] gap-16 md:gap-20 items-start">
+          {/* Two-column: copy left, photo placeholder right */}
+          <div className="mt-16 md:mt-24 grid md:grid-cols-[1fr_300px] lg:grid-cols-[1fr_380px] gap-16 md:gap-20 items-start">
 
             {/* Left: paragraphs */}
             <div className="flex flex-col gap-10">
@@ -86,40 +86,64 @@ export function About() {
               ))}
             </div>
 
-            {/* Right: numbered facts */}
-            <div className="flex flex-col gap-0">
-              {about.facts.map((fact, i) => (
-                <div key={fact.id}>
-                  <div data-about-fact="" className="py-8">
-                    <span
-                      className="block text-[11px] uppercase tracking-[0.12em] mb-2"
-                      style={{ fontFamily: "var(--font-marker)", color: "var(--gold-accent)", opacity: 0.5 }}
-                    >
-                      0{i + 1}
-                    </span>
-                    <span
-                      className="block text-[24px] md:text-[28px] uppercase leading-[1] tracking-[-0.01em]"
-                      style={{ fontFamily: "var(--font-comico)", color: "var(--text-primary)" }}
-                    >
-                      {fact.label}
-                    </span>
-                    <span
-                      className="mt-2 block text-[14px] leading-[1.4]"
-                      style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
-                    >
-                      {fact.caption}
-                    </span>
-                  </div>
-                  {i < about.facts.length - 1 && (
-                    <span
-                      aria-hidden="true"
-                      className="block h-px w-full"
-                      style={{ backgroundColor: "var(--gold-accent)", opacity: 0.12 }}
-                    />
-                  )}
-                </div>
-              ))}
+            {/* Right: photo placeholder */}
+            <div
+              className="relative w-full overflow-hidden"
+              style={{
+                aspectRatio: "3/4",
+                border: "1px dashed",
+                borderColor: "rgba(200,165,92,0.28)",
+                background: "rgba(4,26,20,0.7)",
+              }}
+            >
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center gap-5"
+                style={{ color: "rgba(200,165,92,0.35)" }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="block w-12 h-px"
+                  style={{ backgroundColor: "rgba(200,165,92,0.22)" }}
+                />
+                <span
+                  className="text-[11px] uppercase tracking-[0.22em]"
+                  style={{ fontFamily: "var(--font-marker)" }}
+                >
+                  Dan George
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="block w-12 h-px"
+                  style={{ backgroundColor: "rgba(200,165,92,0.22)" }}
+                />
+              </div>
             </div>
+          </div>
+
+          {/* Facts: horizontal row */}
+          <div className="mt-14 md:mt-16 grid grid-cols-3 gap-6 md:gap-10">
+            {about.facts.map((fact, i) => (
+              <div key={fact.id} data-about-fact="" className="flex flex-col">
+                <span
+                  className="block text-[11px] uppercase tracking-[0.12em] mb-2"
+                  style={{ fontFamily: "var(--font-marker)", color: "var(--gold-accent)", opacity: 0.5 }}
+                >
+                  0{i + 1}
+                </span>
+                <span
+                  className="block text-[20px] md:text-[26px] uppercase leading-[1] tracking-[-0.01em]"
+                  style={{ fontFamily: "var(--font-comico)", color: "var(--text-primary)" }}
+                >
+                  {fact.label}
+                </span>
+                <span
+                  className="mt-2 block text-[13px] leading-[1.4]"
+                  style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
+                >
+                  {fact.caption}
+                </span>
+              </div>
+            ))}
           </div>
 
           <span

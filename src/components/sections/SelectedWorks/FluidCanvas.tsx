@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export function FluidCanvas() {
+export function FluidCanvas({ filter }: { filter?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ export function FluidCanvas() {
       aria-hidden="true"
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{
-        filter: "sepia(0.55) hue-rotate(40deg) saturate(1.0) brightness(0.58)",
+        filter: filter ?? "sepia(0.55) hue-rotate(40deg) saturate(1.0) brightness(0.58)",
       }}
     >
       <canvas

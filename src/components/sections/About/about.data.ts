@@ -7,15 +7,15 @@ export type AboutFact = {
 export const about = {
   eyebrow: "WHO I AM",
   name: "DAN GEORGE",
-  subtitle: "One person. Every decision.",
+  subtitle: "20. Wakefield. Liverpool.",
   paragraphs: [
-    "I started building websites because I thought most of them were terrible. I still do. The difference is now I fix it. Design, code, copy, the 200ms on a button press. All of it. One person.",
-    "When you commission a project you get me from the first call to the final deploy. Not a brief passed to a junior. Not a template tweaked to fit. Something built from scratch to be exactly what you need and nothing you don't.",
+    "I am a second year Applied Entrepreneurship student at Liverpool John Moores University. Before I started building sites for clients I was building them for myself. Events companies, ventures, ideas that needed a home on the internet. Building websites was never something I set out to do. It was the part I kept coming back to.",
+    "The obsession got serious with NextUp, my student events company. I got so deep into the site I almost forgot I was supposed to be running the business. When I found myself caring that much about getting every detail exactly right, I knew this was the thing. Obsessive attention to detail is my biggest strength and my most time consuming flaw. I am fine with both.",
   ],
   facts: [
-    { id: "since", label: "SINCE 2019", caption: "building on the web" },
-    { id: "scope", label: "END TO END", caption: "design through deployment" },
-    { id: "solo", label: "ONE PERSON", caption: "every decision mine" },
+    { id: "age", label: "AGE 20", caption: "from Wakefield" },
+    { id: "study", label: "LJMU", caption: "BSc Applied Entrepreneurship" },
+    { id: "origin", label: "NEXTUP", caption: "the project that started it all" },
   ] satisfies readonly AboutFact[],
   closing: "THE SITE IS THE PITCH.",
   cta: { label: "START A PROJECT", href: "/#contact" },

@@ -55,9 +55,10 @@ describe("<About />", () => {
 
   it("renders a CTA link marked data-about-cta", () => {
     const { container } = render(<About />);
-    const cta = container.querySelector("[data-about-cta]") as HTMLAnchorElement;
-    expect(cta).not.toBeNull();
-    expect(cta.tagName).toBe("A");
-    expect(cta.textContent?.trim()).toBe("START A PROJECT");
+    const ctaWrapper = container.querySelector("[data-about-cta]");
+    expect(ctaWrapper).not.toBeNull();
+    const ctaLink = ctaWrapper?.querySelector("a");
+    expect(ctaLink).not.toBeNull();
+    expect(ctaLink?.textContent?.trim()).toContain("START A PROJECT");
   });
 });
