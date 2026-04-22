@@ -1,31 +1,49 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 const TEXT = "average is invisible.";
-// intro-visited: set when user clicks Enter; persists through refreshes
-// (sessionStorage stays alive until tab closes). Drives quick mode only —
-// the intro always shows on every page load.
+// Set when the user clicks Enter (or presses Enter/Space). Persists for
+// the browser session so navigating back to / skips the overlay entirely.
 const VISITED_KEY = "intro-visited";
 const QUICK_KEY = "intro-quick";
 
 export function IntroOverlay() {
   const [mounted, setMounted] = useState(false);
   const [quick, setQuick] = useState(false);
+  const [skipped, setSkipped] = useState(false);
 
   useEffect(() => {
+    const isQuick = !!sessionStorage.getItem(QUICK_KEY);
+    const visited = !!sessionStorage.getItem(VISITED_KEY);
+    if (isQuick) sessionStorage.removeItem(QUICK_KEY);
+    // Batch all state updates so only one render fires after this effect.
+    if (visited) setSkipped(true);
+    else if (isQuick) setQuick(true);
     setMounted(true);
-    if (sessionStorage.getItem(QUICK_KEY)) {
-      sessionStorage.removeItem(QUICK_KEY);
-      setQuick(true);
-    }
   }, []);
 
   if (!mounted) return null;
 
+  // Already entered this session — skip overlay, just set up the page.
+  if (skipped) return <IntroSkip />;
+
   return createPortal(<IntroOverlayInner quick={quick} />, document.body);
+}
+
+// When navigating back to / during the same session, skip the overlay but
+// still add intro-ready and replay any videos (the point of the intro).
+function IntroSkip() {
+  useEffect(() => {
+    document.documentElement.classList.add("intro-ready");
+    document.getElementById("intro-paint-block")?.remove();
+    document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+      v.play().catch(() => {});
+    });
+  }, []);
+  return null;
 }
 
 function IntroOverlayInner({ quick }: { quick: boolean }) {
@@ -34,6 +52,18 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
   const [showButton, setShowButton] = useState(quick);
   const [phase, setPhase] = useState<"in" | "fading" | "gone">("in");
 
+  const enter = useCallback(() => {
+    sessionStorage.setItem(VISITED_KEY, "1");
+    document.documentElement.classList.add("intro-ready");
+    document.getElementById("intro-paint-block")?.remove();
+    document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+      v.play().catch(() => {});
+    });
+    document.body.classList.remove("overflow-hidden");
+    setPhase("fading");
+  }, []);
+
+  // Typewriter animation
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
 
@@ -75,16 +105,18 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
     };
   }, []);
 
-  const enter = () => {
-    sessionStorage.setItem(VISITED_KEY, "1");
-    document.documentElement.classList.add("intro-ready");
-    document.getElementById("intro-paint-block")?.remove();
-    document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
-      v.play().catch(() => {});
-    });
-    document.body.classList.remove("overflow-hidden");
-    setPhase("fading");
-  };
+  // Enter or Space fires the button once it appears
+  useEffect(() => {
+    if (!showButton) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        enter();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [showButton, enter]);
 
   if (phase === "gone") return null;
 
