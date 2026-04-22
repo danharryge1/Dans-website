@@ -70,8 +70,8 @@ export function About() {
             style={{ backgroundColor: "var(--gold-accent)", opacity: 0.18 }}
           />
 
-          {/* Two-column: copy left, photo placeholder right */}
-          <div className="mt-16 md:mt-24 grid md:grid-cols-[1fr_300px] lg:grid-cols-[1fr_380px] gap-16 md:gap-20 items-start">
+          {/* Two-column: copy left, photo right */}
+          <div className="mt-16 md:mt-24 grid md:grid-cols-[1fr_320px] lg:grid-cols-[1fr_360px] gap-16 md:gap-20 items-center">
 
             {/* Left: paragraphs */}
             <div className="flex flex-col gap-10">
@@ -87,27 +87,26 @@ export function About() {
               ))}
             </div>
 
-            {/* Right: photo */}
-            <div
-              className="relative w-full overflow-hidden"
-              style={{ aspectRatio: "3/4" }}
-            >
-              <Image
-                src="/assets/images/dan-george.jpg"
-                alt="Dan George"
-                fill
-                style={{ objectFit: "cover", objectPosition: "center 12%" }}
-                sizes="(max-width: 768px) 100vw, 380px"
-                priority
-              />
-              {/* Bottom fade — blends photo base into section background */}
+            {/* Right: circular photo — matches the LinkedIn circular crop shape */}
+            <div className="flex justify-center md:justify-end">
               <div
-                aria-hidden="true"
-                className="absolute inset-x-0 bottom-0 h-28 pointer-events-none"
+                className="relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(to bottom, transparent, #020d0b)",
+                  width: "min(300px, 100%)",
+                  aspectRatio: "1/1",
+                  borderRadius: "50%",
+                  boxShadow: "0 0 0 1px rgba(200,165,92,0.2)",
                 }}
-              />
+              >
+                <Image
+                  src="/assets/images/dan-george.jpg"
+                  alt="Dan George"
+                  fill
+                  style={{ objectFit: "cover", objectPosition: "center center" }}
+                  sizes="(max-width: 768px) 80vw, 300px"
+                  priority
+                />
+              </div>
             </div>
           </div>
 
