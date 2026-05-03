@@ -1,10 +1,19 @@
 "use server";
 
+import { Resend } from "resend";
+import {
+  contactInputSchema,
+  formatFieldErrors,
+} from "@/lib/contact-schema";
+
 export type ContactState =
   | { status: "idle" }
   | { status: "error"; errors: Record<string, string> }
   | { status: "networkError" }
   | { status: "success" };
+
+const RECIPIENT = "dannyhgeorge@gmail.com";
+const FROM_ADDRESS = "Contact Form <onboarding@resend.dev>";
 
 export async function submitContact(
   _prevState: ContactState,
@@ -17,26 +26,41 @@ export async function submitContact(
     website: String(formData.get("website") ?? ""),
   };
 
+  if (payload.website.length > 0) {
+    return { status: "success" };
+  }
+
+  const parsed = contactInputSchema.safeParse(payload);
+  if (!parsed.success) {
+    return { status: "error", errors: formatFieldErrors(parsed.error) };
+  }
+
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn("[contact] RESEND_API_KEY not set, skipping send");
+    return { status: "success" };
+  }
+
   try {
-    const origin =
-      process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-    const res = await fetch(`${origin}/api/contact`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(payload),
-      cache: "no-store",
+    const resend = new Resend(apiKey);
+    const result = await resend.emails.send({
+      from: FROM_ADDRESS,
+      to: RECIPIENT,
+      replyTo: parsed.data.email,
+      subject: `New inquiry from ${parsed.data.name}`,
+      text: [
+        `From: ${parsed.data.name} <${parsed.data.email}>`,
+        "",
+        parsed.data.message,
+      ].join("\n"),
     });
-    const body = (await res.json()) as
-      | { ok: true }
-      | { ok: false; errors?: Record<string, string> };
-    if (res.ok && body.ok) {
-      return { status: "success" };
+    if (result.error) {
+      console.error("[contact] resend error", result.error);
+      return { status: "networkError" };
     }
-    if (!body.ok && body.errors && Object.keys(body.errors).length > 0) {
-      return { status: "error", errors: body.errors };
-    }
-    return { status: "networkError" };
-  } catch {
+    return { status: "success" };
+  } catch (err) {
+    console.error("[contact] send threw", err);
     return { status: "networkError" };
   }
 }
