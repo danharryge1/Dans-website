@@ -115,6 +115,6 @@ describe("<ContactForm />", () => {
     const mailto = screen.getByRole("link", {
       name: /danharryge@gmail\.com/i,
     });
-    expect(mailto).toHaveAttribute("href", "mailto:danharryge@gmail.com");
+    expect(mailto).toHaveAttribute("href", "mailto:dannyhgeorge@gmail.com");
   });
 });
