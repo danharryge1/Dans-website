@@ -43,12 +43,12 @@ describe("contact.data", () => {
     expect(contactCopy.errors.messageTooShort).toBe("Say a bit more.");
     expect(contactCopy.errors.tooLong).toBe("Tighten it up.");
     expect(contactCopy.errors.network).toBe(
-      "Something went sideways. Try again, or email danharryge@gmail.com directly.",
+      "Something went sideways. Try again, or email dannyhgeorge@gmail.com directly.",
     );
   });
 
-  it("mailto fallback email is exactly 'danharryge@gmail.com'", () => {
-    expect(contactCopy.mailtoAddress).toBe("danharryge@gmail.com");
+  it("mailto fallback email is exactly 'dannyhgeorge@gmail.com'", () => {
+    expect(contactCopy.mailtoAddress).toBe("dannyhgeorge@gmail.com");
   });
 
   it("contains no em dash, en dash, or hyphen in any user-facing string (site-wide copy rule)", () => {

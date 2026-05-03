@@ -5,7 +5,7 @@ import {
   formatFieldErrors,
 } from "@/lib/contact-schema";
 
-const RECIPIENT = "danharryge@gmail.com";
+const RECIPIENT = "dannyhgeorge@gmail.com";
 const FROM_ADDRESS = "Contact Form <onboarding@resend.dev>";
 
 export async function POST(req: Request) {
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
   try {
     const resend = new Resend(apiKey);
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM_ADDRESS,
       to: RECIPIENT,
       replyTo: parsed.data.email,
@@ -57,8 +57,13 @@ export async function POST(req: Request) {
         parsed.data.message,
       ].join("\n"),
     });
+    if (result.error) {
+      console.error("[contact] resend error", result.error);
+      return NextResponse.json({ ok: false }, { status: 500 });
+    }
     return NextResponse.json({ ok: true }, { status: 200 });
-  } catch {
+  } catch (err) {
+    console.error("[contact] send threw", err);
     return NextResponse.json({ ok: false }, { status: 500 });
   }
 }

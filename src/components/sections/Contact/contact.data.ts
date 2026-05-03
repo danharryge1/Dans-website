@@ -49,7 +49,7 @@ export const contactCopy = {
     messageTooShort: "Say a bit more.",
     tooLong: "Tighten it up.",
     network:
-      "Something went sideways. Try again, or email danharryge@gmail.com directly.",
+      "Something went sideways. Try again, or email dannyhgeorge@gmail.com directly.",
   },
-  mailtoAddress: "danharryge@gmail.com",
+  mailtoAddress: "dannyhgeorge@gmail.com",
 } as const satisfies ContactCopy;
