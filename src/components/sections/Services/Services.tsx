@@ -46,7 +46,7 @@ export function Services() {
             style={{ color: "var(--text-primary)" }}
             data-services-heading
           >
-            TAILORED DIGITAL SOLUTIONS
+            <span style={{ color: "var(--gold-accent)" }}>TAILORED</span> DIGITAL SOLUTIONS
           </h2>
 
           <div

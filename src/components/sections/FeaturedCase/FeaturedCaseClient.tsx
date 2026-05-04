@@ -33,23 +33,22 @@ export function FeaturedCaseClient() {
       if (beats.length === 0) return;
 
       beats.forEach((beat) => {
-        gsap.set(beat, { opacity: 0, y: 32 });
+        gsap.set(beat, { clipPath: "inset(0 0 100% 0)", opacity: 0 });
       });
 
       const io = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
-            gsap.to(entry.target, {
-              opacity: 1,
-              y: 0,
-              duration: 0.65,
-              ease: "power2.out",
-            });
+            gsap.fromTo(
+              entry.target,
+              { clipPath: "inset(0 0 100% 0)", opacity: 0 },
+              { clipPath: "inset(0 0 0% 0)", opacity: 1, duration: 0.75, ease: "power2.out" },
+            );
             io.unobserve(entry.target);
           });
         },
-        { threshold: 0.15 },
+        { threshold: 0.12 },
       );
       beats.forEach((beat) => io.observe(beat));
 

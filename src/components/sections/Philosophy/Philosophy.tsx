@@ -37,7 +37,7 @@ export function Philosophy() {
               color: "var(--gold-accent)",
             }}
           >
-            THE WAY I BUILD
+            THE WAY I <span style={{ color: "var(--gold-accent)" }}>BUILD</span>
           </h2>
 
           <span

@@ -52,7 +52,7 @@ export function Hero() {
             textShadow: "0 0 24px rgba(200,165,92,0.18)",
           }}
         >
-          THE WEB, EARNED.
+          THE WEB, <span style={{ color: "var(--gold-accent)" }}>EARNED.</span>
         </h1>
         <p
           className="text-[16px] md:text-[18px] tracking-[0.02em]"
@@ -76,15 +76,22 @@ export function Hero() {
         </HeroLaptop>
       </div>
 
-      <p
-        className="relative z-10 mt-3 text-[13px] uppercase tracking-[0.15em]"
-        style={{
-          fontFamily: "var(--font-marker)",
-          color: "var(--text-secondary)",
-        }}
-      >
-        Case Study 01 &middot; NextUp Co.
-      </p>
+      <div className="relative z-10 mt-3">
+        <span
+          className="inline-flex items-center px-4 py-[6px] rounded-full text-[13px] uppercase tracking-[0.15em]"
+          style={{
+            fontFamily: "var(--font-marker)",
+            color: "var(--text-secondary)",
+            backdropFilter: "blur(10px)",
+            WebkitBackdropFilter: "blur(10px)",
+            background: "rgba(7,13,11,0.42)",
+            border: "1px solid rgba(200,165,92,0.22)",
+            boxShadow: "inset 0 1px 0 rgba(200,165,92,0.10)",
+          }}
+        >
+          Case Study 01 &middot; NextUp Co.
+        </span>
+      </div>
 
       <HeroScrollHint />
       <HeroClient />

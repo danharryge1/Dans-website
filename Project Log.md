@@ -3,7 +3,7 @@ title: DanGeorge.studio — Project Log
 tags:
   - project/dans-website
   - status/in-progress
-status: contact-complete
+status: about-complete
 started: 2026-04-16
 target: 2026-04-23
 repo: https://github.com/danharryge1/Dans-website
@@ -21,6 +21,9 @@ Live state of the build. Updated after every completed task so [[Dans Website/cl
 > - Project conventions → [[claude]]
 
 ## Current status
+
+> [!success] About page complete — 2026-04-22
+> `/about` route with `<About />` section — left-aligned cinematic layout: massive "DAN GEORGE" Comico reveal, asymmetric two-column body (copy left, numbered facts right with 01/02/03 numbering), "THE SITE IS THE PITCH." closing statement, "START A PROJECT" pill CTA. `PageInit.tsx` removes the paint block on non-home routes. Nav ABOUT link updated to `/about`. `IntersectionObserver` stub added to `test-setup.ts` (fixes pre-existing `FluidCanvas` test failures). 20/20 About tests + tsc + lint clean on new files + prod build green. 4 screenshots at `tmp/about-{desktop,scroll,mid,mobile}.png`. Commit `71d3345`.
 
 > [!success] Contact complete — 2026-04-19
 > All 14 tasks (0 to 13) shipped. `<Contact />` — Server Component on `var(--bg-primary)` with gold bookend + `TELL ME WHAT YOU WANT` headline and split-theatre grid (lean-in paragraph left, form right). Single `'use client'` `ContactForm.tsx` uses React 19 `useActionState` + `useFormStatus` + server action wrapping `POST /api/contact`. Route handler (`src/app/api/contact/route.ts`) validates with a shared Zod schema (15-char message min), silently drops honeypot submissions, sends via Resend to `danharryge@gmail.com` when `RESEND_API_KEY` is set, and falls back to silent-success locally when it isn't. Single `ContactThread.tsx` overlay (no dots) with motion isolated to `ContactClient.tsx`: 4 ScrollTriggers (thread scrub + headline + paragraph + form field stagger) inside one `gsap.context(…, section)` with debounced `ResizeObserver` recomputing thread geometry. Reduced-motion guarded at JS + CSS. 189/189 tests (35 files), tsc/lint/prod build all green. 11 playwright-cli captures at `docs/verification/2026-04-19-contact/` (3 viewports × 3 scroll + reduced-motion + success-state). Next phase: post-launch polish / analytics / deployment.
@@ -205,3 +208,32 @@ Mirror of the plan's checkboxes. Source of truth is [2026-04-19-contact](docs/su
 ## Next phase after contact
 
 Post-launch: production deploy + analytics + Lighthouse gates. Separate spec + plan if scope grows; otherwise inline tasks on main.
+
+## Launch punch list — pick up 2026-05-04
+
+> [!info] Status as of 2026-05-03 evening
+> Site is live on Vercel (project `dans-website-business`, commit `939a48b`). Contact form is fully working — sends via Resend to `dannyhgeorge@gmail.com`. Loads of post-2026-04-22 work is unrecorded above (intro overlay, /about page rewrite with photo, magnetic CTA, fluid WebGL canvas, scroll-active nav, NextUp.co naming fixes).
+
+**Must-do before calling launch done:**
+- [ ] **Mobile QA pass** — walk every section on a real phone (intro overlay, hero seam, services, case study scroll-pin, philosophy, process thread, contact form, /about). Note anything weird, fix.
+- [ ] **Custom domain check** — confirm `dangeorge.studio` actually resolves to the live Vercel deployment. Vercel project domains list currently shows only `dans-website-business.vercel.app` etc. — if `dangeorge.studio` isn't attached, add it in Vercel → Settings → Domains and point DNS.
+- [ ] **Rewrite Services copy** — "Tailored Digital Solutions" + the three card descriptions in [services.data.ts](src/components/sections/Services/services.data.ts). Want it sharper.
+- [ ] **Vercel Analytics** — `npm i @vercel/analytics` + add `<Analytics />` to `app/layout.tsx`. ~2 min.
+- [ ] **SEO basics** — verify each page has real `<title>`, meta description, `og:image`. Currently untracked.
+- [ ] **`app/robots.ts` + `app/sitemap.ts`** — Next 15 generates them from these files. Neither exists yet.
+- [ ] **Favicon** — confirm a real one is in place.
+
+**Decided NO:**
+- ~~Pricing on the site~~ — wait until 1–2 closes calibrate the floor.
+- ~~Email signup / newsletter~~ — site is a high-intent funnel, not a content business.
+- ~~Logo on the website~~ — not using one.
+- ~~Lighthouse CI gates~~ — skipped, would auto-fail PRs on perf regressions; not worth the setup.
+
+**Cleanup debt (lower priority):**
+- [ ] 127 untracked files in repo root (verification screenshots, scratch scripts, scratch videos in `tmp/`). Decide what to commit vs delete.
+- [ ] Uncommitted edits to `Project Log.md`, `HeroClient.tsx`, `Philosophy.tsx`, `tmp/dev.log`. Review and commit or discard.
+
+**Today's contact-form fixes (already shipped):**
+- PR #1 — recipient `danharryge@` → `dannyhgeorge@gmail.com` + error logging in catch
+- PR #2 — server action calls Resend directly, dropped the broken self-fetch (`NEXT_PUBLIC_SITE_URL ?? localhost:3000` was always failing in prod)
+- PR #3 — empty redeploy commit to refresh env var scope after `RESEND_API_KEY` was saved on Vercel

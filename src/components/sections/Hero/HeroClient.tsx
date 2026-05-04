@@ -122,6 +122,9 @@ export function HeroClient() {
       section.addEventListener("mousemove", onHeroMouseMove);
     }
 
+    // Always reset to top on mount — overrides hash-based browser scroll.
+    window.scrollTo(0, 0);
+
     // Lenis + GSAP ticker coordination (desktop only).
     // Mobile uses native scroll — Lenis causes jank on touch devices.
     let lenis: Lenis | null = null;
@@ -129,6 +132,7 @@ export function HeroClient() {
     const onSTRefresh = () => lenis?.resize();
     if (desktop) {
       lenis = new Lenis();
+      lenis.scrollTo(0, { immediate: true });
       lenis.on("scroll", ScrollTrigger.update);
       // Recalculate scroll limit whenever GSAP adds/removes pin-spacers so
       // Lenis doesn't stop short before the footer.
