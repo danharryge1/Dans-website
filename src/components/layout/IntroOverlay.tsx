@@ -134,8 +134,11 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
 
   return (
     <div
-      onTransitionEnd={() => {
-        if (phase === "fading") setPhase("gone");
+      onTransitionEnd={(e) => {
+        // Only handle the transition on THIS element, not bubbled events from
+        // children (the button wrapper has its own opacity transition that fires
+        // first and would prematurely unmount the overlay mid-slide).
+        if (e.target === e.currentTarget && phase === "fading") setPhase("gone");
       }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
       style={{

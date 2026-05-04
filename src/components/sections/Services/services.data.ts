@@ -23,11 +23,11 @@ export const SERVICES = [
     title: "CUSTOM DEVELOPMENT",
     body: "Handcrafted, not templated. Built for your stack, not the next client's.",
     deliverables: [
-      "Next.js or chosen stack build",
-      "CMS integration if needed",
-      "Performance optimised from day one",
-      "Full TypeScript codebase",
-      "Deployed and configured on Vercel",
+      "Built from scratch, not a template",
+      "Update your content without a developer",
+      "Fast on every device and connection",
+      "Clean code any developer can pick up",
+      "Live on the web, ready to go",
     ],
   },
   {
