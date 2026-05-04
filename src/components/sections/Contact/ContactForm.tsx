@@ -324,7 +324,7 @@ export function ContactForm() {
       </div>
 
       {/* Animated step content */}
-      <div className="relative overflow-hidden min-h-[280px]">
+      <div className="relative overflow-hidden min-h-[180px]">
         <AnimatePresence custom={dir} mode="popLayout">
           <motion.div
             key={step}
