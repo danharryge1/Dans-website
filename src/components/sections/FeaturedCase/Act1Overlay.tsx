@@ -27,7 +27,7 @@ export function Act1Overlay() {
   }, [active]);
 
   return (
-    <div ref={ref} data-case-act="1" className="relative min-h-screen z-10 md:absolute md:inset-0 md:min-h-0">
+    <div ref={ref} data-case-act="1" className="absolute inset-0 z-10">
       {/* Draft — same height as reality, centred in full overlay */}
       {active === "draft" && (
         <div className="pointer-events-none absolute inset-x-0 bottom-8 top-[96px] flex items-center justify-center md:bottom-12 md:top-[104px]">

@@ -26,9 +26,9 @@ export function FeaturedCaseClient() {
     if (prefersReducedMotion) return;
 
     if (!isDesktop) {
-      // Mobile: simple scroll-reveal for each beat as they scroll into view.
+      // Mobile: scroll-reveal for each beat in the mobile layout.
       const beats = Array.from(
-        section.querySelectorAll<HTMLElement>("[data-case-beat]"),
+        section.querySelectorAll<HTMLElement>("[data-case-beat-m]"),
       );
       if (beats.length === 0) return;
 

@@ -1,6 +1,7 @@
 import { Act1Overlay } from "./Act1Overlay";
 import { DecisionBeat } from "./DecisionBeat";
 import { FeaturedCaseClient } from "./FeaturedCaseClient";
+import { FeaturedCaseMobile } from "./FeaturedCaseMobile";
 import { MagneticButton } from "@/lib/motion/MagneticButton";
 
 export function FeaturedCase() {
@@ -14,6 +15,8 @@ export function FeaturedCase() {
         NextUp, featured case study
       </h2>
 
+      {/* ── Desktop pinned-scroll experience ── */}
+      <div className="hidden md:block">
       <div
         data-case-pin
         className="relative w-full"
@@ -199,6 +202,10 @@ export function FeaturedCase() {
         </div>
         </div>
       </div>
+      </div>{/* end desktop wrapper */}
+
+      {/* ── Mobile editorial layout ── */}
+      <FeaturedCaseMobile />
 
       <FeaturedCaseClient />
     </section>
