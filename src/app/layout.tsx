@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     description: "Custom design, development, and brand strategy. Built to stand out.",
     creator: "@dangeorge",
   },
+  verification: {
+    google: "xsyPwIFXQYI-sOIjyvEFgXTIJvV37DG6Ms38AhcOuHw",
+  },
   robots: {
     index: true,
     follow: true,
