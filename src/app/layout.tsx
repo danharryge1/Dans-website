@@ -26,20 +26,11 @@ export const metadata: Metadata = {
     title: "Dan George — Premium Web Studio",
     description:
       "Custom design, development, and brand strategy. Built to stand out.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Dan George Studio",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Dan George — Premium Web Studio",
     description: "Custom design, development, and brand strategy. Built to stand out.",
-    images: ["/og-image.png"],
     creator: "@dangeorge",
   },
   robots: {
