@@ -70,6 +70,9 @@ export function HeroClient() {
       if (v.paused) v.play().catch(() => {});
     });
     tryPlayVideo();
+    if (!desktop) {
+      heroVideos.forEach((v) => { v.playbackRate = 1.25; });
+    }
     heroVideos.forEach((v) => {
       v.addEventListener("canplay", tryPlayVideo);
       v.addEventListener("loadeddata", tryPlayVideo);
