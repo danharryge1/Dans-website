@@ -25,7 +25,7 @@ export function Hero() {
         disableRemotePlayback
         controls={false}
         tabIndex={-1}
-        className="pointer-events-none absolute inset-0 w-full h-full object-cover"
+        className="pointer-events-none absolute w-full md:inset-0 md:h-full md:object-cover inset-x-0 h-auto top-1/2 -translate-y-1/2 md:translate-y-0 md:top-0"
       >
         <source src="/assets/hero/hero-bg.mp4" type="video/mp4" />
       </video>
