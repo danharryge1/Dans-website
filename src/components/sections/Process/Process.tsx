@@ -8,7 +8,7 @@ export function Process() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="relative w-full py-48 md:py-64"
+      className="relative w-full py-24 md:py-64"
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 lg:px-12">
         <div className="relative mx-auto max-w-[1200px]">

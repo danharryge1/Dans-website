@@ -49,9 +49,9 @@ export function FeaturedCase() {
         {/* Act 2 — thinking */}
         <div
           data-case-act="2"
-          className="relative z-20 mx-auto w-full max-w-[1400px] px-6 py-32 md:px-10 md:py-40 lg:px-12"
+          className="relative z-20 mx-auto w-full max-w-[1400px] px-6 py-16 md:px-10 md:py-40 lg:px-12"
         >
-          <div className="flex flex-col gap-32 md:gap-40">
+          <div className="flex flex-col gap-16 md:gap-40">
             <DecisionBeat
               index={0}
               title="WHY BLUE"

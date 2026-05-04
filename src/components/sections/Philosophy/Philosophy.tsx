@@ -8,13 +8,13 @@ export function Philosophy() {
     <section
       id="philosophy"
       aria-labelledby="philosophy-heading"
-      className="relative w-full py-32 md:py-40 overflow-hidden"
+      className="relative w-full py-20 md:py-40 overflow-hidden"
       style={{
         background:
           "linear-gradient(175deg, #020d0b 0%, #041a14 18%, #071f18 38%, #030e0b 62%, #051510 80%, #020d0b 100%)",
       }}
     >
-      <FluidCanvas filter="sepia(0.35) hue-rotate(40deg) saturate(1.2) brightness(0.70)" />
+      <FluidCanvas filter="sepia(0.50) hue-rotate(40deg) saturate(0.9) brightness(0.60)" />
 
       {/* Radial warm glow — centre depth */}
       <div
@@ -50,13 +50,13 @@ export function Philosophy() {
             }}
           />
 
-          <div className="mt-16 md:mt-20">
+          <div className="mt-10 md:mt-20">
             {beliefs.map((belief, i) => (
               <div key={belief.id}>
                 {i > 0 && (
                   <span
                     aria-hidden="true"
-                    className="my-16 md:my-20 block h-px w-full"
+                    className="my-10 md:my-20 block h-px w-full"
                     style={{ backgroundColor: "var(--gold-accent)", opacity: 0.2 }}
                   />
                 )}
@@ -68,7 +68,7 @@ export function Philosophy() {
           <span
             aria-hidden="true"
             data-philosophy-bookend=""
-            className="mt-16 md:mt-24 block h-px w-full"
+            className="mt-10 md:mt-24 block h-px w-full"
             style={{
               backgroundColor: "var(--gold-accent)",
               opacity: 0.35,

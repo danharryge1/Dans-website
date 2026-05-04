@@ -23,7 +23,38 @@ export function FeaturedCaseClient() {
       v.play().catch(() => {});
     });
 
-    if (prefersReducedMotion || !isDesktop) return;
+    if (prefersReducedMotion) return;
+
+    if (!isDesktop) {
+      // Mobile: simple scroll-reveal for each beat as they scroll into view.
+      const beats = Array.from(
+        section.querySelectorAll<HTMLElement>("[data-case-beat]"),
+      );
+      if (beats.length === 0) return;
+
+      beats.forEach((beat) => {
+        gsap.set(beat, { opacity: 0, y: 32 });
+      });
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            gsap.to(entry.target, {
+              opacity: 1,
+              y: 0,
+              duration: 0.65,
+              ease: "power2.out",
+            });
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.15 },
+      );
+      beats.forEach((beat) => io.observe(beat));
+
+      return () => io.disconnect();
+    }
 
     const pin = section.querySelector<HTMLElement>("[data-case-pin]");
     const gradient = section.querySelector<HTMLElement>(
