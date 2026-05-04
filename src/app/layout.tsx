@@ -84,6 +84,44 @@ export default function RootLayout({
             If set, show quick-enter screen instead of full typewriter.
             intro-ready is never added here — intro always shows on load. */}
         <script dangerouslySetInnerHTML={{ __html: `try{history.scrollRestoration='manual';if(sessionStorage.getItem('intro-visited'))sessionStorage.setItem('intro-quick','1');}catch(e){}` }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Person",
+                  "@id": "https://dangeorge.studio/#person",
+                  "name": "Dan George",
+                  "url": "https://dangeorge.studio",
+                  "jobTitle": "Web Designer & Developer",
+                  "description": "Freelance web designer and developer. Custom design, development, and brand strategy — every pixel considered.",
+                  "email": "danharryge1@gmail.com",
+                  "sameAs": ["https://github.com/danharryge1"],
+                },
+                {
+                  "@type": "ProfessionalService",
+                  "@id": "https://dangeorge.studio/#business",
+                  "name": "Dan George Studio",
+                  "url": "https://dangeorge.studio",
+                  "description": "Premium freelance web studio. Custom design, development, and brand strategy.",
+                  "founder": { "@id": "https://dangeorge.studio/#person" },
+                  "serviceType": ["Web Design", "Web Development", "Brand Strategy"],
+                  "areaServed": "GB",
+                  "priceRange": "££££",
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://dangeorge.studio/#website",
+                  "url": "https://dangeorge.studio",
+                  "name": "Dan George Studio",
+                  "publisher": { "@id": "https://dangeorge.studio/#person" },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {/* SSR'd paint blocker — visible from first byte, hidden once intro-ready. */}
