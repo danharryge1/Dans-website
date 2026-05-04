@@ -67,19 +67,16 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
 
-    // Pre-buffer all videos immediately — mobile browsers ignore preload="auto",
-    // so explicit load() forces them to start fetching before the overlay dismisses.
-    document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
-      try { v.load(); } catch { /* ignore */ }
-    });
-
     if (quick) {
       return () => { document.body.classList.remove("overflow-hidden"); };
     }
 
     const mobile = window.innerWidth < 768;
-    const START_DELAY = mobile ? 150 : 800;
-    const CHAR_MS    = mobile ? 42  : 90;
+    // Mobile: cut the dead start wait + skip cursor blink — same typing feel,
+    // ~1.4s shorter overall. Char interval kept close to desktop so the rhythm
+    // doesn't feel rushed.
+    const START_DELAY = mobile ? 200 : 800;
+    const CHAR_MS    = mobile ? 75  : 90;
 
     let charIndex = 0;
     let typeInterval: ReturnType<typeof setInterval>;
