@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/layout/Nav";
 import { Footer } from "@/components/layout/Footer";
 import { SeamRevealClient } from "@/components/layout/SeamRevealClient";
@@ -7,8 +8,51 @@ import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DanGeorge.studio",
-  description: "Premium freelance web development — every pixel considered.",
+  metadataBase: new URL("https://dangeorge.studio"),
+  title: {
+    default: "Dan George — Premium Web Studio",
+    template: "%s | Dan George",
+  },
+  description:
+    "Premium freelance web studio. Custom design, development, and brand strategy — every pixel considered, every interaction earned.",
+  keywords: ["web design", "web development", "freelance", "Next.js", "brand strategy", "UI UX", "premium studio"],
+  authors: [{ name: "Dan George", url: "https://dangeorge.studio" }],
+  creator: "Dan George",
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://dangeorge.studio",
+    siteName: "Dan George Studio",
+    title: "Dan George — Premium Web Studio",
+    description:
+      "Custom design, development, and brand strategy. Built to stand out.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Dan George Studio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dan George — Premium Web Studio",
+    description: "Custom design, development, and brand strategy. Built to stand out.",
+    images: ["/og-image.png"],
+    creator: "@dangeorge",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -55,6 +99,7 @@ export default function RootLayout({
         <SeamRevealClient />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );

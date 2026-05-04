@@ -38,7 +38,7 @@ export function Services() {
             className="mb-3 text-center text-[11px] uppercase tracking-[0.2em]"
             style={{ fontFamily: "var(--font-marker)", color: "var(--gold-accent)", opacity: 0.7 }}
           >
-            WHAT YOU GET
+            THE OFFER
           </p>
           <h2
             id="services-heading"
@@ -46,7 +46,7 @@ export function Services() {
             style={{ color: "var(--text-primary)" }}
             data-services-heading
           >
-            <span style={{ color: "var(--gold-accent)" }}>TAILORED</span> DIGITAL SOLUTIONS
+            ONE STUDIO. <span style={{ color: "var(--gold-accent)" }}>FULL PICTURE.</span>
           </h2>
 
           <div

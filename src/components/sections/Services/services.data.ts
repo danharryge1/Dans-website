@@ -9,7 +9,7 @@ export const SERVICES = [
   {
     id: "ui-ux",
     title: "UI / UX DESIGN",
-    body: "Design that behaves. Every click predictable, every edge considered.",
+    body: "Interfaces that earn their keep. Every state deliberate, every pixel justified.",
     deliverables: [
       "Wireframes and interactive prototypes",
       "Full component design system",
@@ -21,7 +21,7 @@ export const SERVICES = [
   {
     id: "custom-dev",
     title: "CUSTOM DEVELOPMENT",
-    body: "Purpose-built. Not a theme you customised until it almost fit.",
+    body: "Handcrafted, not templated. Built for your stack, not the next client's.",
     deliverables: [
       "Next.js or chosen stack build",
       "CMS integration if needed",
@@ -33,7 +33,7 @@ export const SERVICES = [
   {
     id: "brand",
     title: "BRAND STRATEGY",
-    body: "A voice that's yours. Visuals that prove it.",
+    body: "An identity that owns the room. Consistent from logo to last touchpoint.",
     deliverables: [
       "Brand positioning and messaging",
       "Logo and visual identity",

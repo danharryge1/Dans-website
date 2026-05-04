@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dangeorge.studio/sitemap.xml
