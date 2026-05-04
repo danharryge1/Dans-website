@@ -66,6 +66,10 @@ export default function RootLayout({
           type="font/ttf"
           crossOrigin="anonymous"
         />
+        {/* Hero background video — preload so mobile has it buffered before
+            the intro overlay dismisses. Mobile browsers ignore preload="auto"
+            on the video element itself; this hint fires at the HTML level. */}
+        <link rel="preload" href="/assets/hero/hero-bg.mp4" as="video" type="video/mp4" />
         {/* Paint block: covers the page from the very first byte until the
             intro is dismissed. Styled here (not in globals.css) so it survives
             Tailwind's compiler without modification. */}

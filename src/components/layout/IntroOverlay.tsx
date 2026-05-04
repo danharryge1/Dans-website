@@ -67,9 +67,19 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
 
+    // Pre-buffer all videos immediately — mobile browsers ignore preload="auto",
+    // so explicit load() forces them to start fetching before the overlay dismisses.
+    document.querySelectorAll<HTMLVideoElement>("video").forEach((v) => {
+      try { v.load(); } catch { /* ignore */ }
+    });
+
     if (quick) {
       return () => { document.body.classList.remove("overflow-hidden"); };
     }
+
+    const mobile = window.innerWidth < 768;
+    const START_DELAY = mobile ? 150 : 800;
+    const CHAR_MS    = mobile ? 42  : 90;
 
     let charIndex = 0;
     let typeInterval: ReturnType<typeof setInterval>;
@@ -82,19 +92,24 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
         setDisplayed(TEXT.slice(0, charIndex));
         if (charIndex >= TEXT.length) {
           clearInterval(typeInterval);
-          let blinks = 0;
-          blinkInterval = setInterval(() => {
-            setCursorOn((v) => !v);
-            blinks++;
-            if (blinks >= 2) {
-              clearInterval(blinkInterval);
-              setCursorOn(false);
-              buttonTimer = setTimeout(() => setShowButton(true), 100);
-            }
-          }, 300);
+          if (mobile) {
+            // Skip cursor blink on mobile — straight to button
+            buttonTimer = setTimeout(() => setShowButton(true), 80);
+          } else {
+            let blinks = 0;
+            blinkInterval = setInterval(() => {
+              setCursorOn((v) => !v);
+              blinks++;
+              if (blinks >= 2) {
+                clearInterval(blinkInterval);
+                setCursorOn(false);
+                buttonTimer = setTimeout(() => setShowButton(true), 100);
+              }
+            }, 300);
+          }
         }
-      }, 90);
-    }, 800);
+      }, CHAR_MS);
+    }, START_DELAY);
 
     return () => {
       document.body.classList.remove("overflow-hidden");
