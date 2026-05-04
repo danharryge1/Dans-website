@@ -4,13 +4,12 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 const RESIZE_DEBOUNCE_MS = 150;
 
 export function ProcessClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
     const section = document.getElementById("process");
     if (!section) return;

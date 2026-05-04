@@ -6,11 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type CSSVarTweenVars = gsap.TweenVars & Record<`--${string}`, string | number>;
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function ServicesClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
     const section = document.getElementById("services");
     if (!section) return;

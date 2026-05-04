@@ -4,11 +4,10 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function FeaturedCaseClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
     const section = document.getElementById("case-study-nextup");
     if (!section) return;

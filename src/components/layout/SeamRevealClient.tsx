@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function SeamRevealClient() {
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const seams = Array.from(
       document.querySelectorAll<HTMLElement>("[data-section-seam]"),
     );

@@ -4,11 +4,10 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function ContactClient() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
 
     const section = document.getElementById("contact");
     if (!section) return;

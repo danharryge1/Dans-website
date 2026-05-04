@@ -11,7 +11,7 @@
  * For pinned / scrub-linked behaviour, keep using ScrollTrigger directly.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useLayoutEffect } from "react";
 
 type Options = {
   /** 0..1 — how much of the element must be visible. Default 0.25. */
@@ -25,6 +25,10 @@ export function useInViewReveal<T extends HTMLElement = HTMLElement>(
   { threshold = 0.25, rootMargin = "0px" }: Options = {},
 ) {
   const ref = useRef<T | null>(null);
+  // Stable ref for onEnter — prevents re-running the IO effect when callers
+  // pass an inline function (which creates a new reference every render).
+  const onEnterRef = useRef(onEnter);
+  useLayoutEffect(() => { onEnterRef.current = onEnter; });
 
   useEffect(() => {
     const el = ref.current;
@@ -42,7 +46,7 @@ export function useInViewReveal<T extends HTMLElement = HTMLElement>(
     if (reduced) {
       el.style.setProperty("--reveal", "1");
       el.dataset.reveal = "1";
-      onEnter?.(el);
+      onEnterRef.current?.(el);
       return;
     }
 
@@ -52,7 +56,7 @@ export function useInViewReveal<T extends HTMLElement = HTMLElement>(
         if (!entry?.isIntersecting) return;
         el.style.setProperty("--reveal", "1");
         el.dataset.reveal = "1";
-        onEnter?.(el);
+        onEnterRef.current?.(el);
         io.disconnect();
       },
       { threshold, rootMargin },
@@ -62,7 +66,7 @@ export function useInViewReveal<T extends HTMLElement = HTMLElement>(
     return () => {
       io.disconnect();
     };
-  }, [onEnter, threshold, rootMargin]);
+  }, [threshold, rootMargin]); // onEnter intentionally excluded — stable via ref
 
   return ref;
 }

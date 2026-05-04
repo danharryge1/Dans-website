@@ -4,10 +4,9 @@ import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export function SelectedWorksClient() {
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const section = document.getElementById("selected-works");
     if (!section) return;
 

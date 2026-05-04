@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 type HeroScreenProps = {
   draftSrc: string;
   draftAlt: string;
@@ -20,15 +22,12 @@ export function HeroScreen({
 
       {/* Draft side — original static image underneath */}
       <div data-hero-draft className="absolute inset-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={draftSrc}
           alt={draftAlt}
-          width={1820}
-          height={1024}
-          className="w-full h-full object-cover object-top"
-          loading="eager"
-          decoding="async"
+          fill
+          className="object-cover object-top"
+          priority
         />
         <span
           data-hero-side-label

@@ -100,7 +100,7 @@ export default function RootLayout({
                   "url": "https://dangeorge.studio",
                   "jobTitle": "Web Designer & Developer",
                   "description": "Freelance web designer and developer. Custom design, development, and brand strategy — every pixel considered.",
-                  "email": "danharryge1@gmail.com",
+                  "email": "dan@dangeorge.studio",
                   "sameAs": ["https://github.com/danharryge1"],
                 },
                 {

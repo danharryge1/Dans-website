@@ -61,6 +61,8 @@ export function useMagnetic<T extends HTMLElement = HTMLElement>(
     let rect: DOMRect | null = null;
     let raf: number | null = null;
     let inside = false;
+    let leaveTimer: number | null = null;
+    let blurTimer: number | null = null;
 
     let tx = 0;
     let ty = 0;
@@ -159,12 +161,12 @@ export function useMagnetic<T extends HTMLElement = HTMLElement>(
         tx = ty = ix = iy = 0;
       });
 
-      const clear = window.setTimeout(() => {
+      if (leaveTimer) clearTimeout(leaveTimer);
+      leaveTimer = window.setTimeout(() => {
         el.style.transition = "";
         if (inner) inner.style.transition = "";
+        leaveTimer = null;
       }, 520);
-
-      return () => window.clearTimeout(clear);
     };
 
     const onFocus = () => {
@@ -179,9 +181,11 @@ export function useMagnetic<T extends HTMLElement = HTMLElement>(
     const onBlur = () => {
       el.style.transform = "";
       if (inner) inner.style.transform = "";
-      window.setTimeout(() => {
+      if (blurTimer) clearTimeout(blurTimer);
+      blurTimer = window.setTimeout(() => {
         el.style.transition = "";
         if (inner) inner.style.transition = "";
+        blurTimer = null;
       }, 300);
     };
 
@@ -205,6 +209,8 @@ export function useMagnetic<T extends HTMLElement = HTMLElement>(
       window.removeEventListener("resize", onResize);
       window.removeEventListener("scroll", onScroll);
       if (raf !== null) cancelAnimationFrame(raf);
+      if (leaveTimer) clearTimeout(leaveTimer);
+      if (blurTimer) clearTimeout(blurTimer);
       el.style.transform = "";
       el.style.transition = "";
       if (inner) {
