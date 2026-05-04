@@ -5,7 +5,7 @@ import {
   formatFieldErrors,
 } from "@/lib/contact-schema";
 
-const RECIPIENT = "dannyhgeorge@gmail.com";
+const RECIPIENT = "dan@dangeorge.studio";
 const FROM_ADDRESS = "Contact Form <onboarding@resend.dev>";
 
 export async function POST(req: Request) {

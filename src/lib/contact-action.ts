@@ -12,7 +12,7 @@ export type ContactState =
   | { status: "networkError" }
   | { status: "success" };
 
-const RECIPIENT = "dannyhgeorge@gmail.com";
+const RECIPIENT = "dan@dangeorge.studio";
 const FROM_ADDRESS = "Contact Form <onboarding@resend.dev>";
 
 export async function submitContact(
