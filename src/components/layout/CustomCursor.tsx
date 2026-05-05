@@ -39,7 +39,8 @@ export function CustomCursor() {
       if (isInteractive(e.target)) { dot.dataset.hover = "1"; ring.dataset.hover = "1"; }
     };
     const onOut = (e: MouseEvent) => {
-      if (isInteractive(e.relatedTarget ?? e.target)) {
+      // Clear hover state when leaving an interactive element (not when arriving at one).
+      if (isInteractive(e.target) && !isInteractive(e.relatedTarget)) {
         delete dot.dataset.hover;
         delete ring.dataset.hover;
       }

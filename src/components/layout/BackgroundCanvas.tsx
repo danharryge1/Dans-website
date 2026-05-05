@@ -26,6 +26,10 @@ export function BackgroundCanvas() {
     let rT = orbRadius(380, w0);
     let rE = orbRadius(320, w0);
 
+    // Cached viewport dimensions — updated in onResize, read in tick.
+    // Avoids layout recalculation on every animation frame.
+    let cw = w0, ch = h0;
+
     let mx = w0 * 0.5;
     let my = h0 * 0.5;
 
@@ -45,6 +49,7 @@ export function BackgroundCanvas() {
 
     const onResize = () => {
       const vw = window.innerWidth, vh = window.innerHeight;
+      cw = vw; ch = vh;
       rG = orbRadius(350, vw);
       rT = orbRadius(380, vw);
       rE = orbRadius(320, vw);
@@ -62,7 +67,7 @@ export function BackgroundCanvas() {
       if (++frame % 2 !== 0) return;
 
       t += 0.014;
-      const w = window.innerWidth, h = window.innerHeight;
+      const w = cw, h = ch;
       const mobile = isMobile(w);
       const mp = mobile ? 0 : 1; // no mouse parallax on touch
 
@@ -98,7 +103,7 @@ export function BackgroundCanvas() {
   return (
     <div
       className="fixed inset-0 pointer-events-none overflow-hidden"
-      style={{ zIndex: -1, backgroundColor: "#070d0b" }}
+      style={{ zIndex: -1, backgroundColor: "var(--bg-base)" }}
       aria-hidden="true"
     >
       {/* Orb sizes use clamp so they scale down on narrow viewports. */}

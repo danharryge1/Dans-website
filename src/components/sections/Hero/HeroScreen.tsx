@@ -92,7 +92,6 @@ export function HeroScreen({
       {/* seam + knob */}
       <div
         data-hero-seam
-        aria-hidden="true"
         className="absolute top-0 bottom-0 pointer-events-none"
         style={{
           left: "var(--seam-x)",

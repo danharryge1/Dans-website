@@ -79,9 +79,9 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
     const CHAR_MS    = mobile ? 75  : 90;
 
     let charIndex = 0;
-    let typeInterval: ReturnType<typeof setInterval>;
-    let blinkInterval: ReturnType<typeof setInterval>;
-    let buttonTimer: ReturnType<typeof setTimeout>;
+    let typeInterval: ReturnType<typeof setInterval> | undefined;
+    let blinkInterval: ReturnType<typeof setInterval> | undefined;
+    let buttonTimer: ReturnType<typeof setTimeout> | undefined;
 
     const startTimer = setTimeout(() => {
       typeInterval = setInterval(() => {
@@ -111,9 +111,9 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
     return () => {
       document.body.classList.remove("overflow-hidden");
       clearTimeout(startTimer);
-      clearInterval(typeInterval!);
-      clearInterval(blinkInterval!);
-      clearTimeout(buttonTimer!);
+      clearInterval(typeInterval);
+      clearInterval(blinkInterval);
+      clearTimeout(buttonTimer);
     };
   }, []);
 
@@ -142,7 +142,7 @@ function IntroOverlayInner({ quick }: { quick: boolean }) {
       }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
       style={{
-        backgroundColor: "#070d0b",
+        backgroundColor: "var(--bg-base)",
         transform: phase === "fading" ? "translateY(100%)" : "translateY(0%)",
         transition: "transform 0.75s cubic-bezier(0.4, 0, 0.2, 1)",
         pointerEvents: phase === "fading" ? "none" : undefined,

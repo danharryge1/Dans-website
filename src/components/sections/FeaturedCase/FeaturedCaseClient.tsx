@@ -31,8 +31,10 @@ export function FeaturedCaseClient() {
       );
       if (beats.length === 0) return;
 
-      beats.forEach((beat) => {
-        gsap.set(beat, { clipPath: "inset(0 0 100% 0)", opacity: 0 });
+      const mobileCtx = gsap.context(() => {
+        beats.forEach((beat) => {
+          gsap.set(beat, { clipPath: "inset(0 0 100% 0)", opacity: 0 });
+        });
       });
 
       const io = new IntersectionObserver(
@@ -51,7 +53,7 @@ export function FeaturedCaseClient() {
       );
       beats.forEach((beat) => io.observe(beat));
 
-      return () => io.disconnect();
+      return () => { mobileCtx.revert(); io.disconnect(); };
     }
 
     const pin = section.querySelector<HTMLElement>("[data-case-pin]");

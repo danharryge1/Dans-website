@@ -21,6 +21,7 @@
 /* ---------- DESIGN TOKENS ---------- */
 :root {
   /* surfaces */
+  --bg-base: #070d0b;
   --bg-primary: #0D544C;
   --bg-darker: #0B2422;
   --bg-card: rgba(11, 36, 34, 0.85);

@@ -65,6 +65,7 @@ export function Nav() {
   const [scrollActiveHref, setScrollActiveHref] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   const pathnameActive = ALL_LINKS.find((l) => l.href === pathname)?.href ?? null;
   const activeHref = pathnameActive ?? scrollActiveHref;
@@ -87,7 +88,7 @@ export function Nav() {
       for (const link of ALL_LINKS) {
         if (!link.sectionId) continue;
         const el = document.getElementById(link.sectionId);
-        if (el && el.offsetTop <= mid) next = link.href;
+        if (el && el.getBoundingClientRect().top + window.scrollY <= mid) next = link.href;
       }
       setScrollActiveHref(next);
     };
@@ -108,7 +109,19 @@ export function Nav() {
     document.body.style.overflow = "hidden";
     firstLinkRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") { setOpen(false); return; }
+      if (e.key === "Tab" && dialogRef.current) {
+        const focusable = Array.from(
+          dialogRef.current.querySelectorAll<HTMLElement>("a, button"),
+        ).filter((el) => !el.hasAttribute("disabled"));
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first?.focus();
+        }
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
@@ -170,6 +183,7 @@ export function Nav() {
 
       {open && (
         <div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label="Main navigation"

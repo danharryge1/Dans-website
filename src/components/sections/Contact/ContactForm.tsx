@@ -93,6 +93,7 @@ export function ContactForm() {
   const [chips, setChips] = useState<string[]>([]);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [messageError, setMessageError] = useState("");
   const [formTime, setFormTime] = useState("");
 
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
@@ -115,6 +116,7 @@ export function ContactForm() {
       const errors = state.errors;
       if (errors.name) { setStep(0); setNameError(errors.name); }
       else if (errors.email) { setStep(1); setEmailError(errors.email); }
+      else if (errors.message) { setStep(2); setMessageError(errors.message); }
     }
   }, [state]);
 
@@ -243,20 +245,26 @@ export function ContactForm() {
         placeholder="What are you building?"
         rows={4}
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => { setMessage(e.target.value); setMessageError(""); }}
         className={`${inputBase} min-h-[120px] resize-none`}
         style={inputStyle}
         ref={(el) => { inputRef.current = el; }}
       />
+      {messageError && (
+        <p className="text-[14px]" style={{ color: "#E8A098", fontFamily: "var(--font-marker)" }}>
+          {messageError}
+        </p>
+      )}
 
       <div>
         <p
+          id="chips-label"
           className="mb-3 text-[12px] uppercase tracking-[0.12em]"
           style={{ fontFamily: "var(--font-marker)", color: "var(--text-secondary)" }}
         >
           What best describes it?
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div role="group" aria-labelledby="chips-label" className="flex flex-wrap gap-2">
           {PROMPT_CHIPS.map((chip) => {
             const active = chips.includes(chip);
             return (
