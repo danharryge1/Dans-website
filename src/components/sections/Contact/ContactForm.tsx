@@ -93,9 +93,15 @@ export function ContactForm() {
   const [chips, setChips] = useState<string[]>([]);
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [formTime, setFormTime] = useState("");
 
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const mountedRef = useRef(false);
+
+  useEffect(() => {
+    // Record when the form first mounted — used server-side to reject instant bot submissions.
+    setFormTime(String(Date.now()));
+  }, []);
 
   useEffect(() => {
     window.dispatchEvent(new CustomEvent("contact-step", { detail: { step } }));
@@ -296,6 +302,7 @@ export function ContactForm() {
       <input type="hidden" name="email" value={email} />
       <input type="hidden" name="message" value={`${chips.length ? `[${chips.join(", ")}]\n\n` : ""}${message}`} />
       <input type="hidden" name="website" value="" />
+      <input type="hidden" name="_t" value={formTime} />
 
       {/* Form header */}
       <div className="flex items-center justify-between mb-5">
