@@ -4,17 +4,17 @@ import { ServiceCard } from "./ServiceCard";
 
 describe("<ServiceCard />", () => {
   const entry = {
-    id: "ui-ux" as const,
-    title: "UI / UX DESIGN",
-    body: "Design that behaves. Every click predictable, every edge considered.",
-    deliverables: ["Wireframes and interactive prototypes"],
+    id: "website-build" as const,
+    title: "WEBSITE BUILD",
+    body: "Handcrafted, not templated. Live on your domain in 5 days.",
+    deliverables: ["Built from scratch, not a theme"],
   };
 
   it("renders title and body copy", () => {
     const { getByText } = render(<ServiceCard entry={entry} index={0} />);
-    expect(getByText("UI / UX DESIGN")).toBeInTheDocument();
+    expect(getByText("WEBSITE BUILD")).toBeInTheDocument();
     expect(
-      getByText("Design that behaves. Every click predictable, every edge considered."),
+      getByText("Handcrafted, not templated. Live on your domain in 5 days."),
     ).toBeInTheDocument();
   });
 
@@ -23,7 +23,7 @@ describe("<ServiceCard />", () => {
     const root = container.querySelector("article") as HTMLElement;
     expect(root.getAttribute("role")).toBe("listitem");
     expect(root.getAttribute("data-services-card")).toBe("");
-    expect(root.getAttribute("data-card-id")).toBe("ui-ux");
+    expect(root.getAttribute("data-card-id")).toBe("website-build");
     expect(root.getAttribute("data-card-index")).toBe("2");
   });
 
@@ -51,10 +51,10 @@ describe("<ServiceCard />", () => {
 
 describe("<ServiceCard /> — hover tilt", () => {
   const entry = {
-    id: "ui-ux" as const,
-    title: "UI / UX DESIGN",
-    body: "Design that behaves. Every click predictable, every edge considered.",
-    deliverables: ["Wireframes and interactive prototypes"],
+    id: "website-build" as const,
+    title: "WEBSITE BUILD",
+    body: "Handcrafted, not templated. Live on your domain in 5 days.",
+    deliverables: ["Built from scratch, not a theme"],
   };
 
   beforeEach(() => {

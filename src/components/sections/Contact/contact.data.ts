@@ -27,8 +27,8 @@ export type ContactCopy = {
 export const contactCopy = {
   headline: "TELL ME WHAT YOU WANT",
   paragraph: [
-    "One person. A few projects at a time.",
-    "You tell me what you're building. I come back with the shape of it.",
+    "One person. Fast turnaround.",
+    "Tell me about your business. I'll come back with a direction and a price.",
   ],
   fields: {
     name: "Your Name",

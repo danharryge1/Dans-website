@@ -1,5 +1,5 @@
 export type ServiceEntry = {
-  readonly id: "ui-ux" | "custom-dev" | "brand";
+  readonly id: "website-build" | "seo-maintenance" | "ai-addons";
   readonly title: string;
   readonly body: string;
   readonly deliverables: readonly string[];
@@ -7,39 +7,39 @@ export type ServiceEntry = {
 
 export const SERVICES = [
   {
-    id: "ui-ux",
-    title: "UI / UX DESIGN",
-    body: "Interfaces that earn their keep. Every state deliberate, every pixel justified.",
+    id: "website-build",
+    title: "WEBSITE BUILD",
+    body: "Handcrafted, not templated. Live on your domain in 5 days.",
     deliverables: [
-      "Wireframes and interactive prototypes",
-      "Full component design system",
-      "Responsive across every breakpoint",
-      "Interaction and animation specs",
-      "Accessibility audit built in",
+      "Built from scratch, not a theme",
+      "Mobile-first, fast on every connection",
+      "Optimised to show up on Google",
+      "One point of contact throughout",
+      "Live in 5 days. From £299.",
     ],
   },
   {
-    id: "custom-dev",
-    title: "CUSTOM DEVELOPMENT",
-    body: "Handcrafted, not templated. Built for your stack, not the next client's.",
+    id: "seo-maintenance",
+    title: "SEO & MAINTENANCE",
+    body: "Keep the site earning. Hosting, updates, and search performance included.",
     deliverables: [
-      "Built from scratch, not a template",
-      "Update your content without a developer",
-      "Fast on every device and connection",
-      "Clean code any developer can pick up",
-      "Live on the web, ready to go",
+      "Vercel hosting and domain management",
+      "Monthly content updates",
+      "Performance and uptime monitoring",
+      "Basic SEO monitoring",
+      "Email support within 24 hours",
     ],
   },
   {
-    id: "brand",
-    title: "BRAND STRATEGY",
-    body: "An identity that owns the room. Consistent from logo to last touchpoint.",
+    id: "ai-addons",
+    title: "ADD-ONS",
+    body: "More services stack on top once the site is earning.",
     deliverables: [
-      "Brand positioning and messaging",
-      "Logo and visual identity",
-      "Colour and typography system",
-      "Brand guidelines document",
-      "Applied to all key touchpoints",
+      "AI chatbot for your website",
+      "Monthly blog posts",
+      "Review generation system",
+      "Missed call text-back",
+      "Appointment booking automation",
     ],
   },
 ] as const satisfies readonly ServiceEntry[];

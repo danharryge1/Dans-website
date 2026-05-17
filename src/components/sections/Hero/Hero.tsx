@@ -61,7 +61,7 @@ export function Hero() {
             color: "var(--text-secondary)",
           }}
         >
-          Premium websites. Built by one person.
+          Live in 5 days. From £299.
         </p>
       </div>
 

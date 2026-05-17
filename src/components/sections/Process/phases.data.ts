@@ -11,14 +11,14 @@ export const phases = [
     id: "brief",
     number: "01",
     title: "THE BRIEF",
-    body: "You tell me what you want. I read between the lines. I come back with the shape of it: three directions, none of them safe.",
+    body: "You tell me what you want. I come back with a clear direction and a fixed price. No open-ended exploration.",
   },
   {
     id: "build",
     number: "02",
     title: "THE BUILD",
-    body: "We pick a direction. Could be one, could be a mix. I make it real: typography, motion, copy, every pixel. The floor is this site. Yours goes higher.",
-    note: "most projects are live within a week",
+    body: "Design, build, and copy. Every pixel deliberate. The floor is this site. Yours is live inside 5 days.",
+    note: "most sites are live within 5 days",
   },
   {
     id: "ship",
